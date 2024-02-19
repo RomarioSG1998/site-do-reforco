@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css"/>
+    <title>Home</title>
+</head>
+<body>
+    <header>
+     <!-- Imagem à esquerda -->
+     <img src="./logo sem fundo.png" alt="Imagem Esquerda" class="image-left">
+    <h1 id="logado"></h1>
+    <div class="container">
+        <button onclick="togglePopup('popup')" class="btn-novo">Cadastrar/Alterar Alunos</button>
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <a href="./assets/html/Cadastro.html">cadastrar</a>
+                <a href="./assets/html/alterar-c.html">alterar</a>
+            </div>
+        </div>
+    
+        <button onclick="togglePopup('popup1')" class="btn-novo">Ver Turmas</button>
+        <div id="popup1" class="popup">
+            <div class="popup-content">
+                <a href="./assets/html/Cadastro.html">T1</a>
+                <a href="./assets/html/alterar-c.html">T2</a>
+                <a href="./assets/html/Cadastro.html">T3</a>
+                <a href="./assets/html/alterar-c.html">T4</a>
+                <a href="./assets/html/Cadastro.html">T5</a>
+                <a href="./assets/html/alterar-c.html">T6</a>
+            </div>
+        </div>
+    
+        <button onclick="togglePopup('popup2')" class="btn-novo">Ver análises</button>
+        <div id="popup2" class="popup">
+            <div class="popup-content">
+                <a href="./assets/html/Cadastro.html">Geral</a>
+                <a href="./assets/html/alterar-c.html">Por turma</a>
+            </div>
+        </div>
+    </div>
+    </div>
+    <button onclick="sair()" class="btn-sair">Sair</button>
+    </div>
+
+    <!-- Imagem à direita -->
+    <img src="./logo sem fundo.png" alt="Imagem Direita" class="image-right">
+    
+    <script src="./assets/js/index.js"></script>
+</body>
+</html>
