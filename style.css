@@ -70,18 +70,19 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo escurecido para destacar o pop-up */
+    background-color: rgba(12, 1, 10, 0.5); /* Fundo escurecido para destacar o pop-up */
     z-index: 9999;
 }
 
 .popup-content {
+    width: 10%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
+    padding: 30px;
+    border-radius: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra para efeito de elevação */
 }
 
@@ -89,15 +90,16 @@ header {
     display: block;
     margin-bottom: 10px;
     text-decoration: none;
-    color: #333;
-    font-size: 16px;
+    color: #007bff;
+    font-size: 20px;
+    font-family: "Times New Roman", sans-serif; 
 }
 
 .popup-content a:hover {
-    color: #007bff; /* Cor alterada ao passar o mouse */
+    color: #b40196; /* Cor alterada ao passar o mouse */
 }
 .button {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Times New Roman", sans-serif; 
 }
 #logado {
     font-family: "Times New Roman", sans-serif; /* Definição da fonte */
@@ -148,31 +150,44 @@ header {
     transition: transform 2.0s ease; /* Adiciona uma transição suave de 2 segundos */
 }
 
-/* Media query para esconder as imagens em telas menores que 920px */
-@media (max-width: 900px) {
+/* Estilos padrão para as imagens */
+.image-left, .image-right {
+    transition: opacity 2s ease; /* Adiciona uma transição suave de 2 segundos */
+}
+
+/* Media query para telas menores */
+@media screen and (max-width: 750px) {
+    .image-left, .image-right {
+        opacity: 0; /* Torna as imagens invisíveis */
+    }
     body {
-        
-        
+        background-color: white; /* Cor de fundo branca */
+        border: 20px solid rgb(156, 5, 93); /* Borda sólida preta de 10 pixels */
+        border-radius: 20px; /* Borda arredondada */
+        padding: 3px; /* Espaçamento interno para evitar que o conteúdo encoste nas bordas */
+        overflow-y: hidden;
+        margin: 3; /* Remove margens padrão do body */
+        height: -1%; /* Garante que o corpo ocupe toda a altura da tela */
     }
-
-    .image-left {
-        transform: translateX(-110%); /* Move a imagem da esquerda para fora da tela */
-    }
-    .image-right {
-        transform: translateX(110%); /* Move a imagem da direita para fora da tela */
-    }
-}
-
-    header {
-    font-size: 18px; /* Reduzindo o tamanho da fonte */
-}
-
-/* Ajustes para os botões */
-    .btn-novo,.btn-sair {
-    font-size: 16px; /* Reduzindo o tamanho da fonte */
-}
-
-/* Ajustando os pop-ups */
     .popup-content {
-    font-size: 14px; /* Reduzindo o tamanho da fonte */
+        width: 60%; /* Defina a largura desejada */
+        max-width: 400px; /* Defina uma largura máxima */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra para efeito de elevação */
+    }
+    
+    .popup-content a {
+        display: block;
+        margin-bottom: 10px;
+        text-decoration: none;
+        color: #007bff;
+        font-size: 27px;
+        font-family: "Times New Roman", sans-serif; 
+    }
 }

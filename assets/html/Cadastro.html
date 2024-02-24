@@ -40,13 +40,27 @@
                     </div>
                     
                     <div class="input-box">
-                        <label for="cpf">CPF</label>
-                        <input id="cpf" type="tel" name="cpf" placeholder="Digite o CPF do aluno" required>
+                        <label for="dataNascimento">Data de Nascimento</label>
+                        <input id="dataNascimento" type="date" name="dataNascimento" required>
                     </div>
 
                     <div class="input-box">
                         <label for="number">Celular</label>
                         <input id="number" type="tel" name="number" placeholder="(xx) xxxx-xxxx" required>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="responsavelAluno">Responsável pelo aluno</label>
+                        <input id="responsavelAluno" type="text" name="responsavelAluno" placeholder="Digite o nome do pagador" required>
+                    </div> 
+
+                    <div class="input-box">
+                        <label for="turma">Gênero</label>
+                        <select id="turma" name="turma" size="1" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="turma1">Masculino</option>
+                            <option value="turma1">Feminino</option>
+                        </select>
                     </div>
 
                     <div class="input-box">
@@ -59,22 +73,6 @@
                             <option value="turma4">Turma 4</option>
                             <option value="turma5">Turma 5</option>
                             <option value="turma6">Turma 6</option>
-                        </select>
-                    </div>
-                    <div class="input-box">
-                        <label for="dataNascimento">Data de Nascimento</label>
-                        <input id="dataNascimento" type="date" name="dataNascimento" required>
-                    </div>
-                    <div class="input-box">
-                        <label for="responsavelAluno">Responsável pelo aluno</label>
-                        <input id="responsavelAluno" type="text" name="responsavelAluno" placeholder="Digite o nome do pagador" required>
-                    </div>   
-                    <div class="input-box">
-                        <label for="turma">Gênero</label>
-                        <select id="turma" name="turma" size="1" required>
-                            <option value="" disabled selected>Selecione</option>
-                            <option value="turma1">Masculino</option>
-                            <option value="turma1">Feminino</option>
                         </select>
                     </div>  
             </form>

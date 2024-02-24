@@ -132,3 +132,9 @@ btnConfirm.addEventListener('click', ()=>{
     inputConfirmSenha.setAttribute('type', 'password')
   }
 })
+
+window.addEventListener('load', () => {
+  // Limpa os campos de usuário e senha ao carregar a página
+  document.querySelector('#usuario').value = '';
+  document.querySelector('#senha').value = '';
+});

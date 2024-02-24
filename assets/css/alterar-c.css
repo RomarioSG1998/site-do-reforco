@@ -13,6 +13,7 @@ body {
     justify-content: center;
     align-items: center;
     background: #ca1cb3de;
+    font-family: 'Times New Roman', sans-serif; 
 }
 
 .container {
@@ -169,7 +170,31 @@ body {
     color: #fff;
 }
 
-@media screen and (max-width: 1330px) {
+@media screen and (max-width: 750px) {
+    body {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #ca1cb3de;
+    }
+
+    .container {
+        width: 90%;
+        height: 80vh;
+        display: flex;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.212);
+    }
+    .form {
+        width: 55%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
+        padding: 3rem;
+    }
     .form-image {
         display: none;
     }
@@ -179,9 +204,6 @@ body {
     .form {
         width: 100%;
     }
-}
-
-@media screen and (max-width: 1064px) {
     .container {
         width: 90%;
         height: auto;
@@ -189,8 +211,8 @@ body {
     .input-group {
         flex-direction: column;
         z-index: 5;
-        padding-right: 5rem;
-        max-height: 10rem;
+        padding-right: 7rem;
+        max-height: 26rem;
         overflow-y: scroll;
         flex-wrap: nowrap;
     }

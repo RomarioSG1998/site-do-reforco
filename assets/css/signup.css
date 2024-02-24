@@ -20,22 +20,20 @@ body {
 
 .container {
   display: flex;
-  justify-content: left;
-  width: 60%;
-  margin-top: 20px;
-  margin-bottom: px;
-  padding-left: 100px;
-  padding-right: 100px;
-  
-  
+  justify-content: center; /* Alteração: centraliza os itens horizontalmente */
+  width: 90%; /* Alteração: aumenta a largura do container para 90% da largura da tela */
+  margin-top: 100px; 
+  padding-left: 85px; /* Alteração: ajusta o espaçamento lateral */
+  padding-right: 10px; /* Alteração: ajusta o espaçamento lateral */
 }
 
 .card {
   background-color: #ffffff80;
-  padding: 30px;
+  padding: 20px;
   border-radius: 4%;
   box-shadow: 3px 3px 1px 0px #00000060;
-  width: 400px;
+  max-width: 350px; /* Alteração: define a largura máxima do card */
+  width: 100%; /* Alteração: garante que o card ocupe todo o espaço disponível */
 }
 
 h2{
@@ -51,21 +49,22 @@ h1 {
   margin-bottom: 20px;
   color: #9c0075;
   text-shadow: 0 0 20px white;
-  padding: 10px;
+  font-size: 24px; /* Reduz o tamanho da fonte do título */
+  margin-bottom: 15px; /* Reduz a margem inferior do título */
   font-family: "Times New Roman", Times, serif;
 }
 
 
 .label-float input{
   width: 100%;
-  padding: 5px 5px;
+  font-size: 14px; /* Reduz o tamanho da fonte dos inputs */
+  padding: 8px 5px; /* Reduz o padding dos inputs */
   display: inline-block;
   border: 0;
   border-bottom: 2px solid white;
   background-color: transparent;
   outline: none;
   min-width: 180px;
-  font-size: 16px;
   transition: all .3s ease-out;
   border-radius: 10;
   
@@ -103,10 +102,10 @@ button{
   background-color: transparent;
   border-color: #9c0075;
   color: #9c008f;
-  padding: 7px;
+  padding:10px;
   font-weight: bold;
-  font-size: 12pt;
-  margin-top: 20px;
+  font-size: 14pt;
+  margin-top: 15px;
   border-radius: 4px;
   cursor: pointer;
   outline: none;
@@ -149,4 +148,72 @@ button:hover{
   display: none;
 }
 
+.button-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #9c0075; /* Cor de fundo */
+  color: #ffffff; /* Cor do texto */
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
+.button-link:hover {
+  background-color: #7c005a; /* Cor de fundo ao passar o mouse */
+}
+
+@media screen and (max-width: 750px) {
+  body {
+    margin: 39px;
+    padding: 1px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #a0389b;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column; /* Altera para um layout de coluna em telas menores */
+    align-items: center; /* Centraliza os itens horizontalmente */
+    width: 90%; /* Ajusta a largura do container */
+    margin-top: 100px; 
+    padding-left: 20px; /* Ajusta o espaçamento lateral */
+    padding-right: 20px; /* Ajusta o espaçamento lateral */
+  }
+
+  .card {
+    max-width: 100%; /* Altera a largura máxima para ocupar toda a largura disponível */
+    width: 100%; /* Ajusta a largura do card para ocupar toda a largura disponível */
+    border-radius: 0; /* Remove o arredondamento da borda */
+    box-shadow: none; /* Remove a sombra */
+  }
+
+  h1 {
+    font-size: 20px; /* Reduz o tamanho da fonte do título */
+    margin-bottom: 10px; /* Reduz a margem inferior do título */
+  }
+
+  .label-float input {
+    width: 100%;
+    font-size: 12px; /* Reduz o tamanho da fonte dos inputs */
+    padding: 5px 2px; /* Reduz o padding dos inputs */
+    min-width: auto; /* Remove a largura mínima */
+  }
+
+  button {
+    font-size: 12px; /* Reduz o tamanho da fonte do botão */
+    padding: 8px; /* Ajusta o espaçamento interno do botão */
+    margin-top: 10px; /* Ajusta a margem superior do botão */
+  }
+
+  .button-link {
+    padding: 8px 16px; /* Ajusta o espaçamento interno do link do botão */
+    font-size: 12px; /* Reduz o tamanho da fonte do link do botão */
+  }
+}
