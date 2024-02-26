@@ -1,140 +1,44 @@
-let btn = document.querySelector('#verSenha')
-let btnConfirm = document.querySelector('#verConfirmSenha')
+let email = document.querySelector('#nome');
+let labelEmail = document.querySelector('#labelNome');
+let validEmail = false;
+let msgError = document.querySelector('#msgError');
+let msgSuccess = document.querySelector('#msgSuccess');
 
-let nome = document.querySelector('#nome')
-let labelNome = document.querySelector('#labelNome')
-let validNome = false
-
-let usuario = document.querySelector('#usuario')
-let labelUsuario = document.querySelector('#labelUsuario')
-let validUsuario = false
-
-let senha = document.querySelector('#senha')
-let labelSenha = document.querySelector('#labelSenha')
-let validSenha = false
-
-let confirmSenha = document.querySelector('#confirmSenha')
-let labelConfirmSenha = document.querySelector('#labelConfirmSenha')
-let validConfirmSenha = false
-
-let msgError = document.querySelector('#msgError')
-let msgSuccess = document.querySelector('#msgSuccess')
-
-nome.addEventListener('keyup', () => {
-  if(nome.value.length <= 2){
-    labelNome.setAttribute('style', 'color: red')
-    labelNome.innerHTML = 'Nome *Insira no mínimo 3 caracteres'
-    nome.setAttribute('style', 'border-color: red')
-    validNome = false
+email.addEventListener('keyup', () => {
+  if (!isValidEmail(email.value)) {
+    labelEmail.setAttribute('style', 'color: red');
+    labelEmail.innerHTML = 'Email de recuperação *Insira um email válido';
+    validEmail = false;
   } else {
-    labelNome.setAttribute('style', 'color: green')
-    labelNome.innerHTML = 'Nome'
-    nome.setAttribute('style', 'border-color: green')
-    validNome = true
+    labelEmail.setAttribute('style', 'color: green');
+    labelEmail.innerHTML = 'Email de recuperação';
+    validEmail = true;
   }
-})
+});
 
-usuario.addEventListener('keyup', () => {
-  if(usuario.value.length <= 4){
-    labelUsuario.setAttribute('style', 'color: red')
-    labelUsuario.innerHTML = 'Usuário *Insira no mínimo 5 caracteres'
-    usuario.setAttribute('style', 'border-color: red')
-    validUsuario = false
-  } else {
-    labelUsuario.setAttribute('style', 'color: green')
-    labelUsuario.innerHTML = 'Usuário'
-    usuario.setAttribute('style', 'border-color: green')
-    validUsuario = true
-  }
-})
+function isValidEmail(email) {
+  // RegEx para validar o formato do email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
 
-senha.addEventListener('keyup', () => {
-  if(senha.value.length <= 5){
-    labelSenha.setAttribute('style', 'color: red')
-    labelSenha.innerHTML = 'Senha *Insira no mínimo 6 caracteres'
-    senha.setAttribute('style', 'border-color: red')
-    validSenha = false
-  } else {
-    labelSenha.setAttribute('style', 'color: green')
-    labelSenha.innerHTML = 'Senha'
-    senha.setAttribute('style', 'border-color: green')
-    validSenha = true
-  }
-})
-
-confirmSenha.addEventListener('keyup', () => {
-  if(senha.value != confirmSenha.value){
-    labelConfirmSenha.setAttribute('style', 'color: red')
-    labelConfirmSenha.innerHTML = 'Confirmar Senha *As senhas não conferem'
-    confirmSenha.setAttribute('style', 'border-color: red')
-    validConfirmSenha = false
-  } else {
-    labelConfirmSenha.setAttribute('style', 'color: green')
-    labelConfirmSenha.innerHTML = 'Confirmar Senha'
-    confirmSenha.setAttribute('style', 'border-color: green')
-    validConfirmSenha = true
-  }
-})
-
-function cadastrar(){
-  if(validNome && validUsuario && validSenha && validConfirmSenha){
-    let listaUser = JSON.parse(localStorage.getItem('listaUser') || '[]')
+function cadastrar() {
+  if (validEmail) {
+    // Aqui você pode adicionar lógica para enviar o email de recuperação
+    // Por exemplo:
+    // sendRecoveryEmail(email.value);
     
-    listaUser.push(
-    {
-      nomeCad: nome.value,
-      userCad: usuario.value,
-      senhaCad: senha.value
-    }
-    )
-    
-    localStorage.setItem('listaUser', JSON.stringify(listaUser))
-    
-    // Limpa os campos de senha e usuário
-    nome.value = ''
-    usuario.value = ''
-    senha.value = ''
-    confirmSenha.value = ''
-
-    msgSuccess.setAttribute('style', 'display: block')
-    msgSuccess.innerHTML = '<strong>Cadastrando usuário...</strong>'
-    msgError.setAttribute('style', 'display: none')
-    msgError.innerHTML = ''
-    
-    setTimeout(()=>{
-        window.location.href = '../html/signin.html'
-    }, 3000)
+    // Após enviar o email, redirecione o usuário para a página de confirmação
+    window.location.href = 'pagina_de_confirmacao.html';
   } else {
-    msgError.setAttribute('style', 'display: block')
-    msgError.innerHTML = '<strong>Preencha todos os campos corretamente antes de cadastrar</strong>'
-    msgSuccess.innerHTML = ''
-    msgSuccess.setAttribute('style', 'display: none')
+    msgError.setAttribute('style', 'display: block');
+    msgError.innerHTML = '<strong>Preencha o email corretamente antes de enviar</strong>';
+    msgSuccess.innerHTML = '';
+    msgSuccess.setAttribute('style', 'display: none');
   }
 }
 
-
-btn.addEventListener('click', ()=>{
-  let inputSenha = document.querySelector('#senha')
-  
-  if(inputSenha.getAttribute('type') == 'password'){
-    inputSenha.setAttribute('type', 'text')
-  } else {
-    inputSenha.setAttribute('type', 'password')
-  }
-})
-
-btnConfirm.addEventListener('click', ()=>{
-  let inputConfirmSenha = document.querySelector('#confirmSenha')
-  
-  if(inputConfirmSenha.getAttribute('type') == 'password'){
-    inputConfirmSenha.setAttribute('type', 'text')
-  } else {
-    inputConfirmSenha.setAttribute('type', 'password')
-  }
-})
-
 window.addEventListener('load', () => {
-  // Limpa os campos de usuário e senha ao carregar a página
-  document.querySelector('#usuario').value = '';
-  document.querySelector('#senha').value = '';
+  // Limpa o campo de email ao carregar a página
+  email.value = '';
 });

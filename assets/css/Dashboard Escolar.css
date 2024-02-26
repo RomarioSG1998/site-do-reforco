@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+nav h1 {
+    margin: 0;
+    display: inline;
+}
+
+nav select {
+    float: right;
+}
+
+section {
+    margin-top: 20px;
+}
+
+h2 {
+    color: #333;
+}
+
+#dadosGerais, #dadosTurma {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin: 10px;
+    flex: 1 1 300px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+}
