@@ -46,7 +46,7 @@ header {
 }
 
 /* Estilo do botão "Sair" */
-.btn-sair {
+p a {
     padding: 15px 30px;
     font-size: 18px;
     color: #fff;
@@ -58,7 +58,7 @@ header {
     font-family: "Times New Roman", sans-serif;
 }
 
-.btn-sair:hover {
+p a :hover {
     background-color: #d60586; /* Cor de destaque alterada ao passar o mouse */
 }
 
@@ -100,21 +100,6 @@ header {
 }
 .button {
     font-family: "Times New Roman", sans-serif; 
-}
-#logado {
-    font-family: "Times New Roman", sans-serif; /* Definição da fonte */
-}
-
-#logado {
-    font-family: "Times New Roman", sans-serif; /* Definição da fonte */
-    color: #680246; /* Cor do texto */
-    background-color: #f0f0f0; /* Cor de fundo */
-    padding: 0px; /* Adiciona um espaço interno ao elemento */
-    border-radius: 0px; /* Adiciona cantos arredondados */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil */
-    animation: pulse 1s infinite alternate; /* Adiciona uma animação chamada "pulse" */
-    margin: 0%;
-    background-color: transparent; /* Define o fundo como transparente */
 }
 
 @keyframes pulse {

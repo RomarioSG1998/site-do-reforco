@@ -169,6 +169,18 @@ body {
     font-weight: 500;
     color: #fff;
 }
+.success-message {
+    color: red;
+    font-weight: bold;
+    font-size: medium;
+    align-items: center;
+}
+
+/* Estilos para a mensagem de erro */
+.error-message {
+    color: red;
+    font-weight: bold;
+}
 @media screen and (max-width: 750px) {
     body {
         width: 100%;

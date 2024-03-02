@@ -16,7 +16,7 @@
       <div class="card">
         <h1>Sede do Saber</h1>
         <div class="justify-center">
-          <a href="../html/signin.html" class="button-link">Voltar para o login</a>
+          <a href="index.php" class="button-link">Voltar para o login</a>
       </div>
       
         <div id="msgError"></div>
@@ -33,6 +33,6 @@
       </div>
     </div>
   
-    <script src="../js/signup.js"></script>
+    <script src="signup.js"></script>
   </body>
 </html>
