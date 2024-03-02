@@ -24,9 +24,9 @@
                     <div class="login-button">
                         <button type="submit">Salvar</button>
                     </div>
-                    <div class="login-button">
-                        <a href="./painel.php"> Menu </a></button>
-                    </div>
+                    
+                    <a href="./painel.php" class="menu-link">Menu</a>
+                   
                 </div>
 
                 <div class="input-group">

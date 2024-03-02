@@ -21,7 +21,19 @@ body {
     display: flex;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.212);
 }
+a.menu-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
 
+/* Estilo para o link quando passa o mouse por cima */
+a.menu-link:hover {
+    background-color: #45a049;
+}
 .form-image {
     width: 50%;
     display: flex;
@@ -51,7 +63,6 @@ body {
     display: flex;
     justify-content: space-between;
 }
-
 .login-button {
     display: flex;
     align-items: center;
