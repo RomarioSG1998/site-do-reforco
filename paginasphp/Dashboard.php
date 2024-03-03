@@ -1,4 +1,6 @@
 <?php
+
+include('protect.php');
 include('conexao2.php');
 
 // Consulta SQL para buscar dados gerais
@@ -21,19 +23,9 @@ $conexao->close();
     <title>Dashboard Escolar</title>
     <style>
         /* Estilo para o link */
-        a.menu-link {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
+        
 
-        /* Estilo para o link quando passa o mouse por cima */
-        a.menu-link:hover {
-            background-color: #45a049;
-        }
+      
     </style>
     <link
       rel="stylesheet"
@@ -43,21 +35,6 @@ $conexao->close();
 </head>
 <body>
     <nav>
-        <div class="container">
-            <h1>Sede do Saber</h1>   <a href="./painel.php" class="menu-link">Menu</a>
-            </button><select id="turmaSelect">
-                <option value="all">Todas as Turmas</option>
-                <option value="T1">T1</option>
-                <option value="T2">T2</option>
-                <option value="T3">T3</option>
-                <option value="T4">T4</option>
-                <option value="T5">T5</option>
-                <option value="T6">T6</option>
-                <!-- Opções de turmas seriam preenchidas dinamicamente com JavaScript -->
-            </select>
-        </div>
-
-    </nav>
     <div class="container">
         <section id="geral">
             <h2>Visão Geral</h2>
