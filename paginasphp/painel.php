@@ -54,7 +54,7 @@ include('protect.php');
         <div id="popup" class="popup">
             <div class="popup-content">
                 <a href="cadastro2.php">Cadastrar</a>
-                <a href="./assets/html/alterar-c.html">Alterar</a>
+                <a href="modcadastro.php">Alterar</a>
             </div>
         </div>
     
