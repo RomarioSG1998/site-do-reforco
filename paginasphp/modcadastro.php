@@ -89,18 +89,19 @@ include('protect.php');
             <th>Ações</th> <!-- Nova coluna para as ações -->
         </tr>
         <?php
-        $hostname = "localhost";
-        $bancodedados = "sistemadoreforco";
-        $usuario = "root";
-        $senha = "";
+       $hostname = "localhost";
+       $bancodedados = "sistemadoreforco";
+       $usuario = "root";
+       $senha = "";
 
-        // Cria a conexão com o banco de dados
-        $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+       // Cria a conexão com o banco de dados
+       $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
-        // Verifica se há erro na conexão
-        if ($conexao->connect_error) {
-            die("Erro na conexão: " . $conexao->connect_error);
-        }
+       // Verifica se há erro na conexão
+       if ($conexao->connect_error) {
+           die("Erro na conexão: " . $conexao->connect_error);
+       }
+    
 
         // Consulta SQL para obter os dados da tabela
         $sql = "SELECT * FROM alunos";
@@ -119,9 +120,9 @@ include('protect.php');
                 echo "<td>".$row["turma"]."</td>";
                 // Adicionando ícones de editar e apagar como links clicáveis
                 echo "<td>";
-                if(isset($row["id"])) {
-                    echo "<a href='editar.php?id=".$row["id"]."'><i class='fas fa-edit icon'></i></a> | ";
-                    echo "<a href='apagar.php?id=".$row["id"]."'><i class='fas fa-trash-alt icon'></i></a>";
+                if(isset($row["ra"])) {
+                    echo "<a href='editar.php?ra=".$row["ra"]."'><i class='fas fa-edit icon'></i></a> | ";
+                    echo "<a href='apagar.php?ra=".$row["ra"]."'><i class='fas fa-trash-alt icon'></i></a>";
                 } else {
                     echo "<i class='fas fa-edit icon'></i> | <i class='fas fa-trash-alt icon'></i>";
                 }

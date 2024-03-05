@@ -1,16 +1,38 @@
 <?php
-// Verifica se foi enviado o parâmetro ID na URL
-if(isset($_GET['id']) && !empty($_GET['id'])) {
-    // Obtém o ID do aluno da URL e realiza a sanitização
-    $aluno_id = htmlspecialchars($_GET['id']);
-
-    // Aqui você pode adicionar o código para editar o registro com o ID fornecido
-
-    // Após editar o registro, você pode redirecionar de volta para a página da tabela com uma mensagem de sucesso
-    header("Location: tabela.php?edicao_sucesso=true");
-    exit();
-} else {
-    // Caso o parâmetro ID não tenha sido enviado na URL
-    echo "ID do aluno não fornecido na URL.";
+// Conecte-se ao banco de dados
+$hostname = "localhost";
+$bancodedados = "sistemadoreforco";
+$usuario = "root";
+$senha = "";
+$conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+if ($conexao->connect_error) {
+    die("Erro na conexão: " . $conexao->connect_error);
 }
+
+// Verifique se os dados do formulário foram recebidos corretamente
+if(isset($_GET['ra']) && !empty($_GET['ra'])) {
+    // Receba o RA do formulário
+    $ra = $_GET['ra'];
+
+    // Apague o registro do aluno do banco de dados
+    $sql = "DELETE FROM alunos WHERE ra=?";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("s", $ra);
+
+    if ($stmt->execute()) {
+        // Registro apagado com sucesso. Redirecionar após 3 segundos
+        echo "<script>
+                setTimeout(function() {
+                    window.location.href = 'modcadastro.php?exclusao_sucesso=true';
+                }, 3000); // 3 segundos
+              </script>";
+    } else {
+        echo "Erro ao apagar registro: " . $conexao->error;
+    }
+} else {
+    echo "Por favor, forneça o RA do aluno a ser apagado.";
+}
+
+// Feche a conexão com o banco de dados
+$conexao->close();
 ?>

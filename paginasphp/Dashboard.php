@@ -1,4 +1,3 @@
-
 <?php
 include('protect.php');
 include('conexao2.php');
@@ -8,18 +7,23 @@ $sqlGeral = "SELECT COUNT(ra) as totalAlunos, AVG(YEAR(CURRENT_DATE) - YEAR(data
 $resultGeral = $conexao->query($sqlGeral);
 $rowGeral = $resultGeral->fetch_assoc();
 
+// Consulta SQL para buscar os aniversariantes do mês
+$currentMonth = date('m');
+$sqlAniversariantes = "SELECT * FROM alunos WHERE MONTH(datanasc) = $currentMonth";
+$resultAniversariantes = $conexao->query($sqlAniversariantes);
+
 // Consulta SQL para buscar dados por turma
 $sqlTurma = "SELECT turma, COUNT(ra) as totalAlunosTurma FROM alunos GROUP BY turma";
 $resultTurma = $conexao->query($sqlTurma);
 
 $conexao->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="style.css"/>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <title>Estatísticas de Alunos</title>
@@ -39,20 +43,57 @@ $conexao->close();
         .menu-link:hover {
             background-color: #0056b3;
         }
+
+       /* Animação de bolo de aniversário */
+.birthday-cake {
+ 
+    background-image: url('../imagens/aniversario.gif');
+    width: 90%; /* Ajuste o tamanho conforme necessário */
+    height: 100px;
+    background-size: cover;
+    background-size: contain;
+    animation: bounce 2s infinite;
+    margin-left: -10px; /* Ajuste a margem conforme necessário */
+}
+
+
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
     </style>
 </head>
 <body>
     <div class="container">
-       <!-- Botão de menu -->
-<a href="./painel.php" class="menu-link" style="display: block; width: fit-content; margin: 20px auto; padding: 10px 20px; background-color: purple; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s ease;">Menu</a>
+        <!-- Botão de menu -->
+        <a href="./painel.php" class="menu-link" style="display: block; width: fit-content; margin: 20px auto; padding: 10px 20px; background-color: purple; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s ease;">Menu</a>
 
+        <h1>Informações mais detalhadas</h1>
 
-        <h1>Informações mais detalhadas</h1> <!-- Botão de menu -->
         <div class="dashboard">
             <div class="widget">
                 <h2>Dados Gerais</h2>
                 <p>Total de Alunos: <?php echo $rowGeral['totalAlunos']; ?></p>
                 <p>Média de Idade: <?php echo round($rowGeral['mediaIdade'], 2); ?> anos</p>
+            </div>
+
+            <div class="widget">
+                <h2 class="animate__animated animate__bounce">Aniversariantes do Mês</h2>
+                <!-- Adicionando bolo de aniversário animado -->
+                <div class="birthday-cake"></div>
+                <ul class="animate__animated animate__bounce">
+                    <?php
+                    while ($rowAniversariante = $resultAniversariantes->fetch_assoc()) {
+                        echo "<li>" . $rowAniversariante['nome'] . " - " . date('d/m/Y', strtotime($rowAniversariante['datanasc'])) . "</li>";
+                    }
+                    ?>
+                </ul>
             </div>
 
             <div class="widget">
@@ -74,47 +115,42 @@ $conexao->close();
             </div>
         </div>
 
-
         <!-- Adicione o gráfico abaixo -->
         <div id="piechart"></div>
+
     </div>
+
     <script type="text/javascript">
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            // Monta os dados do gráfico a partir dos resultados da consulta SQL
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Turma');
             data.addColumn('number', 'Total de Alunos');
             <?php
-            // Loop para adicionar as linhas dos dados do gráfico
-            $resultTurma->data_seek(0); // Resetando o ponteiro do resultado da consulta
+            $resultTurma->data_seek(0);
             while ($rowTurma = $resultTurma->fetch_assoc()) {
                 echo "data.addRow(['" . $rowTurma['turma'] . "', " . $rowTurma['totalAlunosTurma'] . "]);";
             }
             ?>
 
-            // Opções do gráfico
             var options = {
                 title: 'Total de Alunos por Turma',
-                pieHole: 0.4, // Opção para criar um donut chart (gráfico de rosca com buraco),
-                width: '100%', // Largura do gráfico em porcentagem para ser responsivo
-                height: '100%', // Altura do gráfico em porcentagem para ser responsivo
-                chartArea: { width: '90%', height: '90%' }, // Área do gráfico em porcentagem
+                pieHole: 0.4,
+                width: '100%',
+                height: '100%',
+                chartArea: { width: '90%', height: '90%' },
             };
 
-            // Verificar o tamanho da tela
             var screenWidth = window.innerWidth;
             if (screenWidth <= 600) {
-                options.pieHole = 0.2; // Diminui o tamanho do buraco do gráfico para telas menores
+                options.pieHole = 0.2;
             }
 
-            // Cria o gráfico de rosca
             var chart = new google.visualization.PieChart(document.getElementById('piechart'));
             chart.draw(data, options);
         }
     </script>
-    <!-- Botão de menu -->
 </body>
 </html>

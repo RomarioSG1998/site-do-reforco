@@ -41,6 +41,10 @@ include('protect.php');
         p a:hover {
             background-color: #d60586; /* Cor de destaque alterada ao passar o mouse */
         }
+        .btn-novo a {
+        text-decoration: none;
+        color: white;
+        }
     </style>
 </head>
 <body>
@@ -69,12 +73,9 @@ include('protect.php');
                 <a href="./assets/html/alterar-c.html">T6</a>
             </div>
         </div>
-    
-        <button onclick="togglePopup('popup2')" class="btn-novo">Ver análises</button>
-        <div id="popup2" class="popup">
-            <div class="popup-content">
-                <a href="./dashboard.php">Geral</a>
-                <a href="./assets/html/alterar-c.html">Por turma</a>
+
+            <div class="btn-novo">
+                <a href="./dashboard.php">Ver análises</a>
             </div>
         </div>
     </div>

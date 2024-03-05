@@ -44,7 +44,9 @@ header {
 .btn-novo:hover {
     background-color: #ca02c0; /* Cor de destaque alterada ao passar o mouse */
 }
-
+.btn-novo a {
+    text-decoration: none;
+}
 /* Estilo do botão "Sair" */
 p a {
     padding: 15px 30px;
