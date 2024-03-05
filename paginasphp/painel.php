@@ -75,7 +75,7 @@ include('protect.php');
         </div>
 
             <div class="btn-novo">
-                <a href="./dashboard.php">Ver análises</a>
+                <a href="./Dashboard.php">Ver análises</a>
             </div>
         </div>
     </div>
