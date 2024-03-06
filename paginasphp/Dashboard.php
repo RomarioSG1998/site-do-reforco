@@ -1,10 +1,6 @@
 <?php
 
 include('protect.php');
-
-?>
-<?php
-include('protect.php');
 include('conexao2.php');
 
 // Consulta SQL para buscar dados gerais
@@ -21,8 +17,13 @@ $resultAniversariantes = $conexao->query($sqlAniversariantes);
 $sqlTurma = "SELECT turma, COUNT(ra) as totalAlunosTurma FROM alunos GROUP BY turma";
 $resultTurma = $conexao->query($sqlTurma);
 
+// Consulta SQL para buscar dados por gênero
+$sqlGenero = "SELECT genero, COUNT(ra) as totalAlunosGenero FROM alunos GROUP BY genero";
+$resultGenero = $conexao->query($sqlGenero);
+
 $conexao->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,7 +79,7 @@ $conexao->close();
     <div class="container">
         <!-- Botão de menu -->
         <a href="./painel.php" class="menu-link" style="display: block; width: fit-content; margin: 20px auto; padding: 10px 20px; background-color: purple; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s ease;">Menu</a>
-
+        <a href="./mensalidade.php" class="menu-link" style="display: block; width: fit-content; margin: 20px auto; padding: 10px 20px; background-color: purple; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s ease;">cash</a>
         <h1>Informações mais detalhadas</h1>
 
         <div class="dashboard">
@@ -120,19 +121,56 @@ $conexao->close();
             </div>
         </div>
 
-        <!-- Adicione o gráfico abaixo -->
-        <div id="piechart"></div>
+        <!-- Adicione o título para o gráfico de pizza de gênero -->
+        <h2>Total de Alunos por Gênero</h2>
+        <div id="piechartGenero"></div>
+
+        <!-- Adicione o título para o gráfico de pizza de turmas -->
+        <h2>Total de Alunos por Turma</h2>
+        <div id="piechartTurma"></div>
 
     </div>
 
     <script type="text/javascript">
         google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawChartGenero);
 
-        function drawChart() {
+        function drawChartGenero() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Gênero');
+            data.addColumn('number', 'Total de Alunos');
+
+            <?php
+            $resultGenero->data_seek(0);
+            while ($rowGenero = $resultGenero->fetch_assoc()) {
+                echo "data.addRow(['" . $rowGenero['genero'] . "', " . $rowGenero['totalAlunosGenero'] . "]);";
+            }
+            ?>
+
+            var options = {
+                title: 'Total de Alunos por Gênero',
+                pieHole: 0.4,
+                width: '100%',
+                height: '100%',
+                chartArea: { width: '90%', height: '90%' },
+            };
+
+            var screenWidth = window.innerWidth;
+            if (screenWidth <= 600) {
+                options.pieHole = 0.2;
+            }
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechartGenero'));
+            chart.draw(data, options);
+        }
+
+        google.charts.setOnLoadCallback(drawChartTurma);
+
+        function drawChartTurma() {
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Turma');
             data.addColumn('number', 'Total de Alunos');
+
             <?php
             $resultTurma->data_seek(0);
             while ($rowTurma = $resultTurma->fetch_assoc()) {
@@ -153,7 +191,7 @@ $conexao->close();
                 options.pieHole = 0.2;
             }
 
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            var chart = new google.visualization.PieChart(document.getElementById('piechartTurma'));
             chart.draw(data, options);
         }
     </script>

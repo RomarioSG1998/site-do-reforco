@@ -27,11 +27,21 @@ include('protect.php');
         }
 
         th {
-            background-color: #d8bfd8; /* lilás claro */
+            background-color: #d2cdf0; /* lilás claro */
         }
 
         th, td {
-            color: #6a5acd; /* lilás médio */
+            color: #000; /* Preto */
+        }
+
+        /* Cor de fundo para células de colunas pares */
+        tr:nth-child(even) td {
+            background-color: #cccccc; /* Cor de fundo mais escura para células de colunas pares */
+        }
+
+        /* Cor de fundo para células de colunas ímpares */
+        tr:nth-child(odd) td {
+            background-color: #ffffff; /* Cor de fundo para células de colunas ímpares */
         }
 
         .icon {
@@ -116,10 +126,6 @@ include('protect.php');
             display: none;
         }
 
-        /* Adiciona cores de fundo alternadas para células de colunas ímpares */
-        tr:nth-child(odd) td {
-            background-color: #f0f0f0; /* Cor de fundo para células de colunas ímpares */
-        }
     </style>
 </head>
 <body>
