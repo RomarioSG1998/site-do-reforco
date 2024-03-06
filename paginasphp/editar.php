@@ -21,6 +21,28 @@ if(isset($_GET['ra'])) {
 
     if ($result && $result->num_rows > 0) {
         $aluno = $result->fetch_assoc();
+
+        // Verifique se os dados do aluno foram enviados via POST
+        if(isset($_POST['ra']) && isset($_POST['nome']) && isset($_POST['datanasc']) && isset($_POST['celular']) && isset($_POST['responsavel']) && isset($_POST['genero']) && isset($_POST['turma'])) {
+            $nome = $_POST['nome'];
+            $datanasc = $_POST['datanasc'];
+            $celular = $_POST['celular'];
+            $responsavel = $_POST['responsavel'];
+            $genero = $_POST['genero'];
+            $turma = $_POST['turma'];
+
+            // Atualize os dados do aluno no banco de dados
+            $sql = "UPDATE alunos SET nome='$nome', datanasc='$datanasc', celular='$celular', responsavel='$responsavel', genero='$genero', turma='$turma' WHERE ra='$ra'";
+            if ($conexao->query($sql) === TRUE) {
+                // Exibir mensagem de sucesso
+                echo "<p>Edição concluída com sucesso!</p>";
+                // Redirecionar para a página principal após 2 segundos
+                header("refresh:2; url=modcadastro.php");
+                exit();
+            } else {
+                echo "Erro ao editar aluno: " . $conexao->error;
+            }
+        }
         ?>
         <!DOCTYPE html>
         <html lang="pt-br">
@@ -103,7 +125,7 @@ if(isset($_GET['ra'])) {
         </head>
 
         <body>
-            <form action="atualizar.php" method="post">
+            <form action="" method="post">
                 <input type="hidden" name="ra" value="<?php echo $aluno['ra']; ?>">
                 <label for="nome">Nome:</label>
                 <input type="text" name="nome" id="nome" value="<?php echo $aluno['nome']; ?>"><br>

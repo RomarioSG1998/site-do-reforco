@@ -1,3 +1,8 @@
+<?php
+
+include('protect.php');
+
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -110,6 +115,11 @@
         #download-link {
             display: none;
         }
+
+        /* Adiciona cores de fundo alternadas para células de colunas ímpares */
+        tr:nth-child(odd) td {
+            background-color: #f0f0f0; /* Cor de fundo para células de colunas ímpares */
+        }
     </style>
 </head>
 <body>
@@ -120,118 +130,114 @@
     </div>
 </a>
 
+<div class="search-container">
+    <input type="text" id="searchInput" class="search-input" placeholder="Buscar por RA ou nome do aluno">
+    <button onclick="searchTable()" class="search-btn">Buscar</button>
+    <!-- Adiciona um link oculto para download do PDF -->
+    <a id="download-link" download="alunos.pdf"></a>
+    <a href="#" onclick="generatePDF()" class="print-icon"><i class="fas fa-print"></i></a>
+</div>
+
+<?php if(isset($_GET['exclusao_sucesso'])): ?>
+    <p style="color: green;">Registro excluído com sucesso!</p>
+<?php elseif(isset($_GET['exclusao_erro'])): ?>
+    <p style="color: red;">Erro ao excluir o registro.</p>
+<?php endif; ?>
+
+<table id="alunosTable">
+    <tr>
+        <th>RA</th>
+        <th>Nome</th>
+        <th>Data de Nascimento</th>
+        <th class="zoomable">Celular</th>
+        <th>Responsável</th>
+        <th>Gênero</th>
+        <th>Turma</th>
+        <th>Ações</th>
+    </tr>
+    <?php
+   $hostname = "localhost";
+   $bancodedados = "sistemadoreforco";
+   $usuario = "root";
+   $senha = "";
+
+   $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+
+   if ($conexao->connect_error) {
+       die("Erro na conexão: " . $conexao->connect_error);
+   }
 
 
+    $sql = "SELECT * FROM alunos";
+    $result = $conexao->query($sql);
 
-
-    <div class="search-container">
-        <input type="text" id="searchInput" class="search-input" placeholder="Buscar por RA ou nome do aluno">
-        <button onclick="searchTable()" class="search-btn">Buscar</button>
-        <!-- Adiciona um link oculto para download do PDF -->
-        <a id="download-link" download="alunos.pdf"></a>
-        <a href="#" onclick="generatePDF()" class="print-icon"><i class="fas fa-print"></i></a>
-    </div>
-    
-    <?php if(isset($_GET['exclusao_sucesso'])): ?>
-        <p style="color: green;">Registro excluído com sucesso!</p>
-    <?php elseif(isset($_GET['exclusao_erro'])): ?>
-        <p style="color: red;">Erro ao excluir o registro.</p>
-    <?php endif; ?>
-    
-    <table id="alunosTable">
-        <tr>
-            <th>RA</th>
-            <th>Nome</th>
-            <th>Data de Nascimento</th>
-            <th class="zoomable">Celular</th>
-            <th>Responsável</th>
-            <th>Gênero</th>
-            <th>Turma</th>
-            <th>Ações</th>
-        </tr>
-        <?php
-       $hostname = "localhost";
-       $bancodedados = "sistemadoreforco";
-       $usuario = "root";
-       $senha = "";
-
-       $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-
-       if ($conexao->connect_error) {
-           die("Erro na conexão: " . $conexao->connect_error);
-       }
-    
-
-        $sql = "SELECT * FROM alunos";
-        $result = $conexao->query($sql);
-
-        if ($result && $result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>".$row["ra"]."</td>";
-                echo "<td>".$row["nome"]."</td>";
-                echo "<td>".$row["datanasc"]."</td>";
-                echo "<td>".$row["celular"]."</td>";
-                echo "<td>".$row["responsavel"]."</td>";
-                echo "<td>".$row["genero"]."</td>";
-                echo "<td>".$row["turma"]."</td>";
-                echo "<td>";
-                if(isset($row["ra"])) {
-                    echo "<a href='editar.php?ra=".$row["ra"]."'><i class='fas fa-edit icon edit-icon'></i></a> | ";
-                    echo "<a href='apagar.php?ra=".$row["ra"]."'><i class='fas fa-trash-alt icon delete-icon'></i></a>";
-                } else {
-                    echo "<i class='fas fa-edit icon edit-icon'></i> | <i class='fas fa-trash-alt icon delete-icon'></i>";
-                }
-                echo "</td>";
-                echo "</tr>";
+    if ($result && $result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>".$row["ra"]."</td>";
+            echo "<td>".$row["nome"]."</td>";
+            echo "<td>".$row["datanasc"]."</td>";
+            echo "<td>".$row["celular"]."</td>";
+            echo "<td>".$row["responsavel"]."</td>";
+            echo "<td>".$row["genero"]."</td>";
+            echo "<td>".$row["turma"]."</td>";
+            echo "<td>";
+            if(isset($row["ra"])) {
+                echo "<a href='editar.php?ra=".$row["ra"]."'><i class='fas fa-edit icon edit-icon'></i></a> | ";
+                echo "<a href='apagar.php?ra=".$row["ra"]."'><i class='fas fa-trash-alt icon delete-icon'></i></a>";
+            } else {
+                echo "<i class='fas fa-edit icon edit-icon'></i> | <i class='fas fa-trash-alt icon delete-icon'></i>";
             }
-        } else {
-            echo "<tr><td colspan='8'>0 resultados</td></tr>";
+            echo "</td>";
+            echo "</tr>";
         }
+    } else {
+        echo "<tr><td colspan='8'>0 resultados</td></tr>";
+    }
 
-        $conexao->close();
-        ?>
-    </table>
+    $conexao->close();
+    ?>
+</table>
 
-    <script>
-        var cells = document.querySelectorAll('.zoomable');
-        cells.forEach(function(cell) {
-            cell.addEventListener('click', function() {
-                cell.classList.toggle('zoomed-cell');
-            });
+<script>
+    var cells = document.querySelectorAll('.zoomable');
+    cells.forEach(function(cell) {
+        cell.addEventListener('click', function() {
+            cell.classList.toggle('zoomed-cell');
         });
+    });
 
-        function searchTable() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("searchInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("alunosTable");
-            tr = table.getElementsByTagName("tr");
+    function searchTable() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("alunosTable");
+        tr = table.getElementsByTagName("tr");
 
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td");
-                for (var j = 0; j < td.length; j++) {
-                    txtValue = td[j].textContent || td[j].innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                        break;
-                    } else {
-                        tr[i].style.display = "none";
-                    }
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            for (var j = 0; j < td.length; j++) {
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                    break;
+                } else {
+                    tr[i].style.display = "none";
                 }
             }
         }
+    }
 
-        function generatePDF() {
-            var doc = new jsPDF();
-            doc.autoTable({html: '#alunosTable'});
-            // Obtém o link de download
-            var downloadLink = document.getElementById('download-link');
-            // Define o conteúdo do PDF como a string Base64 do documento
-            downloadLink.href = doc.output('datauristring');
-            // Aciona o clique no link de download
-            downloadLink.click();
-        }
-    </script>
+    function generatePDF() {
+        var doc = new jsPDF();
+        doc.autoTable({html: '#alunosTable'});
+        // Obtém o link de download
+        var downloadLink = document.getElementById('download-link');
+        // Define o conteúdo do PDF como a string Base64 do documento
+        downloadLink.href = doc.output('datauristring');
+        // Aciona o clique no link de download
+        downloadLink.click();
+    }
+</script>
 </body>
 </html>

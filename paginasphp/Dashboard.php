@@ -1,4 +1,9 @@
 <?php
+
+include('protect.php');
+
+?>
+<?php
 include('protect.php');
 include('conexao2.php');
 
