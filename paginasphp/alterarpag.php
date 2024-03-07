@@ -5,6 +5,20 @@ if(isset($_GET['ra'])) {
 } else {
     $ra = "";
 }
+
+// Verificar se há datas passadas pela página anterior
+$janeiro = isset($_GET['janeiro']) ? $_GET['janeiro'] : "";
+$fevereiro = isset($_GET['fevereiro']) ? $_GET['fevereiro'] : "";
+$marco = isset($_GET['marco']) ? $_GET['marco'] : "";
+$abril = isset($_GET['abril']) ? $_GET['abril'] : "";
+$maio = isset($_GET['maio']) ? $_GET['maio'] : "";
+$junho = isset($_GET['junho']) ? $_GET['junho'] : "";
+$julho = isset($_GET['julho']) ? $_GET['julho'] : "";
+$agosto = isset($_GET['agosto']) ? $_GET['agosto'] : "";
+$setembro = isset($_GET['setembro']) ? $_GET['setembro'] : "";
+$outubro = isset($_GET['outubro']) ? $_GET['outubro'] : "";
+$novembro = isset($_GET['novembro']) ? $_GET['novembro'] : "";
+$dezembro = isset($_GET['dezembro']) ? $_GET['dezembro'] : "";
 ?>
 
 <!DOCTYPE html>
@@ -46,49 +60,47 @@ if(isset($_GET['ra'])) {
     }
     ?>
     <form action="alterar_dados.php" method="POST">
-    <label for="ra">RA:</label>
-<input type="text" id="ra" name="ra" value="<?php echo $ra; ?>" required><br><br>
+        <label for="ra">RA:</label>
+        <input type="text" id="ra" name="ra" value="<?php echo $ra; ?>" required><br><br>
 
-        
         <label for="janeiro">Janeiro:</label>
-        <input type="date" id="janeiro" name="janeiro"><br><br>
+        <input type="datetime-local" id="janeiro" name="janeiro" value="<?php echo $janeiro; ?>"><br><br>
         
         <label for="fevereiro">Fevereiro:</label>
-        <input type="date" id="fevereiro" name="fevereiro"><br><br>
+        <input type="datetime-local" id="fevereiro" name="fevereiro" value="<?php echo $fevereiro; ?>"><br><br>
         
         <label for="marco">Março:</label>
-        <input type="date" id="marco" name="marco"><br><br>
+        <input type="datetime-local" id="marco" name="marco" value="<?php echo $marco; ?>"><br><br>
         
         <label for="abril">Abril:</label>
-        <input type="date" id="abril" name="abril"><br><br>
+        <input type="datetime-local" id="abril" name="abril" value="<?php echo $abril; ?>"><br><br>
         
         <label for="maio">Maio:</label>
-        <input type="date" id="maio" name="maio"><br><br>
+        <input type="datetime-local" id="maio" name="maio" value="<?php echo $maio; ?>"><br><br>
         
         <label for="junho">Junho:</label>
-        <input type="date" id="junho" name="junho"><br><br>
+        <input type="datetime-local" id="junho" name="junho" value="<?php echo $junho; ?>"><br><br>
         
         <label for="julho">Julho:</label>
-        <input type="date" id="julho" name="julho"><br><br>
+        <input type="datetime-local" id="julho" name="julho" value="<?php echo $julho; ?>"><br><br>
         
         <label for="agosto">Agosto:</label>
-        <input type="date" id="agosto" name="agosto"><br><br>
+        <input type="datetime-local" id="agosto" name="agosto" value="<?php echo $agosto; ?>"><br><br>
         
         <label for="setembro">Setembro:</label>
-        <input type="date" id="setembro" name="setembro"><br><br>
+        <input type="datetime-local" id="setembro" name="setembro" value="<?php echo $setembro; ?>"><br><br>
         
         <label for="outubro">Outubro:</label>
-        <input type="date" id="outubro" name="outubro"><br><br>
+        <input type="datetime-local" id="outubro" name="outubro" value="<?php echo $outubro; ?>"><br><br>
         
         <label for="novembro">Novembro:</label>
-        <input type="date" id="novembro" name="novembro"><br><br>
+        <input type="datetime-local" id="novembro" name="novembro" value="<?php echo $novembro; ?>"><br><br>
         
         <label for="dezembro">Dezembro:</label>
-        <input type="date" id="dezembro" name="dezembro"><br><br>
+        <input type="datetime-local" id="dezembro" name="dezembro" value="<?php echo $dezembro; ?>"><br><br>
         
         <input type="submit" value="Atualizar">
         <button type="button" id="buscarPagador">Buscar Pagador</button>
     </form>
 </body>
 </html>
-
