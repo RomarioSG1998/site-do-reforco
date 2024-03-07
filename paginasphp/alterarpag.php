@@ -16,7 +16,7 @@
             text-align: center;
         }
         form {
-            max-width: 600px;
+            max-width: 500px; /* Alteração aqui */
             margin: 0 auto;
             background-color: #fff;
             padding: 30px;
