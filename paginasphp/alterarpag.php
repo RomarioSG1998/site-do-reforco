@@ -68,7 +68,7 @@
 
         <?php
             $meses = array(
-                'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+                'janeiro', 'fevereiro', 'marco', 'abril', 'maio', 'junho',
                 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
             );
             

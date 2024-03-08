@@ -1,8 +1,4 @@
-<?php
-
-include('protect.php');
-
-?>
+<?php include('protect.php'); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -137,7 +133,7 @@ include('protect.php');
 </a>
 
 <div class="search-container">
-    <input type="text" id="searchInput" class="search-input" placeholder="Buscar por RA ou nome do aluno">
+<input type="text" id="searchInput" class="search-input" placeholder="Buscar por RA ou nome do aluno" value="<?php echo isset($_GET['id_aluno']) ? $_GET['id_aluno'] : ''; ?>">
     <button onclick="searchTable()" class="search-btn">Buscar</button>
     <!-- Adiciona um link oculto para download do PDF -->
     <a id="download-link" download="alunos.pdf"></a>

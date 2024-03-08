@@ -27,7 +27,7 @@
             border: 1px solid #fff;
             padding: 8px;
             text-align: left;
-            width: 10%; /* Alterado para porcentagem */
+            width: 8%; /* Alterado para porcentagem */
             font-size: 12px; /* Alterado para tamanho de fonte menor */
         }
 
@@ -71,7 +71,7 @@
     </style>
 </head>
 <body>
-    <h1>Visualização de Pagamentos</h1>
+    <h1>Pagamentos</h1>
 
     <?php
     $hostname = "localhost";
@@ -97,6 +97,7 @@
         echo "<table>
                 <tr>
                     <th>RA</th>
+                    <th>ID Aluno</th>
                     <th>Pagador</th>
                     <th>Janeiro</th>
                     <th>Fevereiro</th>
@@ -115,16 +116,16 @@
         // Loop através dos resultados da consulta
         while($linha = $resultado->fetch_assoc()) {
             echo "<tr>
-                    <td><a href='alterarpag.php?ra=" . $linha['ra'] . "&janeiro=" . $linha['janeiro'] . "&fevereiro=" . $linha['fevereiro'] . "&marco=" . $linha['marco'] . "&abril=" . $linha['abril'] . "&maio=" . $linha['maio'] . "&junho=" . $linha['junho'] . "&julho=" . $linha['julho'] . "&agosto=" . $linha['agosto'] . "&setembro=" . $linha['setembro'] . "&outubro=" . $linha['outubro'] . "&novembro=" . $linha['novembro'] . "&dezembro=" . $linha['dezembro'] . "'>" . $linha['ra'] . "</a></td>
+                    <td><a href='alterarpag.php?ra=" . $linha['ra'] . "&id_aluno=" . $linha['id_aluno'] . "&janeiro=" . $linha['janeiro'] . "&fevereiro=" . $linha['fevereiro'] . "&marco=" . $linha['marco'] . "&abril=" . $linha['abril'] . "&maio=" . $linha['maio'] . "&junho=" . $linha['junho'] . "&julho=" . $linha['julho'] . "&agosto=" . $linha['agosto'] . "&setembro=" . $linha['setembro'] . "&outubro=" . $linha['outubro'] . "&novembro=" . $linha['novembro'] . "&dezembro=" . $linha['dezembro'] . "'>" . $linha['ra'] . "</a></td>
+                    <td><a href='modcadastro.php?id_aluno=" . $linha['id_aluno'] . "'>" . $linha['id_aluno'] . "</a></td>
                     <td>" . $linha['pagador'] . "</td>";
 
             // Iterar através dos campos de mês
             foreach ($linha as $campo => $valor) {
                 // Verificar se o valor é uma data válida
-                if ($campo != 'ra' && $campo != 'pagador') {
-                    $cor = ($valor == "0000-00-00" || $valor == "0001-01-01 00:00:00") ? "#ff9999" : "#99cc99"; /* Tons suaves de vermelho e verde */
+                if ($campo != 'ra' && $campo != 'id_aluno' && $campo != 'pagador') {
+                    $cor = ($valor == "0001-01-01 00:00:01" || $valor == "0001-01-01 00:00:00") ? "#ff9999" : ($valor == "0001-11-30 00:00:00" ? "#ff0000" : "#99cc99"); /* Tons suaves de vermelho e verde */
                     echo "<td style='background-color: $cor;'>" . date('Y-m-d H:i:s', strtotime($valor)) . "</td>"; // Adicionado o horário
-                    
                 }
             }
 
