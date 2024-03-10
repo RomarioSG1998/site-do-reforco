@@ -14,6 +14,9 @@ if(isset($_GET['ra']) && !empty($_GET['ra'])) {
     // Receba o RA do formulário
     $ra = $_GET['ra'];
 
+    // Desabilitar temporariamente a restrição de chave estrangeira
+    $conexao->query("SET FOREIGN_KEY_CHECKS=0");
+
     // Apague o registro do aluno do banco de dados
     $sql = "DELETE FROM alunos WHERE ra=?";
     $stmt = $conexao->prepare($sql);
@@ -29,6 +32,9 @@ if(isset($_GET['ra']) && !empty($_GET['ra'])) {
     } else {
         echo "Erro ao apagar registro: " . $conexao->error;
     }
+
+    // Reativar a restrição de chave estrangeira
+    $conexao->query("SET FOREIGN_KEY_CHECKS=1");
 } else {
     echo "Por favor, forneça o RA do aluno a ser apagado.";
 }

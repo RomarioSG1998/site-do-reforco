@@ -79,7 +79,6 @@ $conexao->close();
     <div class="container">
         <!-- Botão de menu -->
         <a href="./painel.php" class="menu-link" style="display: block; width: fit-content; margin: 20px auto; padding: 10px 20px; background-color: purple; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s ease;">Menu</a>
-        <a href="./mensalidade.php" class="menu-link" style="display: block; width: fit-content; margin: 20px auto; padding: 10px 20px; background-color: purple; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s ease;">cash</a>
         <h1>Informações mais detalhadas</h1>
 
         <div class="dashboard">

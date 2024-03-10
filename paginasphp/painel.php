@@ -61,18 +61,10 @@ include('protect.php');
                 <a href="modcadastro.php">Alterar</a>
             </div>
         </div>
-    
-        <button onclick="togglePopup('popup1')" class="btn-novo">Ver Turmas</button>
-        <div id="popup1" class="popup">
-            <div class="popup-content">
-                <a href="./assets/html/Cadastro.html">T1</a>
-                <a href="./assets/html/alterar-c.html">T2</a>
-                <a href="./assets/html/Cadastro.html">T3</a>
-                <a href="./assets/html/alterar-c.html">T4</a>
-                <a href="./assets/html/Cadastro.html">T5</a>
-                <a href="./assets/html/alterar-c.html">T6</a>
+
+            <div class="btn-novo">
+                <a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">Admin</a>
             </div>
-        </div>
 
             <div class="btn-novo">
                 <a href="./Dashboard.php">Ver análises</a>
