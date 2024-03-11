@@ -78,6 +78,9 @@
     </style>
 </head>
 <body>
+<div class="btn-novo">
+                <a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">home</a>
+            </div>
     <h1>Pagamentos</h1>
 
     <?php
@@ -150,6 +153,6 @@
     ?>
 
     <!-- Link Pagamentos -->
-    <a id="pagamentos-link" href="painel.php">Home</a>
+
 </body>
 </html>
