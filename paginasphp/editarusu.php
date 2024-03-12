@@ -14,7 +14,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 // Conexão com o banco de dados
 $hostname = "localhost";
-$bancodedados = "sistemadoreforco";
+$bancodedados = "id21964020_sistemadoreforco";
 $usuario = "root";
 $senha = "";
 $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);

@@ -2,11 +2,11 @@
 session_start();
 
 // Dados dos usuários autorizados
-$ids_autorizados = array(2, 3); // IDs dos usuários autorizados
+$ids_autorizados = array(1, 3); // IDs dos usuários autorizados
 $nomes_autorizados = array("Sandra", "João"); // Nomes dos usuários autorizados
 $senhas_autorizadas = array("145869", "senha123"); // Senhas dos usuários autorizados
 $emails_autorizados = array("rg16066@gmail.com", "joao@example.com"); // Emails dos usuários autorizados
-$data_criacao_autorizadas = array("2024-03-08 16:58:39", "2024-03-10 10:00:00"); // Datas de criação dos usuários autorizados
+$data_criacao_autorizadas = array("2024-03-08 16:58:39", "2024-03-12 13:02:00"); // Datas de criação dos usuários autorizados
 
 // Verifica se o usuário está logado
 if(isset($_SESSION['id'])) {

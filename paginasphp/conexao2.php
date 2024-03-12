@@ -1,6 +1,6 @@
 <?php
 $hostname = "localhost";
-$bancodedados = "sistemadoreforco";
+$bancodedados = "id21964020_sistemadoreforco";
 $usuario = "root";
 $senha = "";
 

@@ -100,9 +100,10 @@
     <?php
     // Conexão com o banco de dados
     $hostname = "localhost";
-    $bancodedados = "sistemadoreforco";
+    $bancodedados = "id21964020_sistemadoreforco";
     $usuario = "root";
     $senha = "";
+    
     $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
     // Verifica a conexão
