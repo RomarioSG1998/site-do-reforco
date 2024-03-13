@@ -1,9 +1,3 @@
-<?php
-  include('conexao2.php');
-  include('admin.php');
-  include('protect.php'); 
-
-?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -18,7 +12,7 @@
       background-color: #f4f4f4;
     }
     .admin-header {
-      background-color: #333;
+      background-color: #7e6e9e; /* Lilás Escuro */
       color: #fff;
       padding: 20px;
       text-align: center;
@@ -28,23 +22,27 @@
       margin: 0;
       font-size: 24px;
     }
+    .admin-header .home-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      text-decoration: none;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
     .admin-profile {
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
       margin-top: 20px;
-    }
-    .admin-profile input[type="file"] {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
     }
     .admin-profile img {
       width: 120px;
       height: 120px;
       border-radius: 50%;
-      margin-right: 20px;
+      margin-bottom: 20px;
       border: 4px solid #fff;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
@@ -52,89 +50,71 @@
       margin: 0;
       font-size: 24px;
     }
+    .admin-profile form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .admin-profile input[type="file"] {
+      display: none;
+    }
+    .admin-profile label {
+      background-color: #9381a9; /* Lilás Claro */
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .admin-profile label:hover {
+      background-color: #7e6e9e; /* Lilás Mais Escuro */
+    }
     .admin-actions {
       text-align: center;
       margin-top: 30px;
     }
     .admin-actions a {
       text-decoration: none;
-      color: #333;
+      color: #7e6e9e; /* Lilás Escuro */
       margin: 0 20px;
       font-size: 18px;
       padding: 10px 20px;
-      border: 2px solid #333;
+      border: 2px solid #7e6e9e; /* Lilás Escuro */
       border-radius: 4px;
       transition: background-color 0.3s, color 0.3s;
     }
     .admin-actions a:hover {
-      background-color: #333;
+      background-color: #9381a9; /* Lilás Mais Escuro */
       color: #fff;
     }
 
     /* Media queries para responsividade */
     @media screen and (max-width: 768px) {
-      .admin-profile {
-        flex-direction: column;
-      }
       .admin-profile img {
-        margin-right: 0;
         margin-bottom: 10px;
       }
-      .admin-actions {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .admin-actions a {
-        margin: 10px 0;
+      .admin-profile form {
+        align-items: flex-start;
       }
     }
   </style>
 </head>
-<a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">home</i><</a>
 <body>
   <div class="admin-header">
     <h1>Painel de Administração de <?php echo htmlspecialchars($_GET['nome']); ?></h1>
+    <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>" class="home-link">
+      <img src="../imagens/logo sem fundo.png" alt="Home" width="50" height="50">
+    </a>
   </div>
+
   <div class="admin-profile">
     <?php
-    // Conexão com o banco de dados
-    $hostname = "localhost";
-    $bancodedados = "id21964020_sistemadoreforco";
-    $usuario = "root";
-    $senha = "";
-    
-    $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+    // Código PHP para exibir a imagem do usuário
+    // ...
 
-    // Verifica a conexão
-    if ($conexao->connect_error) {
-        die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
-    }
-
-    // Obtém o ID do usuário (você deve ter uma maneira de identificar o usuário atual)
-    $id_usuario = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-
-    // Prepara e executa a query SQL para obter a imagem do usuário
-    $query = "SELECT imagem FROM usuarios WHERE id = ?";
-    $stmt = $conexao->prepare($query);
-    $stmt->bind_param("i", $id_usuario);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
-
-    // Verifica se a query retornou resultados
-    if ($resultado && $resultado->num_rows > 0) {
-        // Exibe a imagem do usuário se existir
-        $row = $resultado->fetch_assoc();
-        $imagem_usuario = $row['imagem'];
-        echo '<img src="' . htmlspecialchars($imagem_usuario) . '" alt="Foto do Admin">';
-    } else {
-        // Exibe uma imagem padrão caso o usuário não tenha uma imagem definida
-        echo '<img src="https://w7.pngwing.com/pngs/429/434/png-transparent-computer-icons-icon-design-business-administration-admin-icon-hand-monochrome-silhouette.png">';
-    }
-
-    // Fecha a conexão
-    $conexao->close();
+    // Formulário para upload de imagem
     ?>
+    <img src="<?php echo htmlspecialchars($imagem_usuario); ?>" alt="Foto do Admin">
     <form action="upload.php" method="post" enctype="multipart/form-data">
       <input type="file" name="imagem" id="admin-image" accept="image/*">
       <label for="admin-image" id="image-label">Selecione uma imagem</label>
@@ -143,6 +123,7 @@
       <input type="submit" value="Enviar Imagem">
     </form>
   </div>
+
   <div class="admin-actions">
     <a href="cadusuario.php">Cadastrar Novo Usuário</a>
     <a href="mensalidade.php">Tabela de Pagamentos Mensais</a>
