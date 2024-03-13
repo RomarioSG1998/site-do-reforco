@@ -129,89 +129,91 @@
     </style>
 </head>
 <body>
-<h1 class="titulo">Alunos Matriculados</h1> 
-<a href="./painel.php" class="menu-link">
-    <div style="background-color: white; padding: 5px; border-radius: 50%;">
-        <img src="../imagens/logo sem fundo2.png" alt="Menu" style="width: 50px; height: 50px;">
+    <h1 class="titulo">Alunos Matriculados</h1> 
+    <a href="./painel.php" class="menu-link">
+        <div style="background-color: white; padding: 5px; border-radius: 50%;">
+            <img src="../imagens/logo sem fundo2.png" alt="Menu" style="width: 50px; height: 50px;">
+        </div>
+    </a>
+
+    <div class="search-container">
+        <form method="GET" action="">
+            <!-- Adiciona um campo hidden para o id_aluno -->
+            <input type="hidden" name="id_aluno" value="<?php echo isset($_GET['id_aluno']) ? $_GET['id_aluno'] : ''; ?>">
+            <input type="text" name="search" class="search-input" placeholder="Buscar por RA ou nome do aluno" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+            <button type="submit" class="search-btn">Buscar</button>
+        </form>
+        <!-- Adiciona um link oculto para download do PDF -->
+        <a id="download-link" download="alunos.pdf"></a>
+        <a href="#" onclick="generatePDF()" class="print-icon"><i class="fas fa-print"></i></a>
     </div>
-</a>
 
-<div class="search-container">
-    <form method="GET" action="">
-        <input type="text" name="search" class="search-input" placeholder="Buscar por RA ou nome do aluno" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
-        <button type="submit" class="search-btn">Buscar</button>
-    </form>
-    <!-- Adiciona um link oculto para download do PDF -->
-    <a id="download-link" download="alunos.pdf"></a>
-    <a href="#" onclick="generatePDF()" class="print-icon"><i class="fas fa-print"></i></a>
-</div>
+    <?php if(isset($_GET['exclusao_sucesso'])): ?>
+        <p style="color: green;">Registro excluído com sucesso!</p>
+    <?php elseif(isset($_GET['exclusao_erro'])): ?>
+        <p style="color: red;">Erro ao excluir o registro.</p>
+    <?php endif; ?>
 
-<?php if(isset($_GET['exclusao_sucesso'])): ?>
-    <p style="color: green;">Registro excluído com sucesso!</p>
-<?php elseif(isset($_GET['exclusao_erro'])): ?>
-    <p style="color: red;">Erro ao excluir o registro.</p>
-<?php endif; ?>
+    <table id="alunosTable">
+        <tr>
+            <th>RA</th>
+            <th>Nome</th>
+            <th>Data de Nascimento</th>
+            <th class="zoomable">Celular</th>
+            <th>Responsável</th>
+            <th>Gênero</th>
+            <th>Turma</th>
+            <th>Ações</th>
+        </tr>
+        <?php
+        $hostname = "localhost";
+        $bancodedados = "id21964020_sistemadoreforco";
+        $usuario = "root";
+        $senha = "";
 
-<table id="alunosTable">
-    <tr>
-        <th>RA</th>
-        <th>Nome</th>
-        <th>Data de Nascimento</th>
-        <th class="zoomable">Celular</th>
-        <th>Responsável</th>
-        <th>Gênero</th>
-        <th>Turma</th>
-        <th>Ações</th>
-    </tr>
-    <?php
-    $hostname = "localhost";
-    $bancodedados = "id21964020_sistemadoreforco";
-    $usuario = "root";
-    $senha = "";
+        $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
-    $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-
-    if ($conexao->connect_error) {
-        die("Erro na conexão: " . $conexao->connect_error);
-    }
-
-    $search = isset($_GET['search']) ? $_GET['search'] : '';
-
-    // Consulta SQL modificada para incluir pesquisa por RA ou nome
-    $sql = "SELECT * FROM alunos WHERE ra LIKE '%$search%' OR nome LIKE '%$search%'";
-    $result = $conexao->query($sql);
-
-    if ($result && $result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            // Modificação aqui: o número do aluno (RA) agora é um link para mensalidade.php
-            echo "<td><a href='mensalidade.php?ra=".$row["ra"]."'>".$row["ra"]."</a></td>"; 
-            echo "<td>".$row["nome"]."</td>";
-            echo "<td>".$row["datanasc"]."</td>";
-            echo "<td>".$row["celular"]."</td>";
-            echo "<td>".$row["responsavel"]."</td>";
-            echo "<td>".$row["genero"]."</td>";
-            echo "<td>".$row["turma"]."</td>";
-            echo "<td>";
-            if(isset($row["ra"])) {
-                echo "<a href='editar.php?ra=".$row["ra"]."'><i class='fas fa-edit icon edit-icon'></i></a> | ";
-                echo "<a href='apagar.php?ra=".$row["ra"]."'><i class='fas fa-trash-alt icon delete-icon'></i></a>";
-            } else {
-                echo "<i class='fas fa-edit icon edit-icon'></i> | <i class='fas fa-trash-alt icon delete-icon'></i>";
-            }
-            echo "</td>";
-            echo "</tr>";
+        if ($conexao->connect_error) {
+            die("Erro na conexão: " . $conexao->connect_error);
         }
-    } else {
-        echo "<tr><td colspan='8'>0 resultados</td></tr>";
-    }
 
-    $conexao->close();
-    ?>
-</table>
+        $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-<script>
-    // Função JavaScript não precisa de alteração
-</script>
+        // Consulta SQL modificada para incluir pesquisa por RA ou nome
+        $sql = "SELECT * FROM alunos WHERE ra LIKE '%$search%' OR nome LIKE '%$search%'";
+        $result = $conexao->query($sql);
+
+        if ($result && $result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                // Modificação aqui: o número do aluno (RA) agora é um link para mensalidade.php
+                echo "<td><a href='mensalidade.php?ra=".$row["ra"]."'>".$row["ra"]."</a></td>"; 
+                echo "<td>".$row["nome"]."</td>";
+                echo "<td>".$row["datanasc"]."</td>";
+                echo "<td>".$row["celular"]."</td>";
+                echo "<td>".$row["responsavel"]."</td>";
+                echo "<td>".$row["genero"]."</td>";
+                echo "<td>".$row["turma"]."</td>";
+                echo "<td>";
+                if(isset($row["ra"])) {
+                    echo "<a href='editar.php?ra=".$row["ra"]."'><i class='fas fa-edit icon edit-icon'></i></a> | ";
+                    echo "<a href='apagar.php?ra=".$row["ra"]."'><i class='fas fa-trash-alt icon delete-icon'></i></a>";
+                } else {
+                    echo "<i class='fas fa-edit icon edit-icon'></i> | <i class='fas fa-trash-alt icon delete-icon'></i>";
+                }
+                echo "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='8'>0 resultados</td></tr>";
+        }
+
+        $conexao->close();
+        ?>
+    </table>
+
+    <script>
+        // Função JavaScript não precisa de alteração
+    </script>
 </body>
 </html>

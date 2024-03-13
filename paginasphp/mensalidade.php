@@ -1,102 +1,156 @@
 <?php 
-    include('conexao2.php');
-    include('admin.php');
-    include('protect.php'); 
-   
+include('conexao2.php');
+include('admin.php');
+include('protect.php'); 
 
+// Verificar se o formulário foi submetido
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verificar se os campos estão definidos e não vazios
+    if (isset($_POST['id_aluno']) && isset($_POST['pagador']) && !empty($_POST['id_aluno']) && !empty($_POST['pagador'])) {
+        // Processar os dados do formulário
+        $id_aluno = $_POST['id_aluno'];
+        $pagador = $_POST['pagador'];
+
+        // Aqui você pode inserir os dados na tabela meses
+        // Certifique-se de sanitizar os dados para evitar SQL Injection
+        // Exemplo: $id_aluno_sanitized = $conexao->real_escape_string($id_aluno);
+        // Exemplo: $pagador_sanitized = $conexao->real_escape_string($pagador);
+
+        // Estabelecer conexão
+        $hostname = "localhost";
+        $bancodedados = "id21964020_sistemadoreforco";
+        $usuario = "root";
+        $senha = "";
+
+        $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+
+        // Verificar se houve erro na conexão
+        if($conexao->connect_error) {
+            die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
+        }
+
+        // Exemplo de inserção na tabela meses (substitua pelos seus dados reais)
+        $query_insercao = "INSERT INTO meses (id_aluno, pagador) VALUES ('$id_aluno', '$pagador')";
+        $resultado_insercao = $conexao->query($query_insercao);
+
+        if ($resultado_insercao) {
+            echo "<p>Dados cadastrados com sucesso!</p>";
+        } else {
+            echo "<p>Ocorreu um erro ao cadastrar os dados.</p>";
+        }
+
+        // Fechar conexão
+        $conexao->close();
+    } else {
+        echo "<p>Por favor, preencha todos os campos do formulário.</p>";
+    }
+}
+
+// Consultar os alunos cadastrados na tabela alunos
+$hostname = "localhost";
+$bancodedados = "id21964020_sistemadoreforco";
+$usuario = "root";
+$senha = "";
+
+$conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+
+$query_alunos = "SELECT ra, nome FROM alunos";
+$resultado_alunos = $conexao->query($query_alunos);
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Visualização de Pagamentos</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Times New Roman", Times, serif;
             background-color: #f2f2f2;
-            position: relative;
+            padding: 20px;
         }
 
-        h1 {
+        h2 {
             text-align: center;
             color: #6a5acd;
             margin-top: 20px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        form {
+            max-width: 400px;
+            margin: 0 auto;
             background-color: #fff;
-            margin: 20px auto;
-            overflow-x: auto;
-        }
-
-        th, td {
-            border: 1px solid #fff;
-            padding: 8px;
-            text-align: left;
-            width: 8%; /* Alterado para porcentagem */
-            font-size: 12px; /* Alterado para tamanho de fonte menor */
-        }
-
-        th {
-            background-color: #d2cdf0; /* Tom suave de lilás */
-            color: #000;
-        }
-
-        tr:nth-child(even) td {
-            background-color: #e0e0e0; /* Tom suave de cinza */
-        }
-
-        a#pagamentos-link {
-            display: block;
-            width: fit-content;
-            padding: 10px 20px;
-            background-color: #6a5acd; /* Lilás mais intenso */
-            color: #fff;
-            text-decoration: none;
+            padding: 20px;
             border-radius: 5px;
-            transition: background-color 0.3s ease;
-            text-align: center;
-            position: absolute;
-            top: 20px;
-            right: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
 
-        a#pagamentos-link:hover {
-            background-color: #836FFF; /* Lilás mais escuro */
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
         }
 
-        @media screen and (max-width: 600px) {
-            table, th, td {
-                font-size: 10px; /* Alterado para tamanho de fonte menor */
-                width: auto; /* Alterado para largura automática */
-            }
-            table {
-                max-width: 100%; /* Adicionado tamanho máximo */
-            }
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input[type="submit"] {
+            background-color: #6a5acd;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #836fff;
+        }
+
+        /* Estilos para tornar o texto dentro da tabela mais pequeno */
+        table {
+            font-size: 13px;
+            font-family: "Times New Roman", Times, serif;
         }
     </style>
 </head>
 <body>
 <div class="btn-novo">
-                <a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">home</a>
-            </div>
-    <h1>Pagamentos</h1>
+    <a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
+        <img src="../imagens/logo sem fundo.png" alt="Home"  width="50" height="50">
+    </a>
+</div>
 
-    <?php
-    $hostname = "localhost";
-    $bancodedados = "id21964020_sistemadoreforco";
-    $usuario = "root";
-    $senha = "";
+<!-- Formulário de Cadastro -->
+<div>
+    <h2>Cadastrar Cliente/Responsavel</h2>
+    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <label for="id_aluno">ID Aluno:</label>
+        <select id="id_aluno" name="id_aluno">
+            <?php
+            // Iterar através dos resultados da consulta de alunos
+            while($row = $resultado_alunos->fetch_assoc()) {
+                echo "<option value='" . $row['ra'] . "'>" . $row['nome'] . "</option>"; // Corrigido para 'ra' e 'nome'
+            }
+            ?>
+        </select><br><br>
+        <label for="pagador">Pai/Responsavel:</label>
+        <input type="text" id="pagador" name="pagador"><br><br>
+        <input type="submit" value="Cadastrar">
+    </form>
+</div>
 
-    // Estabelecer conexão
-    $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
-    // Verificar se houve erro na conexão
-    if($conexao->connect_error) {
-        die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
-    }
+<!-- Tabela de Pagamentos -->
+<h1>Tabela de pagamentos mensais</h1>
 
+<?php
     // Consultar os dados da tabela meses
     $query = "SELECT * FROM meses";
     $resultado = $conexao->query($query);
@@ -127,7 +181,7 @@
         while($linha = $resultado->fetch_assoc()) {
             echo "<tr>
                     <td><a href='alterarpag.php?ra=" . $linha['ra'] . "&id_aluno=" . $linha['id_aluno'] . "&janeiro=" . $linha['janeiro'] . "&fevereiro=" . $linha['fevereiro'] . "&marco=" . $linha['marco'] . "&abril=" . $linha['abril'] . "&maio=" . $linha['maio'] . "&junho=" . $linha['junho'] . "&julho=" . $linha['julho'] . "&agosto=" . $linha['agosto'] . "&setembro=" . $linha['setembro'] . "&outubro=" . $linha['outubro'] . "&novembro=" . $linha['novembro'] . "&dezembro=" . $linha['dezembro'] . "'>" . $linha['ra'] . "</a></td>
-                    <td><a href='modcadastro.php?id_aluno=" . $linha['id_aluno'] . "'>" . $linha['id_aluno'] . "</a></td>
+                    <td><a href='modcadastro.php?id_aluno=" . $linha['id_aluno'] . "&search=" . urlencode($linha['id_aluno']) . "'>" . $linha['id_aluno'] . "</a></td>
                     <td>" . $linha['pagador'] . "</td>";
 
             // Iterar através dos campos de mês
@@ -150,9 +204,9 @@
 
     // Fechar conexão
     $conexao->close();
-    ?>
+?>
 
-    <!-- Link Pagamentos -->
+<!-- Link Pagamentos -->
 
 </body>
 </html>
