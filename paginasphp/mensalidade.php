@@ -2,6 +2,7 @@
 include('conexao2.php');
 include('admin.php');
 include('protect.php'); 
+include ('registrarAtividade.php');
 
 // Verificar se o formulário foi submetido
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

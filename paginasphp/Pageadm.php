@@ -1,3 +1,9 @@
+<?php 
+include('conexao2.php');
+include('admin.php');
+include('protect.php'); 
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -50,28 +56,11 @@
       margin: 0;
       font-size: 24px;
     }
-    .admin-profile form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .admin-profile input[type="file"] {
-      display: none;
-    }
-    .admin-profile label {
-      background-color: #9381a9; /* Lilás Claro */
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .admin-profile label:hover {
-      background-color: #7e6e9e; /* Lilás Mais Escuro */
-    }
     .admin-actions {
       text-align: center;
       margin-top: 30px;
+      display: flex;
+      flex-direction: column; /* Alteração aqui para colocar os botões um abaixo do outro */
     }
     .admin-actions a {
       text-decoration: none;
@@ -82,6 +71,8 @@
       border: 2px solid #7e6e9e; /* Lilás Escuro */
       border-radius: 4px;
       transition: background-color 0.3s, color 0.3s;
+      max-width: 200px; /* Definindo largura máxima para os botões */
+      margin: 10px auto; /* Centralizando os botões */
     }
     .admin-actions a:hover {
       background-color: #9381a9; /* Lilás Mais Escuro */
@@ -102,44 +93,22 @@
 <body>
   <div class="admin-header">
     <h1>Painel de Administração de <?php echo htmlspecialchars($_GET['nome']); ?></h1>
-    <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>" class="home-link">
-      <img src="../imagens/logo sem fundo.png" alt="Home" width="50" height="50">
+  </div>
+  <div class="btn-novo">
+    <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
+        <img src="../imagens/logo sem fundo.png" alt="Home"  width="70" height="70">
     </a>
   </div>
 
   <div class="admin-profile">
-    <?php
-    // Código PHP para exibir a imagem do usuário
-    // ...
-
-    // Formulário para upload de imagem
-    ?>
-    <img src="<?php echo htmlspecialchars($imagem_usuario); ?>" alt="Foto do Admin">
-    <form action="upload.php" method="post" enctype="multipart/form-data">
-      <input type="file" name="imagem" id="admin-image" accept="image/*">
-      <label for="admin-image" id="image-label">Selecione uma imagem</label>
-      <h2><?php echo htmlspecialchars($_GET['nome']); ?></h2>
-      <input type="hidden" name="id_usuario" value="<?php echo htmlspecialchars($id_usuario); ?>">
-      <input type="submit" value="Enviar Imagem">
-    </form>
+    <img src="https://i.pinimg.com/originals/81/2c/22/812c229c60047ee347f778135cd76b81.gif" alt="Foto do Admin">
+    <h2><?php echo htmlspecialchars($_GET['nome']); ?></h2>
   </div>
 
   <div class="admin-actions">
     <a href="cadusuario.php">Cadastrar Novo Usuário</a>
     <a href="mensalidade.php">Tabela de Pagamentos Mensais</a>
+    <a href="Monitorar.php"> Monitorar Atividades</a>
   </div>
-
-  <script>
-    // JavaScript para exibir a imagem selecionada pelo usuário
-    const input = document.getElementById('admin-image');
-    const label = document.getElementById('image-label');
-
-    input.addEventListener('change', () => {
-      const file = input.files[0];
-      if (file) {
-        label.style.display = 'none'; // Oculta a etiqueta após o upload
-      }
-    });
-  </script>
 </body>
 </html>

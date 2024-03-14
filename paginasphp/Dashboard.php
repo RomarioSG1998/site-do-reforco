@@ -2,6 +2,7 @@
 
 include('protect.php');
 include('conexao2.php');
+include ('registrarAtividade.php');
 
 // Consulta SQL para buscar dados gerais
 $sqlGeral = "SELECT COUNT(ra) as totalAlunos, AVG(YEAR(CURRENT_DATE) - YEAR(datanasc)) as mediaIdade FROM alunos";

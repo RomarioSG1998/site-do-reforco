@@ -3,6 +3,7 @@
 include('conexao2.php');
 include('admin.php');
 include('protect.php'); 
+include ('registrarAtividade.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

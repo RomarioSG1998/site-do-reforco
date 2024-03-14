@@ -4,6 +4,7 @@
 include('conexao2.php');
 include('admin.php');
 include('protect.php'); 
+include ('registrarAtividade.php');
 
 
 // Verificar se o ID do usuário foi fornecido na URL

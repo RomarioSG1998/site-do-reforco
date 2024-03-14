@@ -1,5 +1,6 @@
 <?php
 include('protect.php');
+include ('registrarAtividade.php');
 
 // Conecte-se ao banco de dados
 $hostname = "localhost";
