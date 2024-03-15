@@ -26,13 +26,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Executa o statement
         if ($stmt->execute()) {
-            // Redireciona para a página de cadastro com mensagem de sucesso
-            header("Location: http://localhost/sededosaber/paginasphp/Cadastro2.php?msg=success");
-            exit; // Termina o script após o redirecionamento
+            // Exibe uma mensagem de sucesso
+            echo "<script>alert('Cadastro realizado com sucesso!');</script>";
         } else {
-            // Redireciona para a página de cadastro com mensagem de erro
-            header("Location: http://localhost/sededosaber/paginasphp/Cadastro2.php?msg=error");
-            exit; // Termina o script após o redirecionamento
+            // Exibe uma mensagem de erro
+            echo "<script>alert('Erro ao cadastrar!');</script>";
         }
 
         // Fecha o statement

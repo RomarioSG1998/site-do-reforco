@@ -37,7 +37,11 @@ if(isset($_GET['ra'])) {
                 // Exibir mensagem de sucesso
                 echo "<p>Edição concluída com sucesso!</p>";
                 // Redirecionar para a página principal após 2 segundos
-                header("refresh:2; url=modcadastro.php");
+                echo "<script>
+                        setTimeout(function() {
+                            window.location.href = 'modcadastro.php';
+                        }, 2000); // 2 segundos
+                      </script>";
                 exit();
             } else {
                 echo "Erro ao editar aluno: " . $conexao->error;

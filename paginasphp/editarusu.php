@@ -1,9 +1,7 @@
 <?php
-
 include('conexao2.php');
 include('admin.php');
 include('protect.php'); 
-
 
 // Verificar se o ID do usuário foi fornecido na URL
 if (!isset($_GET['id']) || empty($_GET['id'])) {
@@ -36,8 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param("sssi", $nome, $senha, $email, $id);
     if ($stmt->execute()) {
-        // Redirecionar de volta para cadusuario.php após a edição
-        header("Location: cadusuario.php");
+        // Redirecionar para cadusuario.php após a edição
+        echo "<script>
+                setTimeout(function() {
+                    window.location.href = 'cadusuario.php';
+                }, 2000); // 2 segundos
+              </script>";
         exit;
     } else {
         echo "Erro ao atualizar usuário: " . $conexao->error;

@@ -1,9 +1,3 @@
-<?php
-
-include('protect.php');
-
-
-?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -34,7 +28,7 @@ include('protect.php');
 
         form {
             width: 90%;
-            max-width: 400px; /* Limitar a largura do formulário */
+            max-width: 400px;
             background-color: #fff;
             padding: 20px;
             border-radius: 10px;
@@ -65,14 +59,13 @@ include('protect.php');
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px; /* Ajuste do posicionamento */
+            margin-top: 10px;
         }
 
         input[type="submit"]:hover {
             background-color: #45a049;
         }
 
-        /* Adicione regras de mídia para telas menores */
         @media screen and (max-width: 750px) {
             * {
                 padding: 10;
@@ -85,13 +78,11 @@ include('protect.php');
             }
         }
 
-        /* Adicione o estilo para a mensagem de confirmação */
         #confirmacao {
             margin-top: 10px;
             text-align: center;
         }
 
-        /* Estilo para o botão do menu principal */
         #menu-principal {
             width: 100%;
             padding: 10px;
@@ -100,7 +91,7 @@ include('protect.php');
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px; /* Ajuste do posicionamento */
+            margin-top: 10px;
         }
 
         #menu-principal:hover {
@@ -111,7 +102,7 @@ include('protect.php');
 </head>
 
 <body>
-    <form action="./conexao.php" method="POST">
+    <form id="form" action="./conexao.php" method="POST">
         <label for="firstname">Nome</label>
         <input id="firstname" type="text" name="firstname" placeholder="Digite..." required>
 
@@ -146,14 +137,33 @@ include('protect.php');
         <button id="menu-principal" onclick="location.href='../paginasphp/painel.php';">Menu Principal</button>
     </form>
 
-
-    <!-- Div para exibir a mensagem de confirmação -->
     <div id="confirmacao"></div>
 
     <script>
-        // Verifica se o formulário foi submetido e exibe a mensagem de confirmação
-        document.querySelector('form').addEventListener('submit', function () {
-            document.getElementById('confirmacao').textContent = 'Cadastro salvo com sucesso!';
+        document.getElementById('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+
+            fetch(this.action, {
+                method: this.method,
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('confirmacao').textContent = 'Cadastro salvo com sucesso!';
+                    this.reset();
+                    // Limpa a mensagem de confirmação após 3 segundos
+                    setTimeout(function() {
+                        document.getElementById('confirmacao').textContent = '';
+                    }, 3000);
+                } else {
+                    document.getElementById('confirmacao').textContent = 'Erro ao cadastrar!';
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                document.getElementById('confirmacao').textContent = 'Erro ao cadastrar!';
+            });
         });
     </script>
 </body>

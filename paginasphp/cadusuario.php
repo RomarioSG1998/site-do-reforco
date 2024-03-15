@@ -1,9 +1,7 @@
 <?php
-
 include('conexao2.php');
 include('admin.php');
 include('protect.php'); 
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -13,7 +11,7 @@ include('protect.php');
     <title>Cadastro de Usuários</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        body {
+       body {
             font-family: Arial, sans-serif;
             margin: 20px;
             padding: 0;
@@ -79,51 +77,57 @@ include('protect.php');
                 width: 90%; /* Ajusta o formulário para telas menores */
             }
         }
-    </style>
+        </style>
 </head>
 <body>
     <a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>"><i class="fas fa-home"></i></a>
     <h1>Cadastro de Usuários</h1>
     <?php
-// Verificar se o formulário foi enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verificar se todos os campos foram preenchidos
-    if (isset($_POST['nome']) && isset($_POST['senha']) && isset($_POST['email'])) {
-        // Sanitize os dados de entrada
-        $nome = htmlspecialchars($_POST['nome']);
-        $senha_usuario = htmlspecialchars($_POST['senha']);
-        $email = htmlspecialchars($_POST['email']);
+    // Verificar se o formulário foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Verificar se todos os campos foram preenchidos
+        if (isset($_POST['nome']) && isset($_POST['senha']) && isset($_POST['email'])) {
+            // Sanitize os dados de entrada
+            $nome = htmlspecialchars($_POST['nome']);
+            $senha_usuario = htmlspecialchars($_POST['senha']);
+            $email = htmlspecialchars($_POST['email']);
 
-        // Conexão com o banco de dados
-        $hostname = "localhost";
-        $bancodedados = "id21964020_sistemadoreforco";
-        $usuario = "id21964020_root";
-        $senha = "J3anlak#1274"; // Renomeado para evitar conflito de nome
-        $conexao = new mysqli($hostname, $usuario, $senha_bd, $bancodedados);
+            // Conexão com o banco de dados
+            $hostname = "localhost";
+            $bancodedados = "id21964020_sistemadoreforco";
+            $usuario = "id21964020_root";
+            $senha = "J3anlak#1274"; // Renomeado para evitar conflito de nome
+            $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
-        // Verificar se a conexão foi estabelecida corretamente
-        if ($conexao->connect_error) {
-            die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
-        }
+            // Verificar se a conexão foi estabelecida corretamente
+            if ($conexao->connect_error) {
+                die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
+            }
 
-        // Preparar e executar a declaração SQL para inserir o novo usuário
-        $sql_insert = "INSERT INTO usuarios (nome, senha, email, data_criacao) VALUES (?, ?, ?, NOW())";
-        $stmt = $conexao->prepare($sql_insert);
-        $stmt->bind_param("sss", $nome, $senha_usuario, $email); // Alterado para $senha_usuario
-        
-        if ($stmt->execute()) {
-            echo "<script>alert('Usuário cadastrado com sucesso!');</script>";
+            // Preparar e executar a declaração SQL para inserir o novo usuário
+            $sql_insert = "INSERT INTO usuarios (nome, senha, email, data_criacao) VALUES (?, ?, ?, NOW())";
+            $stmt = $conexao->prepare($sql_insert);
+            $stmt->bind_param("sss", $nome, $senha_usuario, $email); // Alterado para $senha_usuario
+            
+            if ($stmt->execute()) {
+                echo "<script>
+                        alert('Usuário cadastrado com sucesso!');
+                        setTimeout(function() {
+                            window.location.href = 'cadusuario.php';
+                        }, 2000); // 2 segundos
+                      </script>";
+                exit;
+            } else {
+                echo "<script>alert('Erro ao cadastrar usuário.');</script>";
+            }
+
+            // Fechar a conexão com o banco de dados
+            $conexao->close();
         } else {
-            echo "<script>alert('Erro ao cadastrar usuário.');</script>";
+            echo "<script>alert('Todos os campos devem ser preenchidos!');</script>";
         }
-
-        // Fechar a conexão com o banco de dados
-        $conexao->close();
-    } else {
-        echo "<script>alert('Todos os campos devem ser preenchidos!');</script>";
     }
-}
-?>
+    ?>
 
     <form id="userForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
         <label for="nome">Nome:</label><br>
@@ -141,7 +145,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bancodedados = "id21964020_sistemadoreforco";
     $usuario = "id21964020_root";
     $senha = "J3anlak#1274"; // Renomeado para evitar conflito de nome
-    $conexao = new mysqli($hostname, $usuario, $senha_bd, $bancodedados);
+
+    $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
     // Verificar se a conexão foi estabelecida corretamente
     if ($conexao->connect_error) {
