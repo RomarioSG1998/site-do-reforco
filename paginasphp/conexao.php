@@ -1,8 +1,8 @@
 <?php
 $hostname = "localhost";
 $bancodedados = "id21964020_sistemadoreforco";
-$usuario = "root";
-$senha = "";
+$usuario = "id21964020_root";
+$senha = "J3anlak#1274";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Cria a conexão com o banco de dados

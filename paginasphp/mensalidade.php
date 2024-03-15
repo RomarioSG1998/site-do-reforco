@@ -20,9 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Estabelecer conexão
         $hostname = "localhost";
         $bancodedados = "id21964020_sistemadoreforco";
-        $usuario = "root";
-        $senha = "";
-
+        $usuario = "id21964020_root";
+        $senha = "J3anlak#1274";
         $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
         // Verificar se houve erro na conexão
@@ -50,8 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Consultar os alunos cadastrados na tabela alunos
 $hostname = "localhost";
 $bancodedados = "id21964020_sistemadoreforco";
-$usuario = "root";
-$senha = "";
+$usuario = "id21964020_root";
+$senha = "J3anlak#1274";
 
 $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 

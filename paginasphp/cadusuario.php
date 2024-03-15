@@ -97,8 +97,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Conexão com o banco de dados
         $hostname = "localhost";
         $bancodedados = "id21964020_sistemadoreforco";
-        $usuario = "root";
-        $senha_bd = ""; // Renomeado para evitar conflito de nome
+        $usuario = "id21964020_root";
+        $senha = "J3anlak#1274"; // Renomeado para evitar conflito de nome
         $conexao = new mysqli($hostname, $usuario, $senha_bd, $bancodedados);
 
         // Verificar se a conexão foi estabelecida corretamente
@@ -139,8 +139,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Conexão com o banco de dados
     $hostname = "localhost";
     $bancodedados = "id21964020_sistemadoreforco";
-    $usuario = "root";
-    $senha_bd = ""; // Renomeado para evitar conflito de nome
+    $usuario = "id21964020_root";
+    $senha = "J3anlak#1274"; // Renomeado para evitar conflito de nome
     $conexao = new mysqli($hostname, $usuario, $senha_bd, $bancodedados);
 
     // Verificar se a conexão foi estabelecida corretamente
