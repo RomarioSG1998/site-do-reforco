@@ -40,63 +40,84 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link rel="stylesheet" href="../css/signin.css" />
-    <title>Singin</title>
-  </head>
-  <body>
-    <div class="justify-right1">
-      <p1>Compromisso com uma <br>educação de qualidade</p1>
-    </divi>
-    <div class="container">
-      <div class="card">
-        <h1>Sede do Saber</h1>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/signin.css">
+  <title>Login</title>
+  <style>
+    /* Adicione estilos personalizados aqui, se necessário */
+  </style>
+</head>
+<body>
+  <div class="justify-right1">
+    <p1>Compromisso com uma <br>educação de qualidade</p1>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h1>Sede do Saber</h1>
 
-        <div id="msgError"></div>
+      <div id="msgError"></div>
 
-        <form action="conect.php" method="post">
-          <div class="label-float">
-            <input type="text" id="usuario" name="email" placeholder="" required />
-            <label id="userLabel" for="usuario">Usuario</label>
-          </div>
-
-          <div class="label-float">
-            <input type="password" id="senha" name="senha" placeholder="" required />
-            <label id="senhaLabel" for="senha">Senha</label>
-            <i class="fa fa-eye" aria-hidden="true"></i>
-          </div>
-
-          <div class="justify-center">
-            <button type="submit">Entrar</button>
-          </div>
-        </form>
-
-        <div class="justify-center">
-          <hr />
+      <form id="loginForm" action="conect.php" method="post">
+        <div class="label-float">
+          <input type="text" id="usuario" name="email" placeholder="" required>
+          <label id="userLabel" for="usuario">Usuário</label>
         </div>
 
-        <p>
-          <a href="signup.php">
-            Recuperar senha
-          </a>
-        </p>
-        <p>
-          <a href="https://wa.me/558281083015">
-            Contatar o Admin
-          </a>
-        </p>
-      </div>
-    </div>
+        <div class="label-float">
+          <input type="password" id="senha" name="senha" placeholder="" required>
+          <label id="senhaLabel" for="senha">Senha</label>
+          <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
 
-    <script src="signin.js"></script>
-  </body>
-  <footer>
-  </footer>
+        <div class="justify-center">
+          <button type="submit">Entrar</button>
+        </div>
+      </form>
+
+      <div class="justify-center">
+        <hr>
+      </div>
+      <p>
+        <a href="https://wa.me/558281083015">
+          Recupere a senha, entre em contato com o Admin.
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('loginForm');
+      const usuario = document.getElementById('usuario');
+      const senha = document.getElementById('senha');
+      const msgError = document.getElementById('msgError');
+
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        if (usuario.value.trim() === '') {
+          msgError.textContent = 'Por favor, preencha seu e-mail';
+          return;
+        }
+        if (senha.value.trim() === '') {
+          msgError.textContent = 'Por favor, preencha sua senha';
+          return;
+        }
+        // Limpar a mensagem de erro se todos os campos estiverem preenchidos
+        msgError.textContent = '';
+
+        // Envie o formulário se a validação passar
+        this.submit();
+      });
+
+      // Adicione aqui códigos adicionais para interatividade e animações, se desejar
+    });
+  </script>
+</body>
+<footer>
+  <!-- Adicione seu rodapé aqui -->
+</footer>
 </html>
