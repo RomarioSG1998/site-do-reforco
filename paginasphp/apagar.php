@@ -1,5 +1,5 @@
 <?php
-include ('registrarAtividade.php');
+
 // Conecte-se ao banco de dados
 $hostname = "localhost";
 $bancodedados = "id21964020_sistemadoreforco";

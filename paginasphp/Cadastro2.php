@@ -1,7 +1,7 @@
 <?php
 
 include('protect.php');
-include ('registrarAtividade.php');
+
 
 ?>
 <!DOCTYPE html>

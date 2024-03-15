@@ -3,7 +3,7 @@
 include('conexao2.php');
 include('admin.php');
 include('protect.php'); 
-include ('registrarAtividade.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -17,17 +17,46 @@ include ('registrarAtividade.php');
             font-family: Arial, sans-serif;
             margin: 20px;
             padding: 0;
+            background-color: #f5f5fd; /* Lilás claro para o fundo */
         }
         h1 {
             text-align: center;
+            color: #6a5acd; /* Lilás mais escuro para o título */
         }
         form {
             margin: 0 auto; /* Centraliza o formulário horizontalmente */
-            width: 300px; /* Define a largura do formulário */
+            width: 80%; /* 80% da largura da tela */
+            max-width: 400px; /* Largura máxima para evitar que o formulário fique muito largo em telas grandes */
+            background-color: #fff; /* Fundo branco para o formulário */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave para o formulário */
+            animation: fadeInUp 1s ease; /* Animação de entrada */
+        }
+        label {
+            color: #6a5acd; /* Lilás mais escuro para os rótulos */
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #6a5acd; /* Lilás mais escuro para a borda */
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #6a5acd; /* Lilás mais escuro para o botão de envio */
+            color: #fff; /* Texto branco para o botão de envio */
+            cursor: pointer;
         }
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px; /* Espaço extra entre o formulário e a tabela */
+            animation: fadeInUp 1s ease; /* Animação de entrada */
         }
         th, td {
             border: 1px solid #dddddd;
@@ -38,17 +67,22 @@ include ('registrarAtividade.php');
             background-color: #f2f2f2;
         }
         .edit-icon, .delete-icon {
-            color: blue;
+            color: #6a5acd; /* Lilás mais escuro para os ícones de edição e exclusão */
             text-decoration: none;
             margin-right: 5px;
         }
         .delete-icon {
-            color: red;
+            color: #ff6347; /* Vermelho para o ícone de exclusão */
+        }
+        @media only screen and (max-width: 600px) {
+            form {
+                width: 90%; /* Ajusta o formulário para telas menores */
+            }
         }
     </style>
 </head>
 <body>
-<a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>"><i class="fas fa-home"></i></a>
+    <a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>"><i class="fas fa-home"></i></a>
     <h1>Cadastro de Usuários</h1>
     <?php
 // Verificar se o formulário foi enviado
@@ -91,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+    <form id="userForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
         <label for="nome">Nome:</label><br>
         <input type="text" id="nome" name="nome" required><br>
         <label for="senha">Senha:</label><br>
@@ -120,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows > 0) {
         echo "<h2>Usuários cadastrados:</h2>";
-        echo "<table>";
+        echo "<table id='userTable'>";
         echo "<tr><th>ID</th><th>Nome</th><th>Email</th><th>Data de Criação</th><th>Ações</th></tr>";
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
@@ -139,5 +173,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Fechar a conexão com o banco de dados
     $conexao->close();
     ?>
+    <script>
+        // Adicionando animações aos elementos
+        const form = document.getElementById('userForm');
+        form.style.animation = "fadeInUp 1s ease";
+
+        const table = document.getElementById('userTable');
+        table.style.animation = "fadeInUp 1s ease";
+    </script>
 </body>
 </html>
