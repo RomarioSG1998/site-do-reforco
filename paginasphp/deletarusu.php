@@ -32,8 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("i", $id);
         if ($stmt->execute()) {
             echo "Usuário deletado com sucesso!";
-            // Redirecionar para a página de cadastro de usuários após a exclusão
-            header("Location: cadusuario.php");
+            echo "<script>window.location.href = 'cadusuario.php';</script>";
             exit;
         } else {
             echo "Erro ao deletar usuário: " . $conexao->error;

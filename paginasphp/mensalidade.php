@@ -2,56 +2,69 @@
 include('conexao2.php');
 include('admin.php');
 include('protect.php'); 
-include ('registrarAtividade.php');
 
-// Verificar se o formulário foi submetido
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verificar se os campos estão definidos e não vazios
-    if (isset($_POST['id_aluno']) && isset($_POST['pagador']) && !empty($_POST['id_aluno']) && !empty($_POST['pagador'])) {
-        // Processar os dados do formulário
-        $id_aluno = $_POST['id_aluno'];
-        $pagador = $_POST['pagador'];
+// Verificar se o formulário de cadastro foi submetido
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($_POST['pagador']) && !empty($_POST['id_aluno']) && !empty($_POST['pagador'])) {
+    // Processar os dados do formulário
+    $id_aluno = $_POST['id_aluno'];
+    $pagador = $_POST['pagador'];
 
-        // Aqui você pode inserir os dados na tabela meses
-        // Certifique-se de sanitizar os dados para evitar SQL Injection
-        // Exemplo: $id_aluno_sanitized = $conexao->real_escape_string($id_aluno);
-        // Exemplo: $pagador_sanitized = $conexao->real_escape_string($pagador);
+    // Estabelecer conexão
+    $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
-        // Estabelecer conexão
-        $hostname = "localhost";
-        $bancodedados = "id21964020_sistemadoreforco";
-        $usuario = "id21964020_root";
-        $senha = "J3anlak#1274";
-        $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-
-        // Verificar se houve erro na conexão
-        if($conexao->connect_error) {
-            die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
-        }
-
-        // Exemplo de inserção na tabela meses (substitua pelos seus dados reais)
-        $query_insercao = "INSERT INTO meses (id_aluno, pagador) VALUES ('$id_aluno', '$pagador')";
-        $resultado_insercao = $conexao->query($query_insercao);
-
-        if ($resultado_insercao) {
-            echo "<p>Dados cadastrados com sucesso!</p>";
-        } else {
-            echo "<p>Ocorreu um erro ao cadastrar os dados.</p>";
-        }
-
-        // Fechar conexão
-        $conexao->close();
-    } else {
-        echo "<p>Por favor, preencha todos os campos do formulário.</p>";
+    // Verificar se houve erro na conexão
+    if($conexao->connect_error) {
+        die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
     }
+
+    // Exemplo de inserção na tabela meses (substitua pelos seus dados reais)
+    $query_insercao = "INSERT INTO meses (id_aluno, pagador) VALUES ('$id_aluno', '$pagador')";
+    $resultado_insercao = $conexao->query($query_insercao);
+
+    if ($resultado_insercao) {
+        echo "<p>Dados cadastrados com sucesso!</p>";
+    } else {
+        echo "<p>Ocorreu um erro ao cadastrar os dados.</p>";
+    }
+
+    // Fechar conexão
+    $conexao->close();
+} elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ra'])) {
+    // Processamento do delete
+    $ra = $_POST['ra'];
+
+    // Estabelecer conexão
+    $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+
+    // Verificar se houve erro na conexão
+    if($conexao->connect_error) {
+        die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
+    }
+
+    // Consultar se o registro existe antes de excluir
+    $consulta_existencia = "SELECT * FROM meses WHERE ra = '$ra'";
+    $resultado_existencia = $conexao->query($consulta_existencia);
+
+    if ($resultado_existencia->num_rows > 0) {
+        // Excluir o registro
+        $query_exclusao = "DELETE FROM meses WHERE ra = '$ra'";
+        $resultado_exclusao = $conexao->query($query_exclusao);
+
+        if ($resultado_exclusao) {
+            // Defina a variável de sessão para indicar que o registro foi excluído com sucesso
+            $excluido_com_sucesso = true;
+        } else {
+            echo "<p>Ocorreu um erro ao excluir o registro.</p>";
+        }
+    } else {
+        echo "<p>O registro não existe.</p>";
+    }
+
+    // Fechar conexão
+    $conexao->close();
 }
 
 // Consultar os alunos cadastrados na tabela alunos
-$hostname = "localhost";
-$bancodedados = "id21964020_sistemadoreforco";
-$usuario = "id21964020_root";
-$senha = "J3anlak#1274";
-
 $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
 $query_alunos = "SELECT ra, nome FROM alunos";
@@ -63,6 +76,7 @@ $resultado_alunos = $conexao->query($query_alunos);
 <head>
     <title>Visualização de Pagamentos</title>
     <style>
+        <style>
         body {
             font-family: "Times New Roman", Times, serif;
             background-color: #f2f2f2;
@@ -118,6 +132,7 @@ $resultado_alunos = $conexao->query($query_alunos);
             font-size: 13px;
             font-family: "Times New Roman", Times, serif;
         }
+    </style>
     </style>
 </head>
 <body>
@@ -175,6 +190,7 @@ $resultado_alunos = $conexao->query($query_alunos);
                     <th>Outubro</th>
                     <th>Novembro</th>
                     <th>Dezembro</th>
+                    <th>Ação</th> <!-- Nova coluna para o botão de delete -->
                 </tr>";
 
         // Loop através dos resultados da consulta
@@ -193,6 +209,12 @@ $resultado_alunos = $conexao->query($query_alunos);
                 }
             }
 
+            // Botão de delete
+            echo "<td><form method='POST' action=''>
+                    <input type='hidden' name='ra' value='" . $linha['ra'] . "'>
+                    <input type='submit' value='Delete'>
+                </form></td>";
+
             echo "</tr>";
         }
 
@@ -205,8 +227,6 @@ $resultado_alunos = $conexao->query($query_alunos);
     // Fechar conexão
     $conexao->close();
 ?>
-
-<!-- Link Pagamentos -->
 
 </body>
 </html>
