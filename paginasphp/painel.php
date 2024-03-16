@@ -11,7 +11,8 @@ include('protect.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/style.css"/>
     <title>Home</title>
-    <style>
+</head>
+<style>
         /* Estilos para a saudação de boas-vindas */
         h1 {
             font-family: "Times New Roman", sans-serif; /* Definição da fonte */
@@ -46,7 +47,6 @@ include('protect.php');
         color: white;
         }
     </style>
-</head>
 <body>
     <header> 
         <h1>Bem-vindo/a, <?php echo $_SESSION['nome']; ?>.</h1>

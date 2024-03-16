@@ -1,8 +1,6 @@
 /* Estilo do corpo da página */
 body {
     background-color: white; /* Cor de fundo branca */
-    border: 20px solid rgb(156, 5, 93); /* Borda sólida preta de 10 pixels */
-    border-radius: 20px; /* Borda arredondada */
     padding: 30px; /* Espaçamento interno para evitar que o conteúdo encoste nas bordas */
     /*overflow-y: hidden; *//* Impede a rolagem vertical */
     overflow-y: hidden;
@@ -149,7 +147,6 @@ p a :hover {
     }
     body {
         background-color: white; /* Cor de fundo branca */
-        border: 20px solid rgb(156, 5, 93); /* Borda sólida preta de 10 pixels */
         border-radius: 20px; /* Borda arredondada */
         padding: 3px; /* Espaçamento interno para evitar que o conteúdo encoste nas bordas */
         overflow-y: hidden;
