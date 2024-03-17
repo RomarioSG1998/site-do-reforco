@@ -1,10 +1,10 @@
 <?php 
-    include('conexao2.php');
-    include('admin.php');
-    include('protect.php'); 
-   
-
+include('protect.php'); 
+include('conexao2.php');
+include('admin.php');
+include('protect.php'); 
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -23,7 +23,8 @@
             text-align: center;
         }
         form {
-            max-width: 500px; /* Alteração aqui */
+            width: 100%;
+            max-width: 500px; /* Máximo de 500px */
             margin: 0 auto;
             background-color: #fff;
             padding: 30px;
@@ -36,27 +37,15 @@
             color: #666;
         }
         input[type="text"],
-        input[type="datetime-local"] {
+        input[type="datetime-local"],
+        input[type="submit"],
+        button {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
-        }
-        input[type="submit"],
-        button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        input[type="submit"]:hover,
-        button:hover {
-            background-color: #0056b3;
         }
         .error-message {
             color: red;
@@ -71,7 +60,7 @@
     <?php endif; ?>
     <form action="alterar_dados.php" method="POST">
         <label for="ra">RA:</label>
-        <input type="text" id="ra" name="ra" value="<?php echo isset($_GET['ra']) ? $_GET['ra'] : ''; ?>" required><br><br>
+        <input type="text" id="ra" name="ra" value="<?php echo isset($_GET['ra']) ? $_GET['ra'] : ''; ?>" required>
 
         <?php
             $meses = array(
@@ -81,7 +70,7 @@
             
             foreach($meses as $mes) {
                 echo '<label for="' . $mes . '">' . ucfirst($mes) . ':</label>';
-                echo '<input type="datetime-local" id="' . $mes . '" name="' . $mes . '" value="' . (isset($_GET[$mes]) ? $_GET[$mes] : '') . '"><br><br>';
+                echo '<input type="datetime-local" id="' . $mes . '" name="' . $mes . '" value="' . (isset($_GET[$mes]) ? date('Y-m-d\TH:i', strtotime($_GET[$mes])) : '') . '">';
             }
         ?>
         
@@ -94,9 +83,17 @@
             document.getElementById('buscarPagador').addEventListener('click', function() {
                 var ra = document.getElementById('ra').value;
                 if (ra) {
+                    var formData = new FormData();
+                    formData.append('ra', ra);
+                    
+                    <?php
+                    foreach($meses as $mes) {
+                        echo "formData.append('$mes', new Date(document.getElementById('$mes').value).toISOString().substring(0, 16));";
+                    }
+                    ?>
+                    
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', 'buscar_pagador.php', true);
-                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState == 4 && xhr.status == 200) {
                             var response = JSON.parse(xhr.responseText);
@@ -107,7 +104,7 @@
                             }
                         }
                     };
-                    xhr.send('ra=' + ra);
+                    xhr.send(formData);
                 }
             });
         });
