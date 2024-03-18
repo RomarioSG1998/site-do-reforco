@@ -86,17 +86,14 @@ include('protect.php');
     // Verificar se o formulário foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verificar se todos os campos foram preenchidos
-        if (isset($_POST['nome']) && isset($_POST['senha']) && isset($_POST['email'])) {
+        if (!empty($_POST['nome']) && !empty($_POST['senha']) && !empty($_POST['email']) && !empty($_POST['tipo'])) {
             // Sanitize os dados de entrada
             $nome = htmlspecialchars($_POST['nome']);
             $senha_usuario = htmlspecialchars($_POST['senha']);
             $email = htmlspecialchars($_POST['email']);
+            $tipo = htmlspecialchars($_POST['tipo']);
 
             // Conexão com o banco de dados
-            $hostname = "localhost";
-            $bancodedados = "id21964020_sistemadoreforco";
-            $usuario = "id21964020_root";
-            $senha = "J3anlak#1274"; // Renomeado para evitar conflito de nome
             $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
             // Verificar se a conexão foi estabelecida corretamente
@@ -105,9 +102,9 @@ include('protect.php');
             }
 
             // Preparar e executar a declaração SQL para inserir o novo usuário
-            $sql_insert = "INSERT INTO usuarios (nome, senha, email, data_criacao) VALUES (?, ?, ?, NOW())";
+            $sql_insert = "INSERT INTO usuarios (nome, senha, email, data_criacao, tipo) VALUES (?, ?, ?, NOW(), ?)";
             $stmt = $conexao->prepare($sql_insert);
-            $stmt->bind_param("sss", $nome, $senha_usuario, $email); // Alterado para $senha_usuario
+            $stmt->bind_param("ssss", $nome, $senha_usuario, $email, $tipo);
             
             if ($stmt->execute()) {
                 echo "<script>
@@ -136,16 +133,16 @@ include('protect.php');
         <input type="password" id="senha" name="senha" required><br>
         <label for="email">Email:</label><br>
         <input type="email" id="email" name="email" required><br><br>
+        <label for="tipo">Tipo de usuario:</label><br>
+        <select id="tipo" name="tipo" required>
+            <option value="pleno">Pleno</option>
+            <option value="limitado">Limitado</option>
+        </select><br><br>
         <input type="submit" value="Cadastrar">
     </form>
 
     <?php
     // Conexão com o banco de dados
-    $hostname = "localhost";
-    $bancodedados = "id21964020_sistemadoreforco";
-    $usuario = "id21964020_root";
-    $senha = "J3anlak#1274"; // Renomeado para evitar conflito de nome
-
     $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
     // Verificar se a conexão foi estabelecida corretamente
@@ -160,13 +157,14 @@ include('protect.php');
     if ($result->num_rows > 0) {
         echo "<h2>Usuários cadastrados:</h2>";
         echo "<table id='userTable'>";
-        echo "<tr><th>ID</th><th>Nome</th><th>Email</th><th>Data de Criação</th><th>Ações</th></tr>";
+        echo "<tr><th>ID</th><th>Nome</th><th>Email</th><th>Última atualização</th><th>Tipo</th><th>Ações</th></tr>";
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
             echo "<td>" . $row["id"] . "</td>";
             echo "<td>" . $row["nome"] . "</td>";
             echo "<td>" . $row["email"] . "</td>";
             echo "<td>" . $row["data_criacao"] . "</td>";
+            echo "<td>" . $row["tipo"] . "</td>";
             echo "<td><a class='edit-icon' href='editarusu.php?id=" . $row["id"] . "'><i class='fas fa-edit'></i></a><a class='delete-icon' href='deletarusu.php?id=" . $row["id"] . "'><i class='fas fa-trash-alt'></i></a></td>";
             echo "</tr>";
         }
@@ -188,3 +186,4 @@ include('protect.php');
     </script>
 </body>
 </html>
+

@@ -61,7 +61,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  background-image: url("../imagens/bg-signin.png");
+  background-image: url("https://media.giphy.com/media/AohQOlWnW9NIs/giphy.gif");
   background-repeat: no-repeat;
   background-size: cover; /* Faz a imagem cobrir todo o espaço disponível */
   background-position: center; /* Centraliza a imagem */
