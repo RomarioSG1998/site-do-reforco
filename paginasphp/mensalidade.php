@@ -1,6 +1,5 @@
 <?php 
 include('conexao2.php');
-include('admin.php');
 include('protect.php'); 
 
 // Verificar se o formulário de cadastro foi submetido
@@ -17,9 +16,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($
         die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
     }
 
-    // Exemplo de inserção na tabela meses (substitua pelos seus dados reais)
-    $query_insercao = "INSERT INTO meses (id_aluno, pagador) VALUES ('$id_aluno', '$pagador')";
-    $resultado_insercao = $conexao->query($query_insercao);
+    // Preparar a consulta SQL para inserir dados
+    $query_insercao = "INSERT INTO meses (id_aluno, pagador) VALUES (?, ?)";
+    $stmt = $conexao->prepare($query_insercao);
+    $stmt->bind_param("ss", $id_aluno, $pagador);
+    
+    // Executar a consulta preparada
+    $resultado_insercao = $stmt->execute();
 
     if ($resultado_insercao) {
         echo "<p>Dados cadastrados com sucesso!</p>";
@@ -30,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($
     // Fechar conexão
     $conexao->close();
 } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ra'])) {
-    // Processamento do delete
+    // Processamento da exclusão
     $ra = $_POST['ra'];
 
     // Estabelecer conexão
@@ -42,13 +45,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($
     }
 
     // Consultar se o registro existe antes de excluir
-    $consulta_existencia = "SELECT * FROM meses WHERE ra = '$ra'";
-    $resultado_existencia = $conexao->query($consulta_existencia);
+    $consulta_existencia = "SELECT * FROM meses WHERE ra = ?";
+    $stmt = $conexao->prepare($consulta_existencia);
+    $stmt->bind_param("s", $ra);
+    $stmt->execute();
+    $resultado_existencia = $stmt->get_result();
 
     if ($resultado_existencia->num_rows > 0) {
         // Excluir o registro
-        $query_exclusao = "DELETE FROM meses WHERE ra = '$ra'";
-        $resultado_exclusao = $conexao->query($query_exclusao);
+        $query_exclusao = "DELETE FROM meses WHERE ra = ?";
+        $stmt = $conexao->prepare($query_exclusao);
+        $stmt->bind_param("s", $ra);
+        $resultado_exclusao = $stmt->execute();
 
         if ($resultado_exclusao) {
             // Defina a variável de sessão para indicar que o registro foi excluído com sucesso
@@ -76,7 +84,6 @@ $resultado_alunos = $conexao->query($query_alunos);
 <head>
     <title>Visualização de Pagamentos</title>
     <style>
-        <style>
         body {
             font-family: "Times New Roman", Times, serif;
             background-color: #f2f2f2;
@@ -132,7 +139,6 @@ $resultado_alunos = $conexao->query($query_alunos);
             font-size: 13px;
             font-family: "Times New Roman", Times, serif;
         }
-    </style>
     </style>
 </head>
 <body>
@@ -190,13 +196,14 @@ $resultado_alunos = $conexao->query($query_alunos);
                     <th>Outubro</th>
                     <th>Novembro</th>
                     <th>Dezembro</th>
+                    <th>Obs.</th>
                     <th>Ação</th> <!-- Nova coluna para o botão de delete -->
                 </tr>";
 
         // Loop através dos resultados da consulta
         while($linha = $resultado->fetch_assoc()) {
             echo "<tr>
-                    <td><a href='alterarpag.php?ra=" . $linha['ra'] . "&id_aluno=" . $linha['id_aluno'] . "&janeiro=" . $linha['janeiro'] . "&fevereiro=" . $linha['fevereiro'] . "&marco=" . $linha['marco'] . "&abril=" . $linha['abril'] . "&maio=" . $linha['maio'] . "&junho=" . $linha['junho'] . "&julho=" . $linha['julho'] . "&agosto=" . $linha['agosto'] . "&setembro=" . $linha['setembro'] . "&outubro=" . $linha['outubro'] . "&novembro=" . $linha['novembro'] . "&dezembro=" . $linha['dezembro'] . "'>" . $linha['ra'] . "</a></td>
+                    <td><a href='alterarpag.php?ra=" . $linha['ra'] . "&id_aluno=" . $linha['id_aluno'] . "&janeiro=" . $linha['janeiro'] . "&fevereiro=" . $linha['fevereiro'] . "&marco=" . $linha['marco'] . "&abril=" . $linha['abril'] . "&maio=" . $linha['maio'] . "&junho=" . $linha['junho'] . "&julho=" . $linha['julho'] . "&agosto=" . $linha['agosto'] . "&setembro=" . $linha['setembro'] . "&outubro=" . $linha['outubro'] . "&novembro=" . $linha['novembro'] . "&dezembro=" . $linha['dezembro'] . "&obs=" . $linha['obs'] . "'>" . $linha['ra'] . "</a></td>
                     <td><a href='modcadastro.php?id_aluno=" . $linha['id_aluno'] . "&search=" . urlencode($linha['id_aluno']) . "'>" . $linha['id_aluno'] . "</a></td>
                     <td>" . $linha['pagador'] . "</td>";
 
@@ -204,8 +211,12 @@ $resultado_alunos = $conexao->query($query_alunos);
             foreach ($linha as $campo => $valor) {
                 // Verificar se o valor é uma data válida
                 if ($campo != 'ra' && $campo != 'id_aluno' && $campo != 'pagador') {
-                    $cor = ($valor == "0001-01-01 00:00:01" || $valor == "0001-01-01 00:00:00") ? "#ff9999" : ($valor == "0001-11-30 00:00:00" ? "#ff0000" : "#99cc99"); /* Tons suaves de vermelho e verde */
-                    echo "<td style='background-color: $cor;'>" . date('Y-m-d H:i:s', strtotime($valor)) . "</td>"; // Adicionado o horário
+                    if ($campo != 'obs') { // Verifica se o campo não é 'obs'
+                        $cor = ($valor == "0001-01-01 00:00:01" || $valor == "0001-01-01 00:00:00") ? "#ff9999" : ($valor == "0001-11-30 00:00:00" ? "#ff0000" : "#99cc99"); /* Tons suaves de vermelho e verde */
+                        echo "<td style='background-color: $cor;'>" . date('Y-m-d H:i:s', strtotime($valor)) . "</td>"; // Adicionado o horário
+                    } else { // Se for 'obs', apenas exibe o valor
+                        echo "<td>" . $valor . "</td>";
+                    }
                 }
             }
 

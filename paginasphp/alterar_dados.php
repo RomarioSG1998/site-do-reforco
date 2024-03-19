@@ -1,4 +1,9 @@
 <?php
+// Verificar se uma sessão ainda não foi iniciada
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 $hostname = "localhost";
 $bancodedados = "id21964020_sistemadoreforco";
 $usuario = "id21964020_root";
@@ -28,11 +33,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $outubro = $_POST['outubro'];
     $novembro = $_POST['novembro'];
     $dezembro = $_POST['dezembro'];
+    $obs = $_POST['obs'];
 
     // Preparar e executar a consulta SQL
-    $query = "UPDATE meses SET janeiro=?, fevereiro=?, marco=?, abril=?, maio=?, junho=?, julho=?, agosto=?, setembro=?, outubro=?, novembro=?, dezembro=? WHERE ra=?";
+    $query = "UPDATE meses SET janeiro=?, fevereiro=?, marco=?, abril=?, maio=?, junho=?, julho=?, agosto=?, setembro=?, outubro=?, novembro=?, dezembro=?, obs=? WHERE ra=?";
     $stmt = $conexao->prepare($query);
-    $stmt->bind_param("sssssssssssss", $janeiro, $fevereiro, $marco, $abril, $maio, $junho, $julho, $agosto, $setembro, $outubro, $novembro, $dezembro, $ra);
+    $stmt->bind_param("ssssssssssssss", $janeiro, $fevereiro, $marco, $abril, $maio, $junho, $julho, $agosto, $setembro, $outubro, $novembro, $dezembro, $obs, $ra);
     $resultado = $stmt->execute();
 
     if ($resultado) {
