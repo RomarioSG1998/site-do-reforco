@@ -51,28 +51,28 @@ $conexao->close();
         }
 
        /* Animação de bolo de aniversário */
-.birthday-cake {
- 
-    background-image: url('../imagens/aniversario.gif');
-    width: 90%; /* Ajuste o tamanho conforme necessário */
-    height: 100px;
-    background-size: cover;
-    background-size: contain;
-    animation: bounce 2s infinite;
-    margin-left: -10px; /* Ajuste a margem conforme necessário */
-}
+        .birthday-cake {
+            background-image: url('../imagens/aniversario.gif');
+            width: 90%; /* Ajuste o tamanho conforme necessário */
+            height: 100px;
+            background-size: cover;
+            background-size: contain;
+            animation: bounce 2s infinite;
+            margin-left: -10px; /* Ajuste a margem conforme necessário */
+        }
 
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
 
-
-@keyframes bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -92,31 +92,27 @@ $conexao->close();
                 <h2 class="animate__animated animate__bounce">Aniversariantes do Mês</h2>
                 <!-- Adicionando bolo de aniversário animado -->
                 <div class="birthday-cake"></div>
-                <ul class="animate__animated animate__bounce">
+                <ul id="aniversariantes" class="animate__animated animate__bounce">
                     <?php
+                    $count = 0;
                     while ($rowAniversariante = $resultAniversariantes->fetch_assoc()) {
-                        echo "<li>" . $rowAniversariante['nome'] . " - " . date('d/m/Y', strtotime($rowAniversariante['datanasc'])) . "</li>";
+                        // Mostrar apenas os primeiros 3 aniversariantes
+                        if ($count < 3) {
+                            echo "<li>" . $rowAniversariante['nome'] . " - " . date('d/m/Y', strtotime($rowAniversariante['datanasc'])) . "</li>";
+                        } else {
+                            // Se houver mais aniversariantes, oculte-os
+                            echo "<li class='hidden'>" . $rowAniversariante['nome'] . " - " . date('d/m/Y', strtotime($rowAniversariante['datanasc'])) . "</li>";
+                        }
+                        $count++;
                     }
                     ?>
                 </ul>
-            </div>
-
-            <div class="widget">
-                <h2>Dados por Turma</h2>
-                <table>
-                    <tr>
-                        <th>Turma</th>
-                        <th>Total de Alunos</th>
-                    </tr>
-                    <?php
-                    while ($rowTurma = $resultTurma->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>" . $rowTurma['turma'] . "</td>";
-                        echo "<td>" . $rowTurma['totalAlunosTurma'] . "</td>";
-                        echo "</tr>";
-                    }
-                    ?>
-                </table>
+                <?php
+                // Se houver mais de 3 aniversariantes, mostre o botão para ver todos
+                if ($count > 3) {
+                    echo '<button onclick="mostrarTodosAniversariantes()">Mostrar Todos</button>';
+                }
+                ?>
             </div>
         </div>
 
@@ -163,36 +159,48 @@ $conexao->close();
             chart.draw(data, options);
         }
 
-        google.charts.setOnLoadCallback(drawChartTurma);
+        google.charts.setOnLoadCallback(drawChartTurma        );
 
-        function drawChartTurma() {
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Turma');
-            data.addColumn('number', 'Total de Alunos');
+function drawChartTurma() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Turma');
+    data.addColumn('number', 'Total de Alunos');
 
-            <?php
-            $resultTurma->data_seek(0);
-            while ($rowTurma = $resultTurma->fetch_assoc()) {
-                echo "data.addRow(['" . $rowTurma['turma'] . "', " . $rowTurma['totalAlunosTurma'] . "]);";
-            }
-            ?>
+    <?php
+    $resultTurma->data_seek(0);
+    while ($rowTurma = $resultTurma->fetch_assoc()) {
+        echo "data.addRow(['" . $rowTurma['turma'] . "', " . $rowTurma['totalAlunosTurma'] . "]);";
+    }
+    ?>
 
-            var options = {
-                title: 'Total de Alunos por Turma',
-                pieHole: 0.4,
-                width: '100%',
-                height: '100%',
-                chartArea: { width: '90%', height: '90%' },
-            };
+    var options = {
+        title: 'Total de Alunos por Turma',
+        pieHole: 0.4,
+        width: '100%',
+        height: '100%',
+        chartArea: { width: '90%', height: '90%' },
+    };
 
-            var screenWidth = window.innerWidth;
-            if (screenWidth <= 600) {
-                options.pieHole = 0.2;
-            }
+    var screenWidth = window.innerWidth;
+    if (screenWidth <= 600) {
+        options.pieHole = 0.2;
+    }
 
-            var chart = new google.visualization.PieChart(document.getElementById('piechartTurma'));
-            chart.draw(data, options);
-        }
-    </script>
+    var chart = new google.visualization.PieChart(document.getElementById('piechartTurma'));
+    chart.draw(data, options);
+}
+
+function mostrarTodosAniversariantes() {
+    // Ocultar o botão
+    document.querySelector('button').style.display = 'none';
+    
+    // Remover a classe de ocultar dos aniversariantes restantes
+    var aniversariantesRestantes = document.querySelectorAll('#aniversariantes li.hidden');
+    aniversariantesRestantes.forEach(function(item) {
+        item.classList.remove('hidden');
+    });
+}
+</script>
 </body>
 </html>
+

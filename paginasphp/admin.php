@@ -32,5 +32,5 @@ if(isset($_SESSION['id'])) {
     setTimeout(function() {
         var elem = document.getElementById('cadeado');
         elem.parentNode.removeChild(elem);
-    }, 2000);
+    }, 1000);
 </script>
