@@ -1,7 +1,7 @@
 <?php 
 include('conexao2.php');
 include('admin.php');
-include('protect.php'); 
+include('protect.php');
 ?>
 
 <!DOCTYPE html>
