@@ -12,67 +12,70 @@ include('protect.php');
   <title>Painel de Administração</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Times New Roman', Times, serif; /* Definindo a fonte para Times New Roman */
       margin: 0;
       padding: 0;
-      background-color: #f4f4f4;
+      background-color: #fff;
     }
     .admin-header {
-      background-color: #7e6e9e; /* Lilás Escuro */
+      background-color:  #58216d; /* Lilás Escuro */
       color: #fff;
-      padding: 20px;
+      padding: 30px;
       text-align: center;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative; /* Adicionando posição relativa para .admin-header */
     }
     .admin-header h1 {
-      margin: 0;
-      font-size: 24px;
+      margin-left: -50px;
+      margin-top: 20px; /* Ajustando a margem superior */
+      margin-bottom: 0px;
+      font-size: 70px; /* Aumentando o tamanho da fonte */
+      text-transform: uppercase; /* Transformando o texto em maiúsculas */
     }
     .admin-header .home-link {
       position: absolute;
-      top: 20px;
-      left: 20px;
+      top: 10px;
+      right: 10px; /* Alterado para o lado direito */
       text-decoration: none;
       color: #fff;
-      display: flex;
-      align-items: center;
+    }
+    .admin-header .logo {
+      width: 60px;
+      height: auto;
+      margin-top: -5px;
+      margin-right: -10px;
     }
     .admin-profile {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
+      text-align: center;
       margin-top: 20px;
     }
     .admin-profile img {
-      width: 120px;
-      height: 120px;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       border: 4px solid #fff;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     .admin-profile h2 {
       margin: 0;
-      font-size: 24px;
+      font-size: 36px;
     }
     .admin-actions {
       text-align: center;
       margin-top: 30px;
-      display: flex;
-      flex-direction: column; /* Alteração aqui para colocar os botões um abaixo do outro */
     }
     .admin-actions a {
+      display: block;
       text-decoration: none;
-      color: #7e6e9e; /* Lilás Escuro */
-      margin: 0 20px;
-      font-size: 18px;
-      padding: 10px 20px;
-      border: 2px solid #7e6e9e; /* Lilás Escuro */
-      border-radius: 4px;
-      transition: background-color 0.3s, color 0.3s;
+      color: #58216d; /* Lilás Escuro */
+      background-color: #f9f4fc;
+      margin: 10px auto;
+      font-size: 16px;
+      padding: 8px 16px;
+      border: 4px solid #58216d; /* Lilás Escuro */
+      border-radius: 20px;
       max-width: 200px; /* Definindo largura máxima para os botões */
-      margin: 10px auto; /* Centralizando os botões */
     }
     .admin-actions a:hover {
       background-color: #9381a9; /* Lilás Mais Escuro */
@@ -80,29 +83,42 @@ include('protect.php');
     }
 
     /* Media queries para responsividade */
-    @media screen and (max-width: 768px) {
-      .admin-profile img {
-        margin-bottom: 10px;
+    @media screen and (max-width: 750px) {
+      .admin-header {
+        padding: 50px;
       }
-      .admin-profile form {
-        align-items: flex-start;
+      .admin-header h1 {
+        font-size: 20px;
+        padding-top: 20px;
+      }
+      .admin-header .logo {
+        width: 80px;
+      }
+      .admin-profile img {
+        width: 120px;
+        height: 120px;
+      }
+      .admin-profile h2 {
+        font-size: 30px;
+      }
+      .admin-actions a {
+        font-size: 14px;
+        background-color: #f9f4fc;
       }
     }
   </style>
 </head>
 <body>
   <div class="admin-header">
-    <h1>Painel de Administração de <?php echo htmlspecialchars($_GET['nome']); ?></h1>
-  </div>
-  <div class="btn-novo">
-    <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-        <img src="../imagens/logo sem fundo.png" alt="Home"  width="70" height="70">
+    <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>" class="home-link">
+      <img src="../imagens/logo sem fundo.png" alt="Home" class="logo">
     </a>
+    <h1><?php echo strtoupper("Central de Administração de " . htmlspecialchars($_SESSION['nome'])); ?></h1>
   </div>
 
   <div class="admin-profile">
     <img src="https://i.pinimg.com/originals/81/2c/22/812c229c60047ee347f778135cd76b81.gif" alt="Foto do Admin">
-    <h2><?php echo htmlspecialchars($_GET['nome']); ?></h2>
+    <h2><?php echo htmlspecialchars($_SESSION['nome']); ?></h2>
   </div>
 
   <div class="admin-actions">

@@ -1,5 +1,4 @@
-<?php 
-include('protect.php'); 
+<?php  
 include('conexao2.php');
 include('admin.php');
 include('protect.php'); 
@@ -74,6 +73,9 @@ include('protect.php');
             }
         ?>
         
+        <label for="obs">Observação:</label>
+        <input type="text" id="obs" name="obs" value="<?php echo isset($_GET['obs']) ? $_GET['obs'] : ''; ?>">
+
         <input type="submit" value="Atualizar">
         <button type="button" id="buscarPagador">Buscar Pagador</button>
     </form>

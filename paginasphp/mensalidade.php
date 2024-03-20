@@ -1,6 +1,9 @@
 <?php 
+
 include('conexao2.php');
-include('protect.php'); 
+include('admin.php');
+include('protect.php');
+
 
 // Verificar se o formulário de cadastro foi submetido
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($_POST['pagador']) && !empty($_POST['id_aluno']) && !empty($_POST['pagador'])) {
