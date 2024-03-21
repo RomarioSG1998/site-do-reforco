@@ -57,11 +57,11 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
     }
 
     body {
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Tahoma', sans-serif;
       margin: 0;
       padding: 0;
       height: 100vh;
-      background-image: url("https://media.giphy.com/media/AohQOlWnW9NIs/giphy.gif");
+      background-image: url("../imagens/bg-signin1.png");
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
@@ -76,7 +76,7 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      height: 100vh;
+      height: 92vh;
     }
 
     .card {
@@ -91,22 +91,8 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
 
     h1 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       color: black;
-    }
-
-    .label-float input {
-      width: 100%;
-      padding: 5px 5px;
-      display: inline-block;
-      border: 0;
-      border-bottom: 2px solid #c505a5;
-      background-color: transparent;
-      outline: none;
-      min-width: 180px;
-      font-size: 16px;
-      transition: all .3s ease-out;
-      border-radius: 15px;
     }
 
     .label-float {
@@ -116,18 +102,28 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
       margin-bottom: 5%;
     }
 
-    .label-float input:focus {
-      border-bottom: 2px solid #4038a0;
+    .label-float input {
+      width: calc(100% - 30px);
+      padding: 5px 5px;
+      display: inline-block;
+      border: 3px  solid #58216d; /* Adiciona uma borda preta */
+      background-color: #f2f2f2;  /* Cor de fundo cinza claro */
+      outline: none;
+      min-width: 180px;
+      font-size: 16px;
+      transition: all .3s ease-out;
+      border-radius: 15px;
     }
 
-    .label-float label {
-      color: #c505a5;
-      pointer-event: none;
+    .label-float i {
       position: absolute;
-      top: 0;
-      left: 0;
-      margin-top: 13px;
-      transition: all .3s ease-out;
+      top: 20px;
+      right: 5px; /* Mover o ícone para a direita */
+      color: #58216d;
+    }
+
+    .label-float input:focus {
+      border-bottom: 2px black;
     }
 
     .label-float input:focus+label,
@@ -175,7 +171,7 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
     }
 
     a {
-      color: #630353;
+      color:#58216d;  
       font-weight: bold;
       text-decoration: none;
       transition: all .3s ease-out;
@@ -183,14 +179,6 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
 
     a:hover {
       color: #c505a5;
-    }
-
-    .fa-eye {
-      position: absolute;
-      top: 15px;
-      right: 10px;
-      cursor: pointer;
-      color: #ee7bdb;
     }
 
     #msgError {
@@ -204,12 +192,34 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
 
     .justify-right1 {
       text-align: center;
-      font-family: 'Times New Roman', Times, serif;
-      font-size: 20px;
+      font-family: 'Tahoma', Times, serif;
+      font-size: 40px;
       font-weight: bold;
-      margin-top: 2%;
-      color: #630353;
+      margin-top: -1%;
+      color: #44277D;
+      letter-spacing: 2px; 
+      
     }
+    .justify-right1 p2 {
+      font-family: 'Tahoma', sans-serif; /* Alterado para uma fonte mais profissional */
+      font-size: 40px; /* Reduzido o tamanho da fonte para uma aparência mais equilibrada */
+      font-weight: normal; /* Removida a negrito */
+      margin-top: 2%;
+      font-weight: bold;
+      color: #D9D9D9; /* Define a cor do texto */
+  text-shadow: 
+    -2px -2px 0 #44277D,  
+    2px -2px 0 #44277D,
+    -2px 2px 0 #44277D,
+    2px 2px 0 #44277D;
+    }
+  img {
+  max-width: 50%;
+  height: 40%;
+  display: block;
+  margin: 10px auto 0;/* Isso centraliza a imagem horizontalmente */
+  margin-bottom: -150px;
+}
 
     @media only screen and (max-width: 768px) {
       .card {
@@ -222,22 +232,25 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
 <body>
 <div class="container">
     <div class="justify-right1">
-      <p1>LOGIN <br>DO REFORÇO</p1>
+      <p1>LOGIN</p1> <br> <p2>DO REFORÇO</p2>
     </div>
+    <img src="../imagens/logo sem fundo2.png" alt="Descrição da imagem">
     <div class="card">
       <div id="msgError"></div>
       <form id="loginForm" action="conect.php" method="post">
         <div class="label-float">
-          <input type="text" id="usuario" name="email" placeholder="" required>
-          <!-- <label id="userLabel" for="usuario">Usuário</label> -->
+        <input type="text" id="usuario" name="email" placeholder="Digite seu e-mail" required>
+          <i class="fa fa-envelope" aria-hidden="true"></i>
+          <label for="usuario"></label>
         </div>
         <div class="label-float">
-          <input type="password" id="senha" name="senha" placeholder="" required>
-          <!-- <label id="senhaLabel" for="senha">Senha</label> -->
-          <i class="fa fa-eye" aria-hidden="true"></i>
+        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+        <i class="" aria-hidden="true"></i>
+  <i class="fa fa-eye" aria-hidden="true" onclick="mostrarSenha()"></i>
+          <label for="senha"></label>
         </div>
         <div class="justify-center">
-          <button type="submit">Entrar</button>
+          <button type="submit">LOGIN</button>
         </div>
       </form>
       <div class="justify-center">
@@ -251,34 +264,62 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const form = document.getElementById('loginForm');
       const usuario = document.getElementById('usuario');
       const senha = document.getElementById('senha');
       const msgError = document.getElementById('msgError');
+      usuario.addEventListener('input', function() {
+    if (usuario.value.trim() !== '') {
+      usuario.removeAttribute('placeholder');
+    } else {
+      usuario.setAttribute('placeholder', ' ');
+    }
+  });
 
-      form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        if (usuario.value.trim() === '') {
-          msgError.textContent = 'Por favor, preencha seu e-mail';
-          return;
-        }
-        if (senha.value.trim() === '') {
-          msgError.textContent = 'Por favor, preencha sua senha';
-          return;
-        }
-        // Limpar a mensagem de erro se todos os campos estiverem preenchidos
-        msgError.textContent = '';
+  senha.addEventListener('input', function() {
+    if (senha.value.trim() !== '') {senha.removeAttribute('placeholder');
+    } else {
+      senha.setAttribute('placeholder', ' ');
+    }
+  });
 
-        // Envie o formulário se a validação passar
-        this.submit();
-      });
+  // Adiciona funcionalidade de alternar visibilidade da senha
+  const eyeIcon = document.querySelector('.fa-eye');
+  eyeIcon.addEventListener('click', function() {
+    if (senha.type === 'password') {
+      senha.type = 'text';
+      eyeIcon.classList.remove('fa-eye');
+      eyeIcon.classList.add('fa-eye-slash');
+    } else {
+      senha.type = 'password';
+      eyeIcon.classList.remove('fa-eye-slash');
+      eyeIcon.classList.add('fa-eye');
+    }
+  });
 
-      // Adicione aqui códigos adicionais para interatividade e animações, se desejar
-    });
-  </script>
+  const form = document.getElementById('loginForm');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    if (usuario.value.trim() === '') {
+      msgError.textContent = 'Por favor, preencha seu e-mail';
+      return;
+    }
+    if (senha.value.trim() === '') {
+      msgError.textContent = 'Por favor, preencha sua senha';
+      return;
+    }
+    // Limpar a mensagem de erro se todos os campos estiverem preenchidos
+    msgError.textContent = '';
+
+    // Envie o formulário se a validação passar
+    this.submit();
+  });
+});
+</script>
 </body>
 <footer>
   <!-- Adicione seu rodapé aqui -->
 </footer>
 </html>
 
+     

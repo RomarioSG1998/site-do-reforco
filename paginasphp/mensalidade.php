@@ -147,7 +147,7 @@ $resultado_alunos = $conexao->query($query_alunos);
 <body>
 <div class="btn-novo">
     <a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-        <img src="../imagens/logo sem fundo.png" alt="Home"  width="50" height="50">
+        <img src="../imagens/logo sem fundo2.png" alt="Home"  width="50" height="50">
     </a>
 </div>
 
