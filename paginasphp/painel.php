@@ -1,7 +1,5 @@
 <?php
-
-include('protect.php');
-
+    include('protect.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -9,83 +7,194 @@ include('protect.php');
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../css/style.css"/>
     <title>Home</title>
-</head>
-<style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tahoma', sans-serif; /* Adiciona a fonte Tahoma a todos os elementos */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url("../imagens/bg-signin1.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
         /* Estilos para a saudação de boas-vindas */
         h1 {
-            font-family: "Times New Roman", sans-serif; /* Definição da fonte */
-    font-family: "Times New Roman", sans-serif; /* Definição da fonte */
-    color: #680246; /* Cor do texto */
-    background-color: #f0f0f0; /* Cor de fundo */
-    padding: 0px; /* Adiciona um espaço interno ao elemento */
-    border-radius: 0px; /* Adiciona cantos arredondados */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil */
-    animation: pulse 1s infinite alternate; /* Adiciona uma animação chamada "pulse" */
-    margin: 0%;
-    background-color: transparent;
-        }
-        p > .logout-button {
-            padding: 15px 30px;
-            font-size: 18px;
-            color: #fff;
-            background-color: #dc3545; /* Cor de destaque para o botão "Sair" */
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-family: "Times New Roman", sans-serif;
+            color: #680246;
+            background-color: #f0f0f0;
+            padding: 0px;
+            border-radius: 0px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            animation: pulse 1s infinite alternate;
+            margin: 0%;
+            background-color: transparent;
+            text-align: center;
+            font-weight: bold; /* Adiciona negrito */
         }
 
-        p a:hover {
-            background-color: #d60586; /* Cor de destaque alterada ao passar o mouse */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            padding: 10px;
+            border-radius: 4%;
+            box-shadow: 3px 3px 1px 0px rgba(0, 0, 0, 0.4);
+            max-width: 350px;
+            gap: 20px;
+            margin: auto;
+            margin-top: 400px;
         }
-        .btn-novo a {
-        text-decoration: none;
-        color: white;
+
+        .btn,
+        .logout-button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            width: 200px;
+            border-radius: 15px;
+            
+        }
+
+        .btn a,
+        .logout-button a {
+            color: white;
+            text-decoration: none;
+        }
+
+
+        .logout-button {
+            background-color: #dc3545;
+            max-width: 100px;
+        }
+
+        img {
+            max-width: 30%;
+            height: 30%;
+            display: block;
+            margin: 10px auto 0;
+            margin-bottom: -300px;
+        }
+
+        .popup {
+    position: absolute;
+    display: inline-block;
+}
+
+.popup-content {
+    visibility: hidden;
+    width: 160px;
+    background-color: #44277D;
+    color: white;
+    text-align: center;
+    border-radius: 16px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 50%; /* Centraliza verticalmente */
+    left: 80%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -50%); /* Move o popup para o centro */
+    transition: visibility 0.3s ease;
+}
+
+
+        .popup:hover .popup-content {
+            visibility: visible;
+        }
+
+        .popup-content a {
+            display: block;
+            padding: 8px 0;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .popup-content a:hover {
+            color: purple;
+        }
+
+        @media screen and (max-width: 750px) {
+            body {
+                justify-content: flex-start;
+                align-items: flex-start;
+                padding: 20px;
+            }
+
+            .container {
+                margin-top: 150px;
+                max-width: 282px;
+            }
+
+            img {
+                max-width: 50%;
+                height: auto;
+                margin-bottom: -100px;
+            }
         }
     </style>
+</head>
 <body>
-    <header> 
+    <header>
         <h1>Bem-vindo/a, <?php echo $_SESSION['nome']; ?>.</h1>
-     <!-- Imagem à esquerda -->
-     <img src="../imagens/logo sem fundo2.png" alt="Imagem Esquerda" class="image-left">
-    <h1 id="logado"></h1>
-    <div class="container">
-        <button onclick="togglePopup('popup')" class="btn-novo">Cadastrar/Alterar Alunos</button>
-        <div id="popup" class="popup">
-            <div class="popup-content">
-                <a href="cadastro2.php">Cadastrar</a>
-                <a href="modcadastro.php">Alterar</a>
+        <img src="../imagens/logo sem fundo2.png" alt="Descrição da imagem">
+        <h1 id="logado"></h1>
+        <div class="container">
+            <div>
+                <button onclick="togglePopup('popup')" class="btn">Cadastrar/Alterar</button>
+                <div id="popup" class="popup">
+                    <div class="popup-content">
+                        <a href="cadastro2.php">Cadastrar</a>
+                        <a href="modcadastro.php">Alterar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="btn">
+                <a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>" style="text-decoration: none;">Admin</a>
+            </div>
+            <div class="btn">
+                <a href="./Dashboard.php" style="text-decoration: none;">Ver análises</a>
+            </div>
+
+            <div>
+                <a href="logout.php" class="logout-button">SAIR</a>
             </div>
         </div>
+    </header>
 
-            <div class="btn-novo">
-                <a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">Admin</a>
-            </div>
-
-            <div class="btn-novo">
-                <a href="./Dashboard.php">Ver análises</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Imagem à direita -->
-    <img src="../imagens/logo sem fundo2.png" alt="Imagem Direita" class="image-right">
-    
-     <script>
-
+    <script>
         function togglePopup(popupId) {
-        var popup = document.getElementById(popupId);
-        popup.style.display = popup.style.display === "block" ? "none" : "block";
-    }
-     </script>
-    <p>
-    <p>
-            <a href="logout.php" class="logout-button">Sair</a>
-    </p>
-    </p>
+            var popup = document.getElementById(popupId);
+            var popupContent = popup.querySelector('.popup-content');
+            popupContent.style.visibility = (popupContent.style.visibility === "visible") ? "hidden" : "visible";
+        }
+
+        document.addEventListener('click', function(event) {
+            var popups = document.querySelectorAll('.popup');
+            popups.forEach(function(popup) {
+                if (!popup.contains(event.target)) {
+                    popup.classList.remove('show');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
