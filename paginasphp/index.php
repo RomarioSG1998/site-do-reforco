@@ -76,17 +76,17 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      height: 92vh;
+      height: 95vh;
     }
 
     .card {
       background-color:white;
       padding: 10px;
-      margin-top:200px;
+      margin-top:150px;
       border-radius: 4%;
       box-shadow: 3px 3px 1px 0px rgba(0, 0, 0, 0.4);
       max-width: 350px;
-      width: 100%;
+      width: 90%;
     }
 
     h1 {
@@ -166,7 +166,7 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
 
     p {
       color: gray;
-      font-size: 13pt;
+      font-size: 10pt;
       text-align: center;
     }
 
@@ -195,7 +195,7 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
       font-family: 'Tahoma', Times, serif;
       font-size: 40px;
       font-weight: bold;
-      margin-top: -1%;
+      margin-top: 3%;
       color: #44277D;
       letter-spacing: 2px; 
       
@@ -204,7 +204,7 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
       font-family: 'Tahoma', sans-serif; /* Alterado para uma fonte mais profissional */
       font-size: 40px; /* Reduzido o tamanho da fonte para uma aparência mais equilibrada */
       font-weight: normal; /* Removida a negrito */
-      margin-top: 2%;
+      margin-top: 3%;
       font-weight: bold;
       color: #D9D9D9; /* Define a cor do texto */
   text-shadow: 
@@ -214,7 +214,7 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
     2px 2px 0 #44277D;
     }
   img {
-  max-width: 50%;
+  max-width: 60%;
   height: 40%;
   display: block;
   margin: 10px auto 0;/* Isso centraliza a imagem horizontalmente */

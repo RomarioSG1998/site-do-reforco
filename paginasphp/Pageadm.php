@@ -20,7 +20,7 @@ include('protect.php');
     .admin-header {
       background-color:  #58216d; /* Lilás Escuro */
       color: #fff;
-      padding: 30px;
+      padding: 25px;
       text-align: center;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       position: relative; /* Adicionando posição relativa para .admin-header */
@@ -29,7 +29,7 @@ include('protect.php');
       margin-left: -50px;
       margin-top: 20px; /* Ajustando a margem superior */
       margin-bottom: 0px;
-      font-size: 70px; /* Aumentando o tamanho da fonte */
+      font-size: 50px; /* Aumentando o tamanho da fonte */
       text-transform: uppercase; /* Transformando o texto em maiúsculas */
     }
     .admin-header .home-link {
@@ -113,7 +113,7 @@ include('protect.php');
     <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>" class="home-link">
       <img src="../imagens/logo sem fundo1.png" alt="Home" class="logo">
     </a>
-    <h1><?php echo strtoupper("Central de Administração de " . htmlspecialchars($_SESSION['nome'])); ?></h1>
+    <h1><?php echo strtoupper("Central Administrativa de " . htmlspecialchars($_SESSION['nome'])); ?></h1>
   </div>
 
   <div class="admin-profile">
@@ -123,7 +123,7 @@ include('protect.php');
 
   <div class="admin-actions">
     <a href="cadusuario.php">Cadastrar Novo Usuário</a>
-    <a href="mensalidade.php">Tabela de Pagamentos Mensais</a>
+    <a href="mensalidade.php">Tabela de Pagamentos</a>
     <a href="Monitorar.php"> Monitorar Atividades</a>
   </div>
 </body>
