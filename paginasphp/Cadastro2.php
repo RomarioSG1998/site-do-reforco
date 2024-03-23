@@ -16,12 +16,8 @@ include('protect.php');
             font-family: 'Tahoma', sans-serif;
             font-weight: bold;
             margin-bottom: 20px;
-            color:#44277D; /* Define a cor do texto */
-            text-shadow: 
-                -2px -2px 0 white,  
-                2px -2px 0 white,
-                -2px 2px 0 white,
-                2px 2px 0 white;
+            color:WHITE; /* Define a cor do texto */
+            
         }
 
         /* Estilos para a imagem */
