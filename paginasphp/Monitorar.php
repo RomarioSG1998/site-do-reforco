@@ -161,7 +161,7 @@ $conexao->query($query_delete);
 <body>
     <div class="container">
         <div class="btn-novo">
-            <a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
+            <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
                 <img src="../imagens/logo sem fundo.png" alt="Home">
             </a>
         </div>

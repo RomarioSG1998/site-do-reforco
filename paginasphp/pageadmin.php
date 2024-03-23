@@ -18,7 +18,7 @@ include('protect.php');
       background-color: #fff;
     }
     .admin-header {
-      background-color:  #58216d; /* Lilás Escuro */
+      background-color:  #44277D; /* Lilás Escuro */
       color: #fff;
       padding: 25px;
       text-align: center;
