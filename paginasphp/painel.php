@@ -36,7 +36,7 @@
             background-color: #f0f0f0;
             padding: 0px;
             border-radius: 0px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 0px rgba(0, 0, 0, 0.0);
             animation: pulse 1s infinite alternate;
             margin: 0%;
             background-color: transparent;
@@ -72,7 +72,7 @@
             cursor: pointer;
             width: 200px;
             border-radius: 15px;
-            
+            border: 3px  solid #58216d;
         }
 
         .btn a,
@@ -154,7 +154,7 @@
 </head>
 <body>
     <header>
-        <h1>Bem-vindo/a, <?php echo $_SESSION['nome']; ?>.</h1>
+    <h1 style="font-family: 'Tahoma', sans-serif; font-size: 40px; margin-top: 3%; font-weight: normal; color: #D9D9D9; text-shadow: -2px -2px 0 #44277D, 2px -2px 0 #44277D, -2px 2px 0 #44277D, 2px 2px 0 #44277D;">Bem-vindo/a, <span style="color: #44277D; text-shadow: none;"><?php echo $_SESSION['nome']; ?></span>.</h1>
         <img src="../imagens/logo sem fundo2.png" alt="Descrição da imagem">
         <h1 id="logado"></h1>
         <div class="container">

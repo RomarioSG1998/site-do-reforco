@@ -12,10 +12,32 @@ include('protect.php');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
        body {
-            font-family: Arial, sans-serif;
+        font-family: 'Tahoma', sans-serif;
             margin: 20px;
+            background-image: url("../imagens/111.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
             padding: 0;
             background-color: #f5f5fd; /* Lilás claro para o fundo */
+        }
+        .cadastro-frase {
+            font-size: 35px;
+            text-align: center;
+            font-family: 'Tahoma', sans-serif;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color:white; /* Define a cor do texto */
+            
+        }
+
+        /* Estilos para a imagem */
+        .cadastro-imagem {
+            display: block;
+            margin: 0 auto;
+            max-width: 10%;
+            margin-top: 1px;
+            margin-bottom: -10px;
         }
         h1 {
             text-align: center;
@@ -23,9 +45,10 @@ include('protect.php');
         }
         form {
             margin: 0 auto; /* Centraliza o formulário horizontalmente */
-            width: 80%; /* 80% da largura da tela */
-            max-width: 400px; /* Largura máxima para evitar que o formulário fique muito largo em telas grandes */
-            background-color: #fff; /* Fundo branco para o formulário */
+            width: 60%; /* 80% da largura da tela */
+            font-family: 'Tahoma', sans-serif;
+            max-width: 300px; /* Largura máxima para evitar que o formulário fique muito largo em telas grandes */
+            background-color: #D9D9D9; /* Fundo branco para o formulário */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave para o formulário */
@@ -41,8 +64,8 @@ include('protect.php');
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1px solid #6a5acd; /* Lilás mais escuro para a borda */
-            border-radius: 5px;
+            border: 3px solid #44277D; /* Lilás mais escuro para a borda */
+            border-radius: 15px;
             box-sizing: border-box;
         }
         input[type="submit"] {
@@ -72,16 +95,28 @@ include('protect.php');
         .delete-icon {
             color: #ff6347; /* Vermelho para o ícone de exclusão */
         }
-        @media only screen and (max-width: 600px) {
-            form {
-                width: 90%; /* Ajusta o formulário para telas menores */
-            }
+        /* Nova regra de mídia para telas de até 750px de largura */
+    @media only screen and (max-width: 750px) {
+        .cadastro-frase {
+            font-size: 25px; /* Reduzindo o tamanho da fonte para telas menores */
         }
+        .cadastro-imagem {
+            max-width: 20%; /* Ajustando o tamanho da imagem para telas menores */
+        }
+        form {
+            width: 90%; /* Ajustando a largura do formulário para telas menores */
+        }
+    }
         </style>
 </head>
 <body>
-    <a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>"><i class="fas fa-home"></i></a>
-    <h1>Cadastro de Usuários</h1>
+<div class="content">
+    <p class="cadastro-frase">CADASTRO DO ALUNO/A:</p>
+    <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
+        <img class="cadastro-imagem" src="../imagens/logo sem fundo1.png" alt="Descrição da imagem">
+    </a>
+</div>
+
     <?php
     // Verificar se o formulário foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -127,16 +162,16 @@ include('protect.php');
     ?>
 
     <form id="userForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-        <label for="nome">Nome:</label><br>
+        <label for="nome">NOME:</label><br>
         <input type="text" id="nome" name="nome" required><br>
-        <label for="senha">Senha:</label><br>
+        <label for="senha">SENHA:</label><br>
         <input type="password" id="senha" name="senha" required><br>
-        <label for="email">Email:</label><br>
+        <label for="email">E-MAIL:</label><br>
         <input type="email" id="email" name="email" required><br><br>
-        <label for="tipo">Tipo de usuario:</label><br>
+        <label for="tipo">TIPO DE USUARIO:</label><br>
         <select id="tipo" name="tipo" required>
-            <option value="pleno">Pleno</option>
-            <option value="limitado">Limitado</option>
+            <option value="pleno">PLENO</option>
+            <option value="limitado">LIMITADO</option>
         </select><br><br>
         <input type="submit" value="Cadastrar">
     </form>

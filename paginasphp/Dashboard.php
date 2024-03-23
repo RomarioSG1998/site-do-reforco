@@ -34,6 +34,34 @@ $conexao->close();
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <title>Estatísticas de Alunos</title>
     <style>
+        body {
+            
+            background-color: #44277D;
+            background-size: cover;
+            background-position: center;
+        }
+        .cadastro-frase {
+            font-size: 35px;
+            font-family: 'Tahoma', sans-serif;
+            font-weight: bold;
+            text-align:center;
+            margin-bottom: 20px;
+            color:WHITE; /* Define a cor do texto */
+            text-shadow: 
+                -2px -2px 0 #44277D,  
+                2px -2px 0 #44277D,
+                -2px 2px 0 #44277D,
+                2px 2px 0 #44277D;
+        }
+
+        /* Estilos para a imagem */
+        .cadastro-imagem {
+            display: block;
+            margin: 0 auto;
+            max-width: 10%;
+            margin-top: -25px;
+            margin-bottom: 7px;
+        }
         /* Estilos para o botão de menu */
         .menu-link {
             display: inline-block;
@@ -53,6 +81,7 @@ $conexao->close();
        /* Animação de bolo de aniversário */
         .birthday-cake {
             background-image: url('../imagens/aniversario.gif');
+            background-repeat: no-repeat;
             width: 90%; /* Ajuste o tamanho conforme necessário */
             height: 100px;
             background-size: cover;
@@ -78,8 +107,12 @@ $conexao->close();
 <body>
     <div class="container">
         <!-- Botão de menu -->
-        <a href="./painel.php" class="menu-link" style="display: block; width: fit-content; margin: 20px auto; padding: 10px 20px; background-color: purple; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s ease;">Menu</a>
-        <h1>Informações mais detalhadas</h1>
+        <div class="content">
+    <p class="cadastro-frase">INFORMAÇÕES</p>
+    <a href="../paginasphp/painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
+        <img class="cadastro-imagem" src="../imagens/logo sem fundo2.png" alt="Descrição da imagem">
+    </a>
+</div>
 
         <div class="dashboard">
             <div class="widget">

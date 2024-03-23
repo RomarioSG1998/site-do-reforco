@@ -14,7 +14,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <style>
         body {
-            background-color: #f2f2f2;
+            
+            background-image: url("../imagens/111.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+        .cadastro-frase {
+            font-size: 35px;
+            font-family: 'Tahoma', sans-serif;
+            font-weight: bold;
+            text-align:center;
+            margin-bottom: 20px;
+            color:#44277D; /* Define a cor do texto */
+            text-shadow: 
+                -2px -2px 0 white,  
+                2px -2px 0 white,
+                -2px 2px 0 white,
+                2px 2px 0 white;
+        }
+
+        /* Estilos para a imagem */
+        .cadastro-imagem {
+            display: block;
+            margin: 0 auto;
+            max-width: 10%;
+            margin-top: -25px;
+            margin-bottom: 7px;
         }
         table {
             width: 100%;
@@ -129,12 +155,12 @@
     </style>
 </head>
 <body>
-    <h1 class="titulo">Alunos Matriculados</h1> 
-    <a href="./painel.php" class="menu-link">
-        <div style="background-color: white; padding: 5px; border-radius: 50%;">
-            <img src="../imagens/logo sem fundo2.png" alt="Menu" style="width: 50px; height: 50px;">
-        </div>
+<div class="content">
+    <p class="cadastro-frase">CADASTRO DO ALUNO/A:</p>
+    <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
+        <img class="cadastro-imagem" src="../imagens/logo sem fundo1.png" alt="Descrição da imagem">
     </a>
+</div>
 
     <div class="search-container">
         <form method="GET" action="">

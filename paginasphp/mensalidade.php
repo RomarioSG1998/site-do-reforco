@@ -89,10 +89,39 @@ $resultado_alunos = $conexao->query($query_alunos);
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
-            background-color: #f2f2f2;
-            padding: 20px;
+            background-image: url("../imagens/111.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+        .cadastro-frase {
+            font-size: 35px;
+            font-family: 'Tahoma', sans-serif;
+            font-weight: bold;
+            text-align:center;
+            margin-top:90px;
+            margin-bottom: 30px;
+            color:white; /* Define a cor do texto */
         }
 
+        /* Estilos para a imagem */
+        .cadastro-imagem {
+            display: block;
+            margin: 0 auto;
+            max-width: 10%;
+            margin-top: -25px;
+            margin-bottom: 7px;
+        }
+        h1 {
+            text-align: center;
+            color: #44277D;
+            margin-top: 20px;
+            text-shadow: 
+                -2px -2px 0 white,  
+                2px -2px 0 white,
+                -2px 2px 0 white,
+                2px 2px 0 white;
+        }
         h2 {
             text-align: center;
             color: #6a5acd;
@@ -100,18 +129,19 @@ $resultado_alunos = $conexao->query($query_alunos);
         }
 
         form {
-            max-width: 400px;
+            max-width: 300px;
             margin: 0 auto;
             background-color: #fff;
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 15px;
+            border:5px solid #BF7BE8;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
 
         label {
             display: block;
             margin-bottom: 5px;
-            color: #333;
+            color: #44277D;
         }
 
         input[type="text"],
@@ -119,16 +149,16 @@ $resultado_alunos = $conexao->query($query_alunos);
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
+            border: 1px solid #44277D;
+            border-radius: 15px;
         }
 
         input[type="submit"] {
-            background-color: #6a5acd;
+            background-color: #44277D;
             color: #fff;
             border: none;
             padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 15px;
             cursor: pointer;
             width: 100%;
         }
@@ -142,20 +172,49 @@ $resultado_alunos = $conexao->query($query_alunos);
             font-size: 13px;
             font-family: "Times New Roman", Times, serif;
         }
+        <style>
+    /* Estilos específicos para telas de celular */
+    @media only screen and (max-width: 750px) {
+        .content {
+            padding: 10px;
+        }
+
+        .cadastro-frase {
+            font-size: 100px;
+        }
+
+        .cadastro-imagem {
+            max-width: 100%;
+        }
+
+        form {
+            max-width: none;
+        }
+
+        table {
+            font-size: 10px;
+        }
+
+        th, td {
+            padding: 5px;
+        }
+    }
+</style>
+
     </style>
 </head>
 <body>
-<div class="btn-novo">
-    <a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-        <img src="../imagens/logo sem fundo2.png" alt="Home"  width="50" height="50">
+<div class="content">
+    <p class="cadastro-frase">CADASTRO DO RESPONSÁVEL:</p>
+    <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
+        <img class="cadastro-imagem" src="../imagens/logo sem fundo1.png" alt="Descrição da imagem">
     </a>
 </div>
 
 <!-- Formulário de Cadastro -->
-<div>
-    <h2>Cadastrar Cliente/Responsavel</h2>
+
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <label for="id_aluno">ID Aluno:</label>
+        <label for="id_aluno">ALUNO:</label>
         <select id="id_aluno" name="id_aluno">
             <?php
             // Iterar através dos resultados da consulta de alunos
@@ -164,7 +223,7 @@ $resultado_alunos = $conexao->query($query_alunos);
             }
             ?>
         </select><br><br>
-        <label for="pagador">Pai/Responsavel:</label>
+        <label for="pagador">PAI/RESPONSÁVEL:</label>
         <input type="text" id="pagador" name="pagador"><br><br>
         <input type="submit" value="Cadastrar">
     </form>

@@ -214,8 +214,8 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
     2px 2px 0 #44277D;
     }
   img {
-  max-width: 60%;
-  height: 40%;
+  max-width: 50%;
+  height: 30%;
   display: block;
   margin: 10px auto 0;/* Isso centraliza a imagem horizontalmente */
   margin-bottom: -150px;
