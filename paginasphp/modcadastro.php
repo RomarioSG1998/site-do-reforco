@@ -26,12 +26,9 @@
             font-weight: bold;
             text-align:center;
             margin-bottom: 20px;
-            color:#44277D; /* Define a cor do texto */
+            color:white; /* Define a cor do texto */
             text-shadow: 
-                -2px -2px 0 white,  
-                2px -2px 0 white,
-                -2px 2px 0 white,
-                2px 2px 0 white;
+               
         }
 
         /* Estilos para a imagem */
@@ -156,7 +153,7 @@
 </head>
 <body>
 <div class="content">
-    <p class="cadastro-frase">CADASTRO DO ALUNO/A:</p>
+    <p class="cadastro-frase">ALTERAR/EXCLUIR MATRÍCULAS</p>
     <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
         <img class="cadastro-imagem" src="../imagens/logo sem fundo1.png" alt="Descrição da imagem">
     </a>

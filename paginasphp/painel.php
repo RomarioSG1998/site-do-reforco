@@ -168,7 +168,7 @@
                 </div>
             </div>
             <div class="btn">
-                <a href="./pageadm.php?nome=<?php echo urlencode($_SESSION['nome']); ?>" style="text-decoration: none;">Admin</a>
+                <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>" style="text-decoration: none;">Admin</a>
             </div>
             <div class="btn">
                 <a href="./Dashboard.php" style="text-decoration: none;">Ver análises</a>
