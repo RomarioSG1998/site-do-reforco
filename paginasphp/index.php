@@ -214,7 +214,7 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
     2px 2px 0 #44277D;
     }
   img {
-  max-width: 50%;
+  max-width: 55%;
   height: 30%;
   display: block;
   margin: 10px auto 0;/* Isso centraliza a imagem horizontalmente */
@@ -315,6 +315,8 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
     this.submit();
   });
 });
+
+
 </script>
 </body>
 <footer>

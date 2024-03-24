@@ -130,8 +130,8 @@ $conexao->query($query_delete);
         }
 
         .btn-novo img {
-            width: 50px;
-            height: 50px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             transition: transform 0.3s ease-in-out;
         }

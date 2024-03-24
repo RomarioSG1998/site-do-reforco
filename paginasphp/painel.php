@@ -60,7 +60,7 @@
 
         .btn,
         .logout-button {
-            padding: 10px 20px;
+            padding: 5px 5px;
             background-color: #4caf50;
             border: none;
             color: white;
@@ -95,43 +95,41 @@
             margin-bottom: -300px;
         }
 
-        .popup {
-    position: absolute;
-    display: inline-block;
-}
-
-.popup-content {
-    visibility: hidden;
-    width: 160px;
-    background-color: #44277D;
-    color: white;
-    text-align: center;
-    border-radius: 16px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    top: 50%; /* Centraliza verticalmente */
-    left: 80%; /* Centraliza horizontalmente */
-    transform: translate(-50%, -50%); /* Move o popup para o centro */
-    transition: visibility 0.3s ease;
-}
+       
 
 
-        .popup:hover .popup-content {
-            visibility: visible;
-        }
+        .popup-content {
+        visibility: hidden;
+        width: 160px;
+        background-color: rgba(68, 39, 125, 0.7);
+        color: white;
+        text-align: center;
+        border-radius: 16px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        top: 50%; /* Centraliza verticalmente */
+        left: 50%; /* Centraliza horizontalmente */
+        transform: translate(-50%, -50%); /* Move o popup para o centro */
+        transition: visibility 0.3s ease;
+    }
 
-        .popup-content a {
-            display: block;
-            padding: 8px 0;
-            color: #fff;
-            text-decoration: none;
-        }
+    .popup:hover .popup-content {
+        visibility: visible;
+    }
 
-        .popup-content a:hover {
-            color: purple;
-        }
+    .popup-content a {
+        font-family: 'Tahoma', sans-serif;
+        font-size:20px;
+        display: block; /* Ajustado para block */
+        padding: 18px 0;
+        color: #fff;
+        text-decoration: none;
+    }
 
+    .popup-content a:hover {
+        color: purple;
+    }
         @media screen and (max-width: 750px) {
             body {
                 justify-content: flex-start;
@@ -149,12 +147,17 @@
                 height: auto;
                 margin-bottom: -100px;
             }
+            .popup-content {
+            width: 200px; 
+            }
         }
     </style>
 </head>
 <body>
     <header>
-    <h1 style="font-family: 'Tahoma', sans-serif; font-size: 40px; margin-top: 3%; font-weight: normal; color: #D9D9D9; text-shadow: -2px -2px 0 #44277D, 2px -2px 0 #44277D, -2px 2px 0 #44277D, 2px 2px 0 #44277D;">Bem-vindo/a, <span style="color: #44277D; text-shadow: none;"><?php echo $_SESSION['nome']; ?></span>.</h1>
+    <h1 style="font-family: 'Tahoma', sans-serif; font-size: 40px; margin-top: 3%; font-weight: normal; color: #D9D9D9; text-shadow: -2px -2px 0 #44277D, 2px -2px 0 #44277D, -2px 2px 0 #44277D, 2px 2px 0 #44277D;">
+    Bem-vindo/a, <span id="nome" style="color: #44277D; text-shadow: none;"></span>.
+</h1>
         <img src="../imagens/logo sem fundo2.png" alt="Descrição da imagem">
         <h1 id="logado"></h1>
         <div class="container">
@@ -181,6 +184,7 @@
     </header>
 
     <script>
+
         function togglePopup(popupId) {
             var popup = document.getElementById(popupId);
             var popupContent = popup.querySelector('.popup-content');
@@ -195,6 +199,33 @@
                 }
             });
         });
+
+        const nome = "<?php echo $_SESSION['nome']; ?>"; // Obtém o nome da sessão PHP
+const spanNome = document.getElementById('nome');
+
+function typeWriter(text, i, fnCallback) {
+    if (i < (text.length)) {
+        spanNome.innerHTML = text.substring(0, i+1) + '_';
+        setTimeout(function() {
+            typeWriter(text, i + 1, fnCallback)
+        }, 100);
+    } else if (typeof fnCallback == 'function') {
+        setTimeout(fnCallback, 700);
+    }
+}
+
+function startTextAnimation() {
+    if (typeof nome !== 'undefined') {
+        typeWriter(nome, 0, function() {
+            // Remover o caractere de sublinhado no final da animação
+            spanNome.innerHTML = spanNome.innerHTML.slice(0, -1);
+        });
+    }
+}
+
+// Iniciar a animação de digitação
+startTextAnimation();
+
     </script>
 </body>
 </html>

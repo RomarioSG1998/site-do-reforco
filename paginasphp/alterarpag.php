@@ -11,46 +11,73 @@ include('protect.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alterar Dados da Tabela</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            margin: 0;
-            padding: 20px;
-        }
-        h2 {
-            color: #333;
-            text-align: center;
-        }
+    body {
+        font-family: 'Tahoma', sans-serif;
+        margin: 0;
+        padding: 20px;
+        height: 0vh;
+        background-color: #44277D;
+        background-size: cover;
+        background-position: center;
+    }
+
+    h2 {
+        font-family: 'Tahoma', sans-serif; /* Alterado para uma fonte mais profissional */
+        font-size: 30px; /* Reduzido o tamanho da fonte para uma aparência mais equilibrada */
+        font-weight: normal; /* Removida a negrito */
+        margin-top: 3%;
+        text-align: center;
+        font-weight: bold;
+        color: #D9D9D9; /* Define a cor do texto */
+        text-shadow:
+            -1px -1px 0 #44277D,
+            1px -1px 0 #44277D,
+            -1px 1px 0 #44277D,
+            1px 1px 0 #44277D;
+    }
+
+    form {
+        width: 90%; /* Reduzido o máximo de largura para 90% da tela */
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px; /* Reduzido o padding para 20px */
+        border-radius: 15px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #44277D;
+        text-align:center;
+    }
+
+    input[type="text"],
+    input[type="datetime-local"],
+    input[type="submit"],
+    button {
+        width: calc(100% - 20px); /* Ajustado para considerar o padding */
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        border: 3px solid #58216d;
+        box-sizing: border-box;
+    }
+
+    .error-message {
+        color: red;
+        margin-top: 10px;
+    }
+
+    @media screen and (min-width: 750px) {
         form {
-            width: 100%;
-            max-width: 500px; /* Máximo de 500px */
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            width: auto; /* Definido como automático para aproveitar o espaço disponível */
+            max-width: 500px; /* Máximo de 500px para telas maiores que 750px */
         }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #666;
-        }
-        input[type="text"],
-        input[type="datetime-local"],
-        input[type="submit"],
-        button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .error-message {
-            color: red;
-            margin-top: 10px;
-        }
-    </style>
+    }
+</style>
+
 </head>
 <body>
     <h2>Alterar Dados da Tabela</h2>
