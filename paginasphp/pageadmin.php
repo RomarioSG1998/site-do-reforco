@@ -29,7 +29,7 @@ include('protect.php');
       margin-left: -50px;
       margin-top: 20px; /* Ajustando a margem superior */
       margin-bottom: 0px;
-      font-size: 50px; /* Aumentando o tamanho da fonte */
+      font-size: 40px; /* Aumentando o tamanho da fonte */
       text-transform: uppercase; /* Transformando o texto em maiúsculas */
     }
     .admin-header .home-link {

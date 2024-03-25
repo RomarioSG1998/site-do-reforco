@@ -19,19 +19,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($
         die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
     }
 
+    // Verificar se o formulário foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Capturar os valores dos campos do formulário
+    $id_aluno = $_POST['id_aluno'];
+    $pagador = $_POST['pagador'];
+    
     // Preparar a consulta SQL para inserir dados
     $query_insercao = "INSERT INTO meses (id_aluno, pagador) VALUES (?, ?)";
     $stmt = $conexao->prepare($query_insercao);
-    $stmt->bind_param("ss", $id_aluno, $pagador);
     
-    // Executar a consulta preparada
-    $resultado_insercao = $stmt->execute();
-
-    if ($resultado_insercao) {
-        echo "<p>Dados cadastrados com sucesso!</p>";
+    // Verificar se a preparação da consulta foi bem-sucedida
+    if ($stmt) {
+        // Vincular os parâmetros da consulta preparada
+        $stmt->bind_param("ss", $id_aluno, $pagador);
+        
+        // Executar a consulta preparada
+        $resultado_insercao = $stmt->execute();
+        
+        // Verificar se a execução da consulta foi bem-sucedida
+        if ($resultado_insercao) {
+            echo "<p>Dados cadastrados com sucesso!</p>";
+            
+            // Redirecionar para a página específica após 3 segundos
+            header("refresh:3;url=mensalidade.php");
+            exit(); // Encerra o script para garantir que o redirecionamento seja feito corretamente
+        } else {
+            echo "<p>Ocorreu um erro ao cadastrar os dados.</p>";
+        }
     } else {
-        echo "<p>Ocorreu um erro ao cadastrar os dados.</p>";
+        // Se a preparação da consulta falhar, exibir mensagem de erro
+        echo "<p>Ocorreu um erro ao preparar a consulta.</p>";
     }
+}
 
     // Fechar conexão
     $conexao->close();
@@ -273,18 +293,19 @@ $resultado_alunos = $conexao->query($query_alunos);
                     <td><a href='modcadastro.php?id_aluno=" . $linha['id_aluno'] . "&search=" . urlencode($linha['id_aluno']) . "'>" . $linha['id_aluno'] . "</a></td>
                     <td>" . $linha['pagador'] . "</td>";
 
-            // Iterar através dos campos de mês
-            foreach ($linha as $campo => $valor) {
-                // Verificar se o valor é uma data válida
-                if ($campo != 'ra' && $campo != 'id_aluno' && $campo != 'pagador') {
-                    if ($campo != 'obs') { // Verifica se o campo não é 'obs'
-                        $cor = ($valor == "0001-01-01 00:00:01" || $valor == "0001-01-01 00:00:00") ? "#ff9999" : ($valor == "0001-11-30 00:00:00" ? "#ff0000" : "#99cc99"); /* Tons suaves de vermelho e verde */
-                        echo "<td style='background-color: $cor;'>" . date('Y-m-d H:i:s', strtotime($valor)) . "</td>"; // Adicionado o horário
-                    } else { // Se for 'obs', apenas exibe o valor
-                        echo "<td>" . $valor . "</td>";
+                    foreach ($linha as $campo => $valor) {
+                        // Verificar se o valor é uma data válida
+                        if ($campo != 'ra' && $campo != 'id_aluno' && $campo != 'pagador') {
+                            if ($campo != 'obs') { // Verifica se o campo não é 'obs'
+                                $cor = ($valor == "0001-01-01 00:00:01" || $valor == "0001-01-01 00:00:00") ? "#ff9999" : ($valor == "0001-11-30 00:00:00" ? "#ff0000" : "#99cc99"); /* Tons suaves de vermelho e verde */
+                                echo "<td style='background-color: $cor;'>" . date('Y-m-d H:i:s', strtotime($valor)) . "</td>"; // Adicionado o horário
+                            } else { // Se for 'obs', apenas exibe o valor
+                                $cor = ($valor != "") ? "yellow" : ""; // Se houver algo escrito, a cor será amarela, caso contrário, sem cor
+                                echo "<td style='background-color: $cor;'>" . $valor . "</td>";
+                            }
+                        }
                     }
-                }
-            }
+                    
 
             // Botão de delete
             echo "<td><form method='POST' action=''>

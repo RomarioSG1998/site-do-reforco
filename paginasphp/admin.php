@@ -32,7 +32,7 @@ if(isset($_SESSION['id'])) {
     setTimeout(function() {
         var elem = document.getElementById('cadeado');
         elem.parentNode.removeChild(elem);
-    }, 1000);
+    }, 500);
 </script>
 
 
