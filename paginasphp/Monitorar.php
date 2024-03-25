@@ -130,8 +130,8 @@ $conexao->query($query_delete);
         }
 
         .btn-novo img {
-            width: 70px;
-            height: 70px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             transition: transform 0.3s ease-in-out;
         }
@@ -162,10 +162,10 @@ $conexao->query($query_delete);
     <div class="container">
         <div class="btn-novo">
             <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-                <img src="../imagens/logo sem fundo.png" alt="Home">
+                <img src="../imagens/logo sem fundo2.png" alt="Home">
             </a>
         </div>
-        <h1 style="text-align: center;">Timeline de Atividades</h1>
+        <h1 style=" text-align: center; font-family: 'Tahoma', sans-serif; font-size: 40px; margin-top: 3%; font-weight: normal; color: #D9D9D9; text-shadow: -2px -2px 0 #44277D, 2px -2px 0 #44277D, -2px 2px 0 #44277D, 2px 2px 0 #44277D;">Timeline de Atividades</h1>
         <ul class="timeline">
             <?php foreach ($atividades as $index => $atividade) : ?>
                 <li class="timeline-item" id="item-<?php echo $index; ?>">

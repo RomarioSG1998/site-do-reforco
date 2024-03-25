@@ -40,7 +40,7 @@ include('protect.php');
       color: #fff;
     }
     .admin-header .logo {
-      width: 60px;
+      width: 120px;
       height: auto;
       margin-top: -5px;
       margin-right: -10px;

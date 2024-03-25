@@ -58,7 +58,7 @@ $conexao->close();
         .cadastro-imagem {
             display: block;
             margin: 0 auto;
-            max-width: 10%;
+            max-width: 15%;
             margin-top: -25px;
             margin-bottom: 7px;
         }
