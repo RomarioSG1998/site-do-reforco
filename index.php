@@ -61,7 +61,7 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
       margin: 0;
       padding: 0;
       height: 100vh;
-      background-image: url("../imagens/bg-signin1.png");
+      background-image: url("./imagens/bg-signin1.png");
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
@@ -234,7 +234,7 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
     <div class="justify-right1">
       <p1>LOGIN</p1> <br> <p2>DO REFORÇO</p2>
     </div>
-    <img src="../imagens/logo sem fundo2.png" alt="Descrição da imagem">
+    <img src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
     <div class="card">
       <div id="msgError"></div>
       <form id="loginForm" action="conect.php" method="post">

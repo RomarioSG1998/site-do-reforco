@@ -2,7 +2,7 @@
 include('protect.php');
 
 // Conecte-se ao banco de dados
-$hostname = "sql209.infinityfree.com";
+$hostname = "localhost";
 $bancodedados = "if0_36181052_sistemadoreforco";
 $usuario = "if0_36181052";
 $senha = "A7E5zgIppyr";
@@ -69,7 +69,7 @@ if(isset($_GET['ra'])) {
         body {
             width: 100%;
             height: 100vh;
-            background-image: url("../imagens/111.png");
+            background-image: url("./imagens/111.png");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;

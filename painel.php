@@ -20,7 +20,7 @@
             margin: 0;
             padding: 0;
             height: 100vh;
-            background-image: url("../imagens/bg-signin1.png");
+            background-image: url("./imagens/bg-signin1.png");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
@@ -158,7 +158,7 @@
     <h1 style="font-family: 'Tahoma', sans-serif; font-size: 40px; margin-top: 3%; font-weight: normal; color: #D9D9D9; text-shadow: -2px -2px 0 #44277D, 2px -2px 0 #44277D, -2px 2px 0 #44277D, 2px 2px 0 #44277D;">
     Bem-vindo/a, <span id="nome" style="color: #44277D; text-shadow: none;"></span>.
 </h1>
-        <img src="../imagens/logo sem fundo2.png" alt="Descrição da imagem">
+        <img src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
         <h1 id="logado"></h1>
         <div class="container">
             <div>

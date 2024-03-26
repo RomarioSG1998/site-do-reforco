@@ -1,7 +1,7 @@
 <?php
 
 // Conecte-se ao banco de dados
-$hostname = "sql209.infinityfree.com";
+$hostname = "localhost";
 $bancodedados = "if0_36181052_sistemadoreforco";
 $usuario = "if0_36181052";
 $senha = "A7E5zgIppyr";

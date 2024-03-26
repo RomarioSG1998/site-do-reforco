@@ -42,7 +42,7 @@ include('protect.php');
         body {
             width: 100%;
             height: 100vh;
-            background-image: url("../imagens/111.png");
+            background-image: url("./imagens/111.png");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
@@ -153,8 +153,8 @@ include('protect.php');
 <body>
 <div class="content">
     <p class="cadastro-frase">CADASTRO DO ALUNO/A:</p>
-    <a href="../paginasphp/painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-        <img class="cadastro-imagem" src="../imagens/logo sem fundo1.png" alt="Descrição da imagem">
+    <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
+        <img class="cadastro-imagem" src="./imagens/logo sem fundo1.png" alt="Descrição da imagem">
     </a>
 </div>
 

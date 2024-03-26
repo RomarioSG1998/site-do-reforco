@@ -109,7 +109,7 @@ $resultado_alunos = $conexao->query($query_alunos);
     <style>
     body {
         font-family: "Times New Roman", Times, serif;
-        background-image: url("../imagens/111.png");
+        background-image: url("./imagens/111.png");
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
@@ -231,7 +231,7 @@ $resultado_alunos = $conexao->query($query_alunos);
 <div class="content">
     <p class="cadastro-frase">CADASTRO DO RESPONSÁVEL:</p>
     <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-        <img class="cadastro-imagem" src="../imagens/logo sem fundo1.png" alt="Descrição da imagem">
+        <img class="cadastro-imagem" src="./imagens/logo sem fundo1.png" alt="Descrição da imagem">
     </a>
 </div>
 

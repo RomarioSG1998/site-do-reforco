@@ -3,7 +3,7 @@ include('conexao2.php');
 include('admin.php');
 include('protect.php'); 
 
-$hostname = "sql209.infinityfree.com";
+$hostname = "localhost";
 $bancodedados = "if0_36181052_sistemadoreforco";
 $usuario = "if0_36181052";
 $senha = "A7E5zgIppyr";
@@ -162,7 +162,7 @@ $conexao->query($query_delete);
     <div class="container">
         <div class="btn-novo">
             <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-                <img src="../imagens/logo sem fundo2.png" alt="Home">
+                <img src="./imagens/logo sem fundo2.png" alt="Home">
             </a>
         </div>
         <h1 style=" text-align: center; font-family: 'Tahoma', sans-serif; font-size: 40px; margin-top: 3%; font-weight: normal; color: #D9D9D9; text-shadow: -2px -2px 0 #44277D, 2px -2px 0 #44277D, -2px 2px 0 #44277D, 2px 2px 0 #44277D;">Timeline de Atividades</h1>

@@ -150,8 +150,8 @@ $conexao->close();
         <!-- Botão de menu -->
         <div class="content">
             <p class="cadastro-frase">INFORMAÇÕES</p>
-            <a href="../paginasphp/painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-                <img class="cadastro-imagem" src="../imagens/logo sem fundo2.png" alt="Descrição da imagem">
+            <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
+                <img class="cadastro-imagem" src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
             </a>
         </div>
 

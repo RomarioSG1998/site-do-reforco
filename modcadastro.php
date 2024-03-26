@@ -15,7 +15,7 @@
     <style>
         body {
             
-            background-image: url("../imagens/111.png");
+            background-image: url("./imagens/111.png");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
@@ -155,7 +155,7 @@
 <div class="content">
     <p class="cadastro-frase">ALTERAR/EXCLUIR MATRÍCULAS</p>
     <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-        <img class="cadastro-imagem" src="../imagens/logo sem fundo1.png" alt="Descrição da imagem">
+        <img class="cadastro-imagem" src="./imagens/logo sem fundo1.png" alt="Descrição da imagem">
     </a>
 </div>
 
@@ -189,7 +189,7 @@
             <th>Ações</th>
         </tr>
         <?php
-        $hostname = "sql209.infinityfree.com";
+        $hostname = "localhost";
         $bancodedados = "if0_36181052_sistemadoreforco";
         $usuario = "if0_36181052";
         $senha = "A7E5zgIppyr";

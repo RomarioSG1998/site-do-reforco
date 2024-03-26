@@ -111,7 +111,7 @@ include('protect.php');
 <body>
   <div class="admin-header">
     <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>" class="home-link">
-      <img src="../imagens/logo sem fundo1.png" alt="Home" class="logo">
+      <img src="./imagens/logo sem fundo1.png" alt="Home" class="logo">
     </a>
     <h1><?php echo strtoupper("Central Administrativa de " . htmlspecialchars($_SESSION['nome'])); ?></h1>
   </div>
