@@ -4,10 +4,10 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$hostname = "localhost";
-$bancodedados = "id21964020_sistemadoreforco";
-$usuario = "id21964020_root";
-$senha = "J3anlak#1274";
+$hostname = "sql209.infinityfree.com";
+$bancodedados = "if0_36181052_sistemadoreforco";
+$usuario = "if0_36181052";
+$senha = "A7E5zgIppyr";
 
 // Estabelecer conexão
 $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
