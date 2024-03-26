@@ -69,45 +69,53 @@ if(isset($_GET['ra'])) {
         body {
             width: 100%;
             height: 100vh;
+            background-image: url("../imagens/111.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #ca1cb3de;
+            flex-direction: column; 
         }
 
         form {
-            width: 90%;
-            max-width: 400px; /* Limitar a largura do formulário */
+            width: 40%;
+            max-width: 330px;
             background-color: #fff;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 15px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 90px; 
         }
 
         label {
             display: block;
             margin-bottom: 5px;
-            font-weight: bold;
+            font-weight: none;
+            color: #44277D;
         }
 
         input[type="text"],
         input[type="date"],
+        input[type="tel"],
         select {
-            width: 100%;
+            width: calc(100% - 20px); /* Ajuste o tamanho conforme necessário */
             padding: 8px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 15px;
         }
 
         input[type="submit"] {
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #44277D;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 15px;
             cursor: pointer;
+            margin-top: 10px;
         }
 
         input[type="submit"]:hover {
@@ -121,6 +129,7 @@ if(isset($_GET['ra'])) {
             margin: 0;
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            }
             form {
                 width: 90%;
             }
