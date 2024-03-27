@@ -320,7 +320,7 @@ $resultado_alunos = $conexao->query($query_alunos);
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
     // Consultar os dados da tabela meses
-    $query = "SELECT * FROM meses WHERE ra LIKE '%$search%' OR pagador LIKE '%$search%'";
+    $query = "SELECT * FROM meses WHERE id_aluno LIKE '%$search%' OR pagador LIKE '%$search%'";
     $resultado = $conexao->query($query);
 
     // Verificar se a consulta retornou resultados

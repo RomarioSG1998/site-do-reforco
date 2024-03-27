@@ -177,7 +177,7 @@ document.getElementById("popup-link").addEventListener("click", function() {
 });
 
 document.getElementById("popup-link2").addEventListener("click", function() {
-  window.location.href = "./avaliacao.php";
+  window.location.href = "./cadpais.php";
 });
 
 document.addEventListener("click", function(e) {
