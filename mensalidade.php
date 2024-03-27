@@ -196,6 +196,46 @@ $resultado_alunos = $conexao->query($query_alunos);
         font-size: 13px;
         font-family: "Times New Roman", Times, serif;
     }
+    .search2 {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .search-input {
+        padding: 8px;
+        width: 60%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 5px;
+    }
+
+    .search-btn {
+        padding: 8px 15px;
+        background-color: #44277D;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .search-btn:hover {
+        background-color: #836fff;
+    }
+
+    .print-icon {
+        margin-top: 10px;
+        display: inline-block;
+        color: #44277D;
+        text-decoration: none;
+    }
+
+    .print-icon i {
+        font-size: 20px;
+    }
+
+    .print-icon:hover {
+        color: #836fff;
+    }
 
     /* Estilos específicos para telas de celular */
     @media only screen and (max-width: 750px) {
@@ -252,14 +292,26 @@ $resultado_alunos = $conexao->query($query_alunos);
         <input type="submit" value="Cadastrar">
     </form>
 </div>
-
+<div class="search2">
+        <form method="GET" action="">
+            <!-- Adiciona um campo hidden para o id_aluno -->
+            <input type="hidden" name="ra" value="<?php echo isset($_GET['ra']) ? $_GET['ra'] : ''; ?>">
+            <input type="text" id="search" name="search" class="search-input" placeholder="Buscar por RA ou nome do responsável">
+            <button type="submit" class="search-btn">Buscar</button>
+        </form>
+        <!-- Adiciona um link oculto para download do PDF -->
+        <a id="download-link" download="alunos.pdf"></a>
+        <a href="#" onclick="generatePDF()" class="print-icon"><i class="fas fa-print"></i></a>
+    </div>
 
 <!-- Tabela de Pagamentos -->
 <h1>Tabela de pagamentos mensais</h1>
 
 <?php
+
+$search = isset($_GET['search']) ? $_GET['search'] : '';
     // Consultar os dados da tabela meses
-    $query = "SELECT * FROM meses";
+    $query = "SELECT * FROM meses WHERE ra LIKE '%$search%' OR pagador LIKE '%$search%'";
     $resultado = $conexao->query($query);
 
     // Verificar se a consulta retornou resultados
@@ -325,6 +377,16 @@ $resultado_alunos = $conexao->query($query_alunos);
     // Fechar conexão
     $conexao->close();
 ?>
+<script>
+    // Verificar se há um parâmetro 'ra' na URL
+    const params = new URLSearchParams(window.location.search);
+    const ra = params.get('ra');
+
+    // Se 'ra' estiver presente na URL, preencher o campo de busca com seu valor
+    if (ra) {
+        document.getElementById('search').value = ra;
+    }
+</script>
 
 </body>
 </html>

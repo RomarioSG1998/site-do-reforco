@@ -210,14 +210,14 @@
             while($row = $result->fetch_assoc()) {
                 echo "<tr>";
                 // Modificação aqui: o número do aluno (RA) agora é um link para mensalidade.php
-                echo "<td><a href='mensalidade.php?ra=".$row["ra"]."'>".$row["ra"]."</a></td>"; 
+                echo "<td><a href='mensalidade.php?ra=".$row["ra"]."'>".$row["ra"]."</a></td>";
                 echo "<td>".$row["nome"]."</td>";
                 echo "<td>".$row["datanasc"]."</td>";
                 echo "<td>".$row["celular"]."</td>";
                 echo "<td>".$row["responsavel"]."</td>";
                 echo "<td>".$row["genero"]."</td>";
                 echo "<td>".$row["turma"]."</td>";
-                echo "<td>";
+                echo "<td>";        
                 if(isset($row["ra"])) {
                     echo "<a href='editar.php?ra=".$row["ra"]."'><i class='fas fa-edit icon edit-icon'></i></a> | ";
                     echo "<a href='apagar.php?ra=".$row["ra"]."'><i class='fas fa-trash-alt icon delete-icon'></i></a>";
