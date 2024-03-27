@@ -81,6 +81,38 @@ include('protect.php');
       background-color: #9381a9; /* Lilás Mais Escuro */
       color: #fff;
     }
+    .popup {
+  font-family: 'Times New Roman', Times, serif; 
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: purple;
+  padding: 20px;
+  border: 2px solid #000000;
+  z-index: 9999;
+}
+
+.popup-content {
+  font-family: 'Times New Roman', Times, serif; 
+  text-align: center;
+  color: white;
+}
+
+#interrogation-button {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  padding: 10px 20px;
+  background-color: none;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
 
     /* Media queries para responsividade */
     @media screen and (max-width: 750px) {
@@ -126,5 +158,34 @@ include('protect.php');
     <a href="mensalidade.php">Tabela de Pagamentos</a>
     <a href="Monitorar.php"> Monitorar Atividades</a>
   </div>
+  <button id="interrogation-button">?</button>
+<div id="popup" class="popup">
+  <div class="popup-content">
+  <p>Ao clicar em um dos links abaixo, você será redirecionado para a página de avaliação ou atualização  cadastral. Esta página deve ser enviada aos pais, para que você saiba qual o nível de satisfação ou para que haja uma atualização no cadastro do aluno. Entre no link, copie o mesmo e, em seguida, envie para os pais.</p>
+    <button id="popup-link">Avaliação</button>
+    <button id="popup-link2">Atualização</button>
+  </div>
+</div>
+
+
+<script> document.getElementById("interrogation-button").addEventListener("click", function() {
+  document.getElementById("popup").style.display = "block";
+});
+
+document.getElementById("popup-link").addEventListener("click", function() {
+  window.location.href = "./avaliacao.php";
+});
+
+document.getElementById("popup-link2").addEventListener("click", function() {
+  window.location.href = "./avaliacao.php";
+});
+
+document.addEventListener("click", function(e) {
+  if (e.target.id === "popup") {
+    document.getElementById("popup").style.display = "none";
+  }
+});
+
+</script>
 </body>
 </html>

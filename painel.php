@@ -130,6 +130,19 @@
     .popup-content a:hover {
         color: purple;
     }
+    #watermark {
+ font-family: 'Tahoma', sans-serif;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: rgba(128, 128, 128, 0.3);
+  pointer-events: none; /* Permite que o texto de marca d'água não seja clicável */
+  z-index: 9999; /* Garante que o texto fique na frente de outros elementos */
+}
+
+
         @media screen and (max-width: 750px) {
             body {
                 justify-content: flex-start;
@@ -150,11 +163,23 @@
             .popup-content {
             width: 200px; 
             }
+            #watermark {
+ font-family: 'Tahoma', sans-serif;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 7px;
+  color: rgba(128, 128, 128, 0.3);
+  pointer-events: none; /* Permite que o texto de marca d'água não seja clicável */
+  z-index: 9999; /* Garante que o texto fique na frente de outros elementos */
+}
         }
     </style>
 </head>
 <body>
     <header>
+    <div id="watermark">Desenvolvido por Romário, sob o design cuidadoso de Álvaro, <br>e criado em colaboração com o Reforço Sede do Saber.</div>
     <h1 style="font-family: 'Tahoma', sans-serif; font-size: 40px; margin-top: 3%; font-weight: normal; color: #D9D9D9; text-shadow: -2px -2px 0 #44277D, 2px -2px 0 #44277D, -2px 2px 0 #44277D, 2px 2px 0 #44277D;">
     Bem-vindo/a, <span id="nome" style="color: #44277D; text-shadow: none;"></span>.
 </h1>

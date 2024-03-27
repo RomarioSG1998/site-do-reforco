@@ -161,6 +161,9 @@ $resultado_alunos = $conexao->query($query_alunos);
         border: 5px solid #BF7BE8;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
+    form h1{
+        font-size: 15px;
+    }
 
     label {
         display: block;
@@ -198,6 +201,10 @@ $resultado_alunos = $conexao->query($query_alunos);
     }
     .search2 {
         margin-top: 20px;
+        text-align: center;
+    }
+    .search2 h1{
+        font-size: 15px;
         text-align: center;
     }
 
@@ -278,6 +285,7 @@ $resultado_alunos = $conexao->query($query_alunos);
 <!-- Formulário de Cadastro -->
 
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <h1>CADASTRE</h1>
         <label for="id_aluno">ALUNO:</label>
         <select id="id_aluno" name="id_aluno">
             <?php
@@ -294,6 +302,7 @@ $resultado_alunos = $conexao->query($query_alunos);
 </div>
 <div class="search2">
         <form method="GET" action="">
+            <h1>PESQUISE</h1>
             <!-- Adiciona um campo hidden para o id_aluno -->
             <input type="hidden" name="ra" value="<?php echo isset($_GET['ra']) ? $_GET['ra'] : ''; ?>">
             <input type="text" id="search" name="search" class="search-input" placeholder="Buscar por RA ou nome do responsável">
