@@ -82,36 +82,53 @@ include('protect.php');
       color: #fff;
     }
     .popup {
-  font-family: 'Times New Roman', Times, serif; 
+  font-family: 'Tahoma', Times, serif; 
   display: none;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: purple;
+  background-color: #44277D;
   padding: 20px;
   border: 2px solid #000000;
   z-index: 9999;
+  border-radius: 25px;
+  max-width: 500px; /* Definindo a largura máxima do container */
+}
+.popup p {
+  max-width: 100%; /* Garantindo que o texto siga o padrão de largura do container */
 }
 
 .popup-content {
-  font-family: 'Times New Roman', Times, serif; 
+  font-family: 'Tahoma', Times, serif; 
+  font-size: 15px;
   text-align: center;
   color: white;
 }
 
 #interrogation-button {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 24px;
-  padding: 10px 20px;
-  background-color: none;
-  color: black;
-  border: none;
-  cursor: pointer;
-}
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 24px;
+        padding: 10px 20px;
+        background-color: #44277D;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 25px;
+        animation: blink-animation 2s forwards; /* Mudança: duração da animação e propriedade forwards */
+    }
+
+    @keyframes blink-animation {
+        0%, 50%, 100% {
+            opacity: 1;
+        }
+        25%, 75% {
+            opacity: 0;
+        }
+    }
 
 
     /* Media queries para responsividade */
@@ -137,6 +154,11 @@ include('protect.php');
         font-size: 14px;
         background-color: #f9f4fc;
       }
+      .popup {
+    padding: 10px; /* Reduzindo o padding */
+    font-size: 14px; /* Reduzindo o tamanho da fonte */
+  }
+
     }
   </style>
 </head>
@@ -161,7 +183,7 @@ include('protect.php');
   <button id="interrogation-button">?</button>
 <div id="popup" class="popup">
   <div class="popup-content">
-  <p>Ao clicar em um dos links abaixo, você será redirecionado para a página de avaliação ou atualização  cadastral. Esta página deve ser enviada aos pais, para que você saiba qual o nível de satisfação ou para que haja uma atualização no cadastro do aluno. Entre no link, copie o mesmo e, em seguida, envie para os pais.</p>
+  <p>Ao clicar em um dos links abaixo, você será redirecionado para a página <br> de avaliação ou atualização  cadastral. Esta página deve ser enviada <br> aos pais, para que você saiba qual o nível de satisfação ou <br>para que haja uma atualização no cadastro do aluno. Entre no link, copie <br> o mesmo e, em seguida, envie para os pais.</p>
     <button id="popup-link">Avaliação</button>
     <button id="popup-link2">Atualização</button>
   </div>

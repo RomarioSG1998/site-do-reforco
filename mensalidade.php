@@ -108,7 +108,7 @@ $resultado_alunos = $conexao->query($query_alunos);
     <title>Visualização de Pagamentos</title>
     <style>
     body {
-        font-family: "Times New Roman", Times, serif;
+        font-family: "Tahoma", Times, serif;
         background-image: url("./imagens/111.png");
         background-repeat: no-repeat;
         background-size: cover;
