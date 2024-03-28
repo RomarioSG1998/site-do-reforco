@@ -2,6 +2,8 @@
 
 include('conexao2.php');
 
+// Definir uma variável para verificar se o formulário foi enviado com sucesso
+$formulario_enviado = false;
 
 // Verificar se o formulário de cadastro foi submetido
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($_POST['pagador']) && !empty($_POST['id_aluno']) && !empty($_POST['pagador'])) {
@@ -38,11 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($
             // Verificar se a execução da consulta foi bem-sucedida
             if ($resultado_insercao) {
                 echo "<p>Dados cadastrados com sucesso!</p>";
-                
-                // Redirecionar para a página específica após 3 segundos
-                header("refresh:3;url=mensalidade.php");
-                exit(); // Encerra o script para garantir que o redirecionamento seja feito corretamente
-            } else {
+                // Definir a variável para indicar que o formulário foi enviado com sucesso
+                $formulario_enviado = true;
+            }
+             else {
                 echo "<p>Ocorreu um erro ao cadastrar os dados.</p>";
             }
         } else {
@@ -67,6 +68,8 @@ $resultado_alunos = $conexao->query($query_alunos);
 <head>
     <title>Visualização de Pagamentos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
     <style>
     body {
         font-family: "Tahoma", Times, serif;
@@ -278,8 +281,6 @@ $resultado_alunos = $conexao->query($query_alunos);
         }
     }
     </style>
-</head>
-<body>
 <div class="content">
     <p class="cadastro-frase">CADASTRO DO RESPONSÁVEL:</p>
     <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
@@ -288,8 +289,7 @@ $resultado_alunos = $conexao->query($query_alunos);
 </div>
 
 <!-- Formulário de Cadastro -->
-
-<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+<form id="cadastroForm" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     <h1>CADASTRE</h1>
     <label for="id_aluno">ALUNO:</label>
     <select id="id_aluno" name="id_aluno">
@@ -304,6 +304,26 @@ $resultado_alunos = $conexao->query($query_alunos);
     <input type="text" id="pagador" name="pagador"><br><br>
     <input type="submit" value="Cadastrar">
 </form>
+<?php
+// Verificar se o formulário foi enviado com sucesso antes de mostrar o GIF
+if ($formulario_enviado) {
+    ?>
+    <div id="animation">
+        <img src="https://th.bing.com/th/id/R.da20257a26b27784753ab87817040061?rik=vjPnG%2fx9s77Bqg&pid=ImgRaw&r=0.gif" alt="Sua animação">
+    </div>
+    <?php
+}
+?>
+
+<script>
+    // Função para mostrar o GIF de animação
+    function showAnimation() {
+        document.getElementById("animation").style.display = "block";
+    }
+    
+    // Chama a função JavaScript para mostrar a animação após o envio do formulário
+    showAnimation();
+</script>
 
 </body>
 </html>

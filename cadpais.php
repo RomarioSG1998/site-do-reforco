@@ -27,10 +27,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->execute()) {
             // Exibe uma mensagem de sucesso
             echo "<script>alert('Cadastro realizado com sucesso!');</script>";
+            // Redireciona para a página específica
+            header("Location: cadpais2.php");
+            exit(); // Encerra o script para garantir que o redirecionamento seja feito corretamente
         } else {
             // Exibe uma mensagem de erro
             echo "<script>alert('Erro ao cadastrar!');</script>";
         }
+        
 
         // Fecha o statement
         $stmt->close();
@@ -223,36 +227,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div id="confirmacao"></div>
 
     <script>
-        document.getElementById('form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            var formData = new FormData(this);
+    document.getElementById('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var formData = new FormData(this);
 
-            fetch(this.action, {
-                    method: this.method,
-                    body: formData
-                })
-                .then(response => {
-                    if (response.ok) {
-                        document.getElementById('confirmacao').textContent = 'Cadastro salvo com sucesso!';
-                        document.getElementById('confirmacao').style.display = 'block'; // Exibe a mensagem de confirmação
-                        this.reset();
-                        // Limpa a mensagem de confirmação após 3 segundos
-                        setTimeout(function() {
-                            document.getElementById('confirmacao').textContent = '';
-                            document.getElementById('confirmacao').style.display = 'none'; // Oculta novamente
-                        }, 3000);
-                    } else {
-                        document.getElementById('confirmacao').textContent = 'Erro ao cadastrar!';
-                        document.getElementById('confirmacao').style.display = 'block'; // Exibe a mensagem de erro
-                    }
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                    document.getElementById('confirmacao').textContent = 'Erro ao cadastrar!';
-                    document.getElementById('confirmacao').style.display = 'block'; // Exibe a mensagem de erro
-                });
+        fetch(this.action, {
+            method: this.method,
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                document.getElementById('confirmacao').textContent = 'Cadastro salvo com sucesso!';
+                document.getElementById('confirmacao').style.display = 'block'; // Exibe a mensagem de confirmação
+                this.reset();
+                // Redireciona para a página após 3 segundos
+                setTimeout(function() {
+                    window.location.href = 'cadpais2.php';
+                }, 3000);
+            } else {
+                document.getElementById('confirmacao').textContent = 'Erro ao cadastrar!';
+                document.getElementById('confirmacao').style.display = 'block'; // Exibe a mensagem de erro
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            document.getElementById('confirmacao').textContent = 'Erro ao cadastrar!';
+            document.getElementById('confirmacao').style.display = 'block'; // Exibe a mensagem de erro
         });
-    </script>
+    });
+</script>
+
 </body>
 
 </html>
