@@ -113,6 +113,19 @@ $resultado_alunos = $conexao->query($query_alunos);
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 100%; /* Ampliando o contêiner da tabela */
+        margin: auto; 
+        max-width: 1300px;
+        overflow-x: hidden; /* Removendo a rolagem horizontal */
+        overflow-y: auto; /* Adicionando a rolagem vertical quando necessário */
+        margin-top: 30px;
+        border: 2px solid #44277D; /* Adicionando contorno ao redor do contêiner */
+        border-radius: 10px; /* Adicionando borda arredondada */
     }
 
     .cadastro-frase {
@@ -122,7 +135,7 @@ $resultado_alunos = $conexao->query($query_alunos);
         text-align: center;
         margin-top: 90px;
         margin-bottom: 30px;
-        color: white; /* Define a cor do texto */
+        color: white;
     }
 
     /* Estilos para a imagem */
@@ -152,11 +165,11 @@ $resultado_alunos = $conexao->query($query_alunos);
     }
 
     form {
-        width: 90%; /* Reduzido o máximo de largura para 90% da tela */
+        width: 90%;
         margin: 0 auto;
         max-width: 300px;
         background-color: #fff;
-        padding: 20px;
+        padding: 15px;
         border-radius: 15px;
         border: 5px solid #BF7BE8;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -196,9 +209,28 @@ $resultado_alunos = $conexao->query($query_alunos);
 
     /* Estilos para tornar o texto dentro da tabela mais pequeno */
     table {
-        font-size: 13px;
-        font-family: "Times New Roman", Times, serif;
+        width: 98%;
+        border-collapse: collapse;
+        font-size: 10px;
     }
+
+    th, td {
+        border: 1px solid #44277D;
+        padding: -0px; /* Reduzindo o padding para deixar as células mais finas */
+        padding-right: 0px;
+        text-align: left;
+        width: auto; /* Largura automática para as células */
+    }
+
+    th {
+        background-color: #44277D;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
     .search2 {
         margin-top: 20px;
         text-align: center;
@@ -314,11 +346,12 @@ $resultado_alunos = $conexao->query($query_alunos);
     </div>
 
 <!-- Tabela de Pagamentos -->
-<h1>Tabela de pagamentos mensais</h1>
+<div class="container">
+    <h1>Tabela de pagamentos mensais</h1>
 
-<?php
+    <?php
 
-$search = isset($_GET['search']) ? $_GET['search'] : '';
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
     // Consultar os dados da tabela meses
     $query = "SELECT * FROM meses WHERE id_aluno LIKE '%$search%' OR pagador LIKE '%$search%'";
     $resultado = $conexao->query($query);
@@ -385,7 +418,8 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 
     // Fechar conexão
     $conexao->close();
-?>
+    ?>
+</div>
 <script>
     // Verificar se há um parâmetro 'ra' na URL
     const params = new URLSearchParams(window.location.search);

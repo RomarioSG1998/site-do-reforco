@@ -70,7 +70,7 @@ $resultado_alunos = $conexao->query($query_alunos);
     <style>
         body {
             font-family: "Tahoma", Times, serif;
-            background-color: white;
+            background-color: #D9D9D9;
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;

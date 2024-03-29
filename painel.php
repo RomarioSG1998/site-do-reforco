@@ -88,7 +88,7 @@
         }
 
         img {
-            max-width: 30%;
+            max-width: 35%;
             height: 30%;
             display: block;
             margin: 10px auto 0;
@@ -132,6 +132,7 @@
     }
     #watermark {
  font-family: 'Tahoma', sans-serif;
+ text-align:center;
   position: fixed;
   top: 10px;
   left: 50%;

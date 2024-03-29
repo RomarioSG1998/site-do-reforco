@@ -237,7 +237,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         })
         .then(response => {
             if (response.ok) {
-                document.getElementById('confirmacao').textContent = 'Cadastro salvo com sucesso!';
+                document.getElementById('confirmacao').textContent = 'Espere um momento!';
                 document.getElementById('confirmacao').style.display = 'block'; // Exibe a mensagem de confirmação
                 this.reset();
                 // Redireciona para a página após 3 segundos
