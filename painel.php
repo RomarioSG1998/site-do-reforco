@@ -141,6 +141,18 @@
   pointer-events: none; /* Permite que o texto de marca d'água não seja clicável */
   z-index: 9999; /* Garante que o texto fique na frente de outros elementos */
 }
+#watermark2 {
+ font-family: 'Tahoma', sans-serif;
+ text-align:center;
+  position: fixed;
+  top: 650px;
+  left: 44%;
+  transform: none;
+  font-size: 15px;
+  color: rgba(128, 128, 128, 0.9);
+  pointer-events: none; /* Permite que o texto de marca d'água não seja clicável */
+  z-index: 9999; /* Garante que o texto fique na frente de outros elementos */
+}
 
 
         @media screen and (max-width: 750px) {
@@ -171,6 +183,18 @@
   transform: translateX(-50%);
   font-size: 7px;
   color: rgba(128, 128, 128, 0.3);
+  pointer-events: none; /* Permite que o texto de marca d'água não seja clicável */
+  z-index: 9999; /* Garante que o texto fique na frente de outros elementos */
+}
+              #watermark2 {
+ font-family: 'Tahoma', sans-serif;
+ text-align:center;
+  position: fixed;
+  top: 650px;
+  left: 25%;
+  transform: none;
+  font-size: 15px;
+  color: rgba(128, 128, 128, 0.9);
   pointer-events: none; /* Permite que o texto de marca d'água não seja clicável */
   z-index: 9999; /* Garante que o texto fique na frente de outros elementos */
 }
@@ -206,6 +230,7 @@
                 <a href="logout.php" class="logout-button">SAIR</a>
             </div>
         </div>
+        <div id="watermark2">Developed by Romário Galdino<br> versão 0.1</div>
     </header>
 
     <script>
