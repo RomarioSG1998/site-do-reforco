@@ -69,14 +69,13 @@ $conexao->close();
             font-weight: bold;
             text-align:center;
             margin-bottom: 20px;
-            color:WHITE; /* Define a cor do texto */
+            color:WHITE;
             text-shadow: 
                 -2px -2px 0 #44277D,  
                 2px -2px 0 #44277D,
                 -2px 2px 0 #44277D,
                 2px 2px 0 #44277D;
         }
-        /* Estilos para a imagem */
         .cadastro-imagem {
             display: block;
             margin: 0 auto;
@@ -84,7 +83,6 @@ $conexao->close();
             margin-top: -25px;
             margin-bottom: 7px;
         }
-        /* Estilos para o botão de menu */
         .menu-link {
             display: inline-block;
             padding: 10px 20px;
@@ -93,21 +91,20 @@ $conexao->close();
             text-decoration: none;
             border-radius: 5px;
             transition: background-color 0.3s ease;
-            margin-bottom: 20px; /* Adicione margem inferior para espaçamento */
+            margin-bottom: 20px;
         }
         .menu-link:hover {
             background-color: #0056b3;
         }
-       /* Animação de bolo de aniversário */
         .birthday-cake {
             background-image: url('../imagens/aniversario.gif');
             background-repeat: no-repeat;
-            width: 90%; /* Ajuste o tamanho conforme necessário */
+            width: 90%;
             height: 100px;
             background-size: cover;
             background-size: contain;
             animation: bounce 2s infinite;
-            margin-left: -10px; /* Ajuste a margem conforme necessário */
+            margin-left: -10px;
         }
         h2 {
             text-align: left;
@@ -115,7 +112,6 @@ $conexao->close();
             margin-left:0px;
             color: black;
         }
-        /* Estilos para o texto ao lado do gráfico */
         #textoAoLadoDoGrafico {
             float: right;
             margin-top: 50px;
@@ -134,20 +130,18 @@ $conexao->close();
         .hidden {
             display: none;
         }
-        /* Media query para telas com largura de 750 pixels ou menos */
 @media only screen and (max-width: 750px) {
     h2,
     #textoAoLadoDoGrafico {
-        float: none; /* Remover a flutuação */
-        margin: 20px auto; /* Definir margens para centralizar os elementos */
-        text-align: center; /* Centralizar o texto */
+        float: none;
+        margin: 20px auto;
+        text-align: center;
     }
 }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Botão de menu -->
         <div class="content">
             <p class="cadastro-frase">INFORMAÇÕES</p>
             <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
@@ -164,18 +158,15 @@ $conexao->close();
 
             <div class="widget">
                 <h2 class="animate__animated animate__bounce">Aniversariantes do Mês</h2>
-                <!-- Adicionando bolo de aniversário animado -->
                 <div class="birthday-cake"></div>
                 <ul id="aniversariantes" class="animate__animated animate__bounce">
                     <?php
                     $count = 0;
                     while ($rowAniversariante = $resultAniversariantes->fetch_assoc()) {
-                        // Mostrar apenas os primeiros 3 aniversariantes
                         if ($count < 3) {
                             echo "<li>" . $rowAniversariante['nome'] . " - " . date('d/m/Y', strtotime($rowAniversariante['datanasc'])) . "</li>";
                        
                         } else {
-                            // Se houver mais aniversariantes, oculte-os
                             echo "<li class='hidden'>" . $rowAniversariante['nome'] . " - " . date('d/m/Y', strtotime($rowAniversariante['datanasc'])) . "</li>";
                         }
                         $count++;
@@ -183,7 +174,6 @@ $conexao->close();
                     ?>
                 </ul>
                 <?php
-                // Se houver mais de 3 aniversariantes, mostre o botão para ver todos
                 if ($count > 3) {
                     echo '<button onclick="mostrarTodosAniversariantes()">Mostrar Todos</button>';
                 }
@@ -191,15 +181,12 @@ $conexao->close();
             </div>
         </div>
 
-        <!-- Adicione o título para o gráfico de pizza de gênero -->
         <h2>Total de Alunos por Gênero</h2>
         <div id="piechartGenero"></div>
 
-        <!-- Adicione o título para o gráfico de pizza de turmas -->
         <h2>Total de Alunos por Turma</h2>
         <div id="piechartTurma"></div>
 
-        <!-- Adicione o título para o gráfico de barras de avaliação -->
         <h2>Distribuição das Avaliações</h2>
         <div class="container">
         <div id="textoAoLadoDoGrafico">
@@ -231,6 +218,7 @@ $conexao->close();
                 width: '100%',
                 height: '100%',
                 chartArea: { width: '90%', height: '90%' },
+                is3D: true // Adicionando efeito 3D ao gráfico
             };
 
             var screenWidth = window.innerWidth;
@@ -262,6 +250,7 @@ $conexao->close();
                 width: '100%',
                 height: '100%',
                 chartArea: { width: '90%', height: '90%' },
+                is3D: true // Adicionando efeito 3D ao gráfico
             };
 
             var screenWidth = window.innerWidth;
@@ -274,50 +263,45 @@ $conexao->close();
         }
 
         google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChartAvaliacao);
+        google.charts.setOnLoadCallback(drawChartAvaliacao);
 
-function drawChartAvaliacao() {
-    var data = google.visualization.arrayToDataTable([
-        ['Estrelas', 'Porcentagem'], // Definindo as colunas corretamente
-        <?php
-        foreach ($dadosGraficoBarra as $ns => $porcentagem) {
-            echo "['$ns', $porcentagem],";
+        function drawChartAvaliacao() {
+            var data = google.visualization.arrayToDataTable([
+                ['Estrelas', 'Porcentagem'],
+                <?php
+                foreach ($dadosGraficoBarra as $ns => $porcentagem) {
+                    echo "['$ns', $porcentagem],";
+                }
+                ?>
+            ]);
+
+            var options = {
+                title: 'Avaliações',
+                legend: { position: 'none' },
+                colors: ['purple'],
+                hAxis: {
+                    title: 'Porcentagem',
+                    textStyle: {
+                        fontSize: 14
+                    }
+                },
+                vAxis: {
+                    title: 'Estrelas',
+                    textStyle: {
+                        fontSize: 14
+                    }
+                },
+                width: '100%',
+                height: '100%',
+                bars: 'horizontal',
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('myChart'));
+            chart.draw(data, options);
         }
-        ?>
-    ]);
 
-    var options = {
-        title: 'Avaliações',
-        legend: { position: 'none' },
-        colors: ['purple'], // Verde
-        hAxis: {
-            title: 'Porcentagem',
-            textStyle: {
-                fontSize: 14
-            }
-        },
-        vAxis: {
-            title: 'Estrelas',
-            textStyle: {
-                fontSize: 14
-            }
-        },
-        // Remover a largura fixa do chartArea
-        // chartArea: { width: '70%', height: '70%' },
-        bars: 'horizontal', // Definindo a orientação das barras para horizontal
-        // Adicionar a opção responsive
-        width: '100%',
-        height: '100%'
-    };
-
-    var chart = new google.visualization.BarChart(document.getElementById('myChart'));
-    chart.draw(data, options);
-}
         function mostrarTodosAniversariantes() {
-            // Ocultar o botão
             document.querySelector('button').style.display = 'none';
-
-            // Remover a classe de ocultar dos aniversariantes restantes
             var aniversariantesRestantes = document.querySelectorAll('#aniversariantes li.hidden');
             aniversariantesRestantes.forEach(function (item) {
                 item.classList.remove('hidden');

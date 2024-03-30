@@ -133,9 +133,16 @@ $resultado_alunos = $conexao->query($query_alunos);
             color: #44277D;
         }
 
-        input[type="text"],
         select {
-            width: 100%;
+            width: calc(100% - 5px); /* Definindo a largura com base no cálculo */
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #44277D;
+            border-radius: 15px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px); /* Definindo a largura com base no cálculo */
             padding: 8px;
             margin-bottom: 10px;
             border: 1px solid #44277D;
@@ -288,7 +295,7 @@ $resultado_alunos = $conexao->query($query_alunos);
 </head>
 <body>
 <div class="content">
-    <p class="cadastro-frase">Selecione o aluno, <br>em seguida, escreva o primeiro nome<br> do pai ou responsável.</p>
+    <p class="cadastro-frase">Selecione o aluno, <br>em seguida, escreva o primeiro nome<br> do pai/mãe ou responsável.</p>
     <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
         <img class="cadastro-imagem" src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
     </a>

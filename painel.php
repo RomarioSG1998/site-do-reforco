@@ -187,18 +187,19 @@
   pointer-events: none; /* Permite que o texto de marca d'água não seja clicável */
   z-index: 9999; /* Garante que o texto fique na frente de outros elementos */
 }
-              #watermark2 {
- font-family: 'Tahoma', sans-serif;
- text-align:center;
+#watermark2 {
+  font-family: 'Tahoma', sans-serif;
+  text-align: center;
   position: fixed;
-  top: 650px;
-  left: 25%;
+  top: 650px; /* Mantém a posição original */
+  left: 25%; /* Mantém a posição original */
   transform: none;
   font-size: 15px;
   color: rgba(128, 128, 128, 0.9);
   pointer-events: none; /* Permite que o texto de marca d'água não seja clicável */
   z-index: 9999; /* Garante que o texto fique na frente de outros elementos */
 }
+
         }
     </style>
 </head>

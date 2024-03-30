@@ -183,7 +183,8 @@ include('protect.php');
   <button id="interrogation-button">?</button>
 <div id="popup" class="popup">
   <div class="popup-content">
-  <p>Ao clicar em um dos links abaixo, você será redirecionado para a página <br> de avaliação ou atualização  cadastral. Esta página deve ser enviada <br> aos pais, para que você saiba qual o nível de satisfação ou <br>para que haja uma atualização no cadastro do aluno. Entre no link, copie <br> o mesmo e, em seguida, envie para os pais.</p>
+  <p>
+Ao clicar nos links abaixo, você será redirecionado para a página de avaliação ou atualização cadastral.<br> Esta página é destinada aos pais para avaliar a satisfação ou atualizar os dados do aluno.<br> Acesse o link, copie-o e envie aos pais.</p>
     <button id="popup-link">Avaliação</button>
     <button id="popup-link2">Atualização</button>
   </div>
