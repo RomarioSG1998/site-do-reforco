@@ -28,11 +28,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['nome'];
     $senha = $_POST['senha'];
     $email = $_POST['email'];
+    $tipo = $_POST['tipo'];
+    
+    // Upload da imagem
+    $nome_imagem = $_FILES['imagem']['name'];
+    $diretorio_imagem = 'imagens/';
+    $caminho_imagem = $diretorio_imagem . $nome_imagem;
+    move_uploaded_file($_FILES['imagem']['tmp_name'], $caminho_imagem);
 
     // Preparar e executar a consulta SQL para atualizar os dados na tabela
-    $sql = "UPDATE usuarios SET nome=?, senha=?, email=? WHERE id=?";
+    $sql = "UPDATE usuarios SET nome=?, senha=?, email=?, tipo=?, usu_img=? WHERE id=?";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("sssi", $nome, $senha, $email, $id);
+    $stmt->bind_param("sssssi", $nome, $senha, $email, $tipo, $caminho_imagem, $id);
     if ($stmt->execute()) {
         // Redirecionar para cadusuario.php após a edição
         echo "<script>
@@ -98,7 +105,8 @@ $conexao->close();
         input[type="text"],
         input[type="password"],
         input[type="email"],
-        input[type="submit"] {
+        input[type="file"],
+        select { /* Adicionando estilo para o input de arquivo */
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -115,13 +123,20 @@ $conexao->close();
 </head>
 <body>
     <h1>Editar Usuário</h1>
-    <form id="editUserForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $id; ?>" method="POST">
+    <form id="editUserForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $id; ?>" method="POST" enctype="multipart/form-data">
         <label for="nome">Nome:</label><br>
         <input type="text" id="nome" name="nome" value="<?php echo $row['nome']; ?>" required><br>
         <label for="senha">Senha:</label><br>
         <input type="password" id="senha" name="senha" value="<?php echo $row['senha']; ?>" required><br>
         <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" value="<?php echo $row['email']; ?>" required><br><br>
+        <input type="email" id="email" name="email" value="<?php echo $row['email']; ?>" required><br>
+        <label for="tipo">Tipo de Usuário:</label><br>
+        <select id="tipo" name="tipo" required>
+            <option value="pleno" <?php if($row['tipo'] == 'pleno') echo 'selected'; ?>>PLENO</option>
+            <option value="limitado" <?php if($row['tipo'] == 'limitado') echo 'selected'; ?>>LIMITADO</option>
+        </select><br>
+        <label for="imagem">Imagem:</label><br>
+        <input type="file" id="imagem" name="imagem" accept="image/*"><br><br>
         <input type="submit" value="Salvar">
     </form>
     <script>

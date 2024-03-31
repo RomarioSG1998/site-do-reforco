@@ -60,7 +60,8 @@ include('protect.php');
         input[type="text"],
         input[type="password"],
         input[type="email"],
-        input[type="submit"] {
+        input[type="submit"],
+        input[type="file"] { /* Adicionando estilo para o input de arquivo */
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -121,12 +122,18 @@ include('protect.php');
     // Verificar se o formulário foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verificar se todos os campos foram preenchidos
-        if (!empty($_POST['nome']) && !empty($_POST['senha']) && !empty($_POST['email']) && !empty($_POST['tipo'])) {
+        if (!empty($_POST['nome']) && !empty($_POST['senha']) && !empty($_POST['email']) && !empty($_POST['tipo']) && isset($_FILES['imagem'])) {
             // Sanitize os dados de entrada
             $nome = htmlspecialchars($_POST['nome']);
             $senha_usuario = htmlspecialchars($_POST['senha']);
             $email = htmlspecialchars($_POST['email']);
             $tipo = htmlspecialchars($_POST['tipo']);
+            
+            // Upload da imagem
+            $nome_imagem = $_FILES['imagem']['name'];
+            $diretorio_imagem = 'imagens/';
+            $caminho_imagem = $diretorio_imagem . $nome_imagem;
+            move_uploaded_file($_FILES['imagem']['tmp_name'], $caminho_imagem);
 
             // Conexão com o banco de dados
             $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
@@ -137,9 +144,9 @@ include('protect.php');
             }
 
             // Preparar e executar a declaração SQL para inserir o novo usuário
-            $sql_insert = "INSERT INTO usuarios (nome, senha, email, data_criacao, tipo) VALUES (?, ?, ?, NOW(), ?)";
+            $sql_insert = "INSERT INTO usuarios (nome, senha, email, data_criacao, tipo, usu_img) VALUES (?, ?, ?, NOW(), ?, ?)";
             $stmt = $conexao->prepare($sql_insert);
-            $stmt->bind_param("ssss", $nome, $senha_usuario, $email, $tipo);
+            $stmt->bind_param("sssss", $nome, $senha_usuario, $email, $tipo, $caminho_imagem);
             
             if ($stmt->execute()) {
                 echo "<script>
@@ -161,7 +168,7 @@ include('protect.php');
     }
     ?>
 
-    <form id="userForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+    <form id="userForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
         <label for="nome">NOME:</label><br>
         <input type="text" id="nome" name="nome" required><br>
         <label for="senha">SENHA:</label><br>
@@ -173,6 +180,8 @@ include('protect.php');
             <option value="pleno">PLENO</option>
             <option value="limitado">LIMITADO</option>
         </select><br><br>
+        <label for="imagem">IMAGEM:</label><br>
+        <input type="file" id="imagem" name="imagem" accept="image/*" required><br><br>
         <input type="submit" value="Cadastrar">
     </form>
 
@@ -192,7 +201,7 @@ include('protect.php');
     if ($result->num_rows > 0) {
         echo "<h2>Usuários cadastrados:</h2>";
         echo "<table id='userTable'>";
-        echo "<tr><th>ID</th><th>Nome</th><th>Email</th><th>Última atualização</th><th>Tipo</th><th>Ações</th></tr>";
+        echo "<tr><th>ID</th><th>Nome</th><th>Email</th><th>Última atualização</th><th>Tipo</th><th>Imagem</th><th>Ações</th></tr>";
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
             echo "<td>" . $row["id"] . "</td>";
@@ -200,6 +209,7 @@ include('protect.php');
             echo "<td>" . $row["email"] . "</td>";
             echo "<td>" . $row["data_criacao"] . "</td>";
             echo "<td>" . $row["tipo"] . "</td>";
+            echo "<td><img src='" . $row["usu_img"] . "' alt='Imagem do usuário' style='max-width:70px; border-radius: 50%;'></td>";
             echo "<td><a class='edit-icon' href='editarusu.php?id=" . $row["id"] . "'><i class='fas fa-edit'></i></a><a class='delete-icon' href='deletarusu.php?id=" . $row["id"] . "'><i class='fas fa-trash-alt'></i></a></td>";
             echo "</tr>";
         }
@@ -221,4 +231,3 @@ include('protect.php');
     </script>
 </body>
 </html>
-

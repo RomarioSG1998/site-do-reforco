@@ -2,6 +2,24 @@
 include('conexao2.php');
 include('admin.php');
 include('protect.php');
+
+// Consulta para obter o caminho da imagem do usuário atual
+$id_usuario = $_SESSION['id']; // Supondo que você tenha uma variável de sessão para o ID do usuário
+$sql = "SELECT usu_img FROM usuarios WHERE id = ?";
+$stmt = $conexao->prepare($sql);
+$stmt->bind_param("i", $id_usuario);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows > 0) {
+    $stmt->bind_result($usu_img);
+    $stmt->fetch();
+    // Atribua o caminho da imagem à variável $usu_img
+} else {
+    // Usuário não encontrado
+    $usu_img = ""; // Defina um valor padrão ou deixe em branco
+}
+$stmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -171,7 +189,7 @@ include('protect.php');
   </div>
 
   <div class="admin-profile">
-    <img src="https://i.pinimg.com/originals/81/2c/22/812c229c60047ee347f778135cd76b81.gif" alt="Foto do Admin">
+    <img src="<?php echo htmlspecialchars($usu_img); ?>" alt="Foto do Admin">
     <h2><?php echo htmlspecialchars($_SESSION['nome']); ?></h2>
   </div>
 
