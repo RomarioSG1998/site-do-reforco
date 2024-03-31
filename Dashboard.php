@@ -22,12 +22,19 @@ $sqlGenero = "SELECT genero, COUNT(ra) as totalAlunosGenero FROM alunos GROUP BY
 $resultGenero = $conexao->query($sqlGenero);
 
 // Consulta SQL para buscar dados da tabela de avaliação
-$sqlAvaliacao = "SELECT ns, COUNT(id) as total_por_ns FROM avalicao GROUP BY ns";
+$sqlAvaliacao = "SELECT ns, comente, COUNT(id) as total_por_ns FROM avaliacao GROUP BY ns, comente";
 $resultAvaliacao = $conexao->query($sqlAvaliacao);
+
+// Array para armazenar os comentários por ns
+$comentariosPorNS = array();
+while ($rowAvaliacao = $resultAvaliacao->fetch_assoc()) {
+    $comentariosPorNS[$rowAvaliacao['ns']][] = $rowAvaliacao['comente'];
+}
 
 // Calcular a porcentagem de cada valor de "ns"
 $totalAvaliacoes = 0;
 $dadosGraficoBarra = array();
+$resultAvaliacao->data_seek(0); // Retorna o ponteiro de resultado para o início
 while ($rowAvaliacao = $resultAvaliacao->fetch_assoc()) {
     $totalAvaliacoes += $rowAvaliacao['total_por_ns'];
     $dadosGraficoBarra[$rowAvaliacao['ns']] = $rowAvaliacao['total_por_ns'];
@@ -40,7 +47,7 @@ foreach ($dadosGraficoBarra as $ns => $total_por_ns) {
 }
 
 // Obter a última data de atualização das informações
-$sqlUltimaAtualizacao = "SELECT MAX(data) as ultima_atualizacao FROM avalicao";
+$sqlUltimaAtualizacao = "SELECT MAX(data) as ultima_atualizacao FROM avaliacao";
 $resultUltimaAtualizacao = $conexao->query($sqlUltimaAtualizacao);
 $rowUltimaAtualizacao = $resultUltimaAtualizacao->fetch_assoc();
 $ultimaAtualizacao = $rowUltimaAtualizacao['ultima_atualizacao'];
@@ -189,124 +196,154 @@ $conexao->close();
 
         <h2>Distribuição das Avaliações</h2>
         <div class="container">
-        <div id="textoAoLadoDoGrafico">
-            <p>Este gráfico mostra a distribuição das <br> avaliações em relação ao número de<br> estrelas escolhidas pelos pais.</p>
-            <p>Total de participantes: <span id="totalParticipantes"><?php echo $totalAvaliacoes; ?></span></p>
+            <div id="textoAoLadoDoGrafico">
+                <p>Este gráfico mostra a distribuição das <br> avaliações em relação ao número de<br> estrelas escolhidas pelos pais.</p>
+                <p>Total de participantes: <span id="totalParticipantes"><?php echo $totalAvaliacoes; ?></span></p>
+            </div>
+            <div id="myChart" style="width:50%; height:400px;"></div>
+            <button id="btnComentarios">Ver Comentários</button>
         </div>
-        <div id="myChart" style="width:50%; height:400px;"></div>
-    </div>
 
-    <script type="text/javascript">
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChartGenero);
+        <div id="comentariosPopup" class="hidden">
+            <h3>Comentários das Avaliações</h3>
+            <ul id="listaComentarios"></ul>
+            <button onclick="fecharPopup()">Fechar</button>
+        </div>
 
-        function drawChartGenero() {
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Gênero');
-            data.addColumn('number', 'Total de Alunos');
+        <script type="text/javascript">
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChartGenero);
 
-            <?php
-            $resultGenero->data_seek(0);
-            while ($rowGenero = $resultGenero->fetch_assoc()) {
-                echo "data.addRow(['" . $rowGenero['genero'] . "', " . $rowGenero['totalAlunosGenero'] . "]);";
-            }
-            ?>
+            function drawChartGenero() {
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Gênero');
+                data.addColumn('number', 'Total de Alunos');
 
-            var options = {
-                title: 'Total de Alunos por Gênero',
-                pieHole: 0.4,
-                width: '100%',
-                height: '100%',
-                chartArea: { width: '90%', height: '90%' },
-                is3D: true // Adicionando efeito 3D ao gráfico
-            };
-
-            var screenWidth = window.innerWidth;
-            if (screenWidth <= 600) {
-                options.pieHole = 0.2;
-            }
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechartGenero'));
-            chart.draw(data, options);
-        }
-
-        google.charts.setOnLoadCallback(drawChartTurma);
-
-        function drawChartTurma() {
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Turma');
-            data.addColumn('number', 'Total de Alunos');
-
-            <?php
-            $resultTurma->data_seek(0);
-            while ($rowTurma = $resultTurma->fetch_assoc()) {
-                echo "data.addRow(['" . $rowTurma['turma'] . "', " . $rowTurma['totalAlunosTurma'] . "]);";
-            }
-            ?>
-
-            var options = {
-                title: 'Total de Alunos por Turma',
-                pieHole: 0.4,
-                width: '100%',
-                height: '100%',
-                chartArea: { width: '90%', height: '90%' },
-                is3D: true // Adicionando efeito 3D ao gráfico
-            };
-
-            var screenWidth = window.innerWidth;
-            if (screenWidth <= 600) {
-                options.pieHole = 0.2;
-            }
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechartTurma'));
-            chart.draw(data, options);
-        }
-
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChartAvaliacao);
-
-        function drawChartAvaliacao() {
-            var data = google.visualization.arrayToDataTable([
-                ['Estrelas', 'Porcentagem'],
                 <?php
-                foreach ($dadosGraficoBarra as $ns => $porcentagem) {
-                    echo "['$ns', $porcentagem],";
+                $resultGenero->data_seek(0);
+                while ($rowGenero = $resultGenero->fetch_assoc()) {
+                    echo "data.addRow(['" . $rowGenero['genero'] . "', " . $rowGenero['totalAlunosGenero'] . "]);";
                 }
                 ?>
-            ]);
 
-            var options = {
-                title: 'Avaliações',
-                legend: { position: 'none' },
-                colors: ['purple'],
-                hAxis: {
-                    title: 'Porcentagem',
-                    textStyle: {
-                        fontSize: 14
+                var options = {
+                    title: 'Total de Alunos por Gênero',
+                    pieHole: 0.4,
+                    width: '100%',
+                    height: '100%',
+                    chartArea: { width: '90%', height: '90%' },
+                    is3D: true // Adicionando efeito 3D ao gráfico
+                };
+
+                var screenWidth = window.innerWidth;
+                if (screenWidth <= 600) {
+                    options.pieHole = 0.2;
+                }
+
+                var chart = new google.visualization.PieChart(document.getElementById('piechartGenero'));
+                chart.draw(data, options);
+            }
+
+            google.charts.setOnLoadCallback(drawChartTurma);
+
+            function drawChartTurma() {
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Turma');
+                data.addColumn('number', 'Total de Alunos');
+
+                <?php
+                $resultTurma->data_seek(0);
+                while ($rowTurma = $resultTurma->fetch_assoc()) {
+                    echo "data.addRow(['" . $rowTurma['turma'] . "', " . $rowTurma['totalAlunosTurma'] . "]);";
+                }
+                ?>
+
+                var options = {
+                    title: 'Total de Alunos por Turma',
+                    pieHole: 0.4,
+                    width: '100%',
+                    height: '100%',
+                    chartArea: { width: '90%', height: '90%' },
+                    is3D: true // Adicionando efeito 3D ao gráfico
+                };
+
+                var screenWidth = window.innerWidth;
+                if (screenWidth <= 600) {
+                    options.pieHole = 0.2;
+                }
+
+                var chart = new google.visualization.PieChart(document.getElementById('piechartTurma'));
+                chart.draw(data, options);
+            }
+
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChartAvaliacao);
+
+            function drawChartAvaliacao() {
+                var data = google.visualization.arrayToDataTable([
+                    ['Estrelas', 'Porcentagem'],
+                    <?php
+                    foreach ($dadosGraficoBarra as $ns => $porcentagem) {
+                        echo "['$ns', $porcentagem],";
                     }
-                },
-                vAxis: {
-                    title: 'Estrelas',
-                    textStyle: {
-                        fontSize: 14
-                    }
-                },
-                width: '100%',
-                height: '100%',
-                bars: 'horizontal',
-            };
+                    ?>
+                ]);
 
-            var chart = new google.visualization.BarChart(document.getElementById('myChart'));
-            chart.draw(data, options);
-        }
+                var options = {
+                    title: 'Avaliações',
+                    legend: { position: 'none' },
+                    colors: ['purple'],
+                    hAxis: {
+                        title: 'Porcentagem',
+                        textStyle: {
+                            fontSize: 14
+                        }
+                    },
+                    vAxis: {
+                        title: 'Estrelas',
+                        textStyle: {
+                            fontSize: 14
+                        }
+                    },
+                    width: '100%',
+                    height: '100%',
+                    bars: 'horizontal',
+                };
 
-        function mostrarTodosAniversariantes() {
-            document.querySelector('button').style.display = 'none';
-            var aniversariantesRestantes = document.querySelectorAll('#aniversariantes li.hidden');
-            aniversariantesRestantes.forEach(function (item) {
-                item.classList.remove('hidden');
-            });
-        }
-    </script>
-</body>
-</html>
+                var chart = new google.visualization.BarChart(document.getElementById('myChart'));
+                chart.draw(data, options);
+            }
+
+            function mostrarTodosAniversariantes() {
+                document.querySelector('button').style.display = 'none';
+                var aniversariantesRestantes = document.querySelectorAll('#aniversariantes li.hidden');
+                aniversariantesRestantes.forEach(function (item) {
+                    item.classList.remove('hidden');
+                });
+            }
+
+            function exibirComentarios() {
+                var comentariosPopup = document.getElementById('comentariosPopup');
+                comentariosPopup.classList.remove('hidden');
+
+                var listaComentarios = document.getElementById('listaComentarios');
+                listaComentarios.innerHTML = '';
+
+                <?php
+                foreach ($comentariosPorNS as $ns => $comentarios) {
+                    echo "comentariosPopup.innerHTML += '<li><strong>$ns estrela(s):</strong></li>';";
+                    echo "comentarios.forEach(function(comentario) {";
+                    echo "listaComentarios.innerHTML += '<li>' + comentario + '</li>';";
+                    echo "});";
+                }
+                ?>
+            }
+
+            function fecharPopup() {
+                document.getElementById('comentariosPopup').classList.add('hidden');
+            }
+
+            document.getElementById('btnComentarios').addEventListener('click', exibirComentarios);
+        </script>
+    </body>
+    </html>
