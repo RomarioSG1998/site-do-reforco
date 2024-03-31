@@ -22,13 +22,13 @@ $sqlGenero = "SELECT genero, COUNT(ra) as totalAlunosGenero FROM alunos GROUP BY
 $resultGenero = $conexao->query($sqlGenero);
 
 // Consulta SQL para buscar dados da tabela de avaliação
-$sqlAvaliacao = "SELECT ns, comente, COUNT(id) as total_por_ns FROM avaliacao GROUP BY ns, comente";
+$sqlAvaliacao = "SELECT ns, comente, data, COUNT(id) as total_por_ns FROM avaliacao GROUP BY ns, comente, data";
 $resultAvaliacao = $conexao->query($sqlAvaliacao);
 
 // Array para armazenar os comentários por ns
 $comentariosPorNS = array();
 while ($rowAvaliacao = $resultAvaliacao->fetch_assoc()) {
-    $comentariosPorNS[$rowAvaliacao['ns']][] = $rowAvaliacao['comente'];
+    $comentariosPorNS[$rowAvaliacao['ns']][] = array('comentario' => $rowAvaliacao['comente'], 'data' => $rowAvaliacao['data']);
 }
 
 // Calcular a porcentagem de cada valor de "ns"
@@ -137,14 +137,72 @@ $conexao->close();
         .hidden {
             display: none;
         }
-@media only screen and (max-width: 750px) {
-    h2,
-    #textoAoLadoDoGrafico {
-        float: none;
-        margin: 20px auto;
-        text-align: center;
-    }
-}
+        @media only screen and (max-width: 750px) {
+            h2,
+            #textoAoLadoDoGrafico {
+                float: none;
+                margin: 20px auto;
+                text-align: center;
+            }
+        }
+
+        /* Estilos para o popup */
+        #comentariosPopup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+        .popup-content {
+            max-width: 400px;
+            margin: 0 auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            color: #999;
+        }
+
+        .close-btn:hover {
+            color: #555;
+        }
+
+        #listaComentarios {
+            padding: 0;
+            list-style-type: none;
+            margin-top: 10px;
+        }
+
+        #listaComentarios li {
+            margin-bottom: 10px;
+        }
+
+        .comentario-1 {
+            color: red;
+            font-weight: bold;
+        }
+
+        .comentario-3 {
+            color: green;
+            font-weight: bold;
+        }
+
+        /* Estilo adicional para animação de flash */
+        .animate__flash {
+            animation-duration: 1s;
+        }
     </style>
 </head>
 <body>
@@ -201,13 +259,15 @@ $conexao->close();
                 <p>Total de participantes: <span id="totalParticipantes"><?php echo $totalAvaliacoes; ?></span></p>
             </div>
             <div id="myChart" style="width:50%; height:400px;"></div>
-            <button id="btnComentarios">Ver Comentários</button>
+            <button id="btnComentarios" class="<?php echo ($ultimaAtualizacao == date('Y-m-d')) ? 'novo-comentario' : ''; ?>">Ver Comentários</button>
         </div>
 
         <div id="comentariosPopup" class="hidden">
-            <h3>Comentários das Avaliações</h3>
-            <ul id="listaComentarios"></ul>
-            <button onclick="fecharPopup()">Fechar</button>
+            <div class="popup-content">
+                <span class="close-btn" onclick="fecharPopup()">&times;</span>
+                <h3>Comentários das Avaliações</h3>
+                <ul id="listaComentarios"></ul>
+            </div>
         </div>
 
         <script type="text/javascript">
@@ -331,19 +391,44 @@ $conexao->close();
 
                 <?php
                 foreach ($comentariosPorNS as $ns => $comentarios) {
-                    echo "comentariosPopup.innerHTML += '<li><strong>$ns estrela(s):</strong></li>';";
-                    echo "comentarios.forEach(function(comentario) {";
-                    echo "listaComentarios.innerHTML += '<li>' + comentario + '</li>';";
-                    echo "});";
+                    echo "listaComentarios.innerHTML += '<li><strong>$ns estrela(s):</strong></li>';";
+                    foreach ($comentarios as $comentario) {
+                        $data = date('d/m/Y', strtotime($comentario['data']));
+                        if ($ns <=2) {
+                            echo "listaComentarios.innerHTML += '<li class=\"comentario-1\">{$comentario['comentario']} - $data</li>';"; // Adiciona a data aqui
+                        } elseif ($ns > 3) {
+                            echo "listaComentarios.innerHTML += '<li class=\"comentario-3\">{$comentario['comentario']} - $data</li>';"; // Adiciona a data aqui
+                        } else {
+                            echo "listaComentarios.innerHTML += '<li>{$comentario['comentario']} - $data</li>';"; // Adiciona a data aqui
+                        }
+                    }
                 }
                 ?>
             }
 
+            // Função para piscar o botão "Ver Comentários" apenas quando houver novos comentários não visualizados
+            function piscarBotao() {
+                var botaoComentarios = document.getElementById('btnComentarios');
+                if (botaoComentarios.classList.contains('novo-comentario')) {
+                    botaoComentarios.classList.add('animate__animated', 'animate__flash');
+                    setTimeout(function() {
+                        botaoComentarios.classList.remove('animate__animated', 'animate__flash');
+                    }, 1000); // Tempo em milissegundos para remover a classe de animação
+                }
+            }
+
+            // Adicionando o evento de clique ao botão
+            document.getElementById('btnComentarios').addEventListener('click', exibirComentarios);
+
+            // Inicia a piscagem do botão apenas quando há novos comentários não visualizados
+            document.addEventListener('DOMContentLoaded', function() {
+                piscarBotao();
+            });
+
+            // Função para fechar o popup de comentários
             function fecharPopup() {
                 document.getElementById('comentariosPopup').classList.add('hidden');
             }
-
-            document.getElementById('btnComentarios').addEventListener('click', exibirComentarios);
         </script>
     </body>
-    </html>
+</html>
