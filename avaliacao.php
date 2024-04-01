@@ -114,6 +114,24 @@ $conexao->close();
         max-width: 200%;
         height: 200%;
     }
+    .star-rating {
+        font-size: 0; /* Remove o espaço entre as estrelas */
+    }
+    .star-rating label {
+        font-size: 30px;
+    }
+    .star-rating input[type="radio"] {
+        display: none;
+    }
+    .star-rating label:before {
+        content: '☆';
+        margin: 5px;
+    }
+    .star-rating input[type="radio"]:checked ~ label:before,
+    .star-rating label:hover ~ input[type="radio"] ~ label:before {
+        content: '★';
+        color: purple;
+    }
 </style>
 </head>
 <body>
@@ -123,12 +141,12 @@ $conexao->close();
 
     <p class="animated" id="instruction">Qual seu nível de satisfação com o Reforço?</p>
 
-    <div class="rating">
-        <input type="radio" id="star5" name="rating" value="5"><label for="star5">☆</label>
-        <input type="radio" id="star4" name="rating" value="4"><label for="star4">☆</label>
-        <input type="radio" id="star3" name="rating" value="3"><label for="star3">☆</label>
-        <input type="radio" id="star2" name="rating" value="2"><label for="star2">☆</label>
-        <input type="radio" id="star1" name="rating" value="1"><label for="star1">☆</label>
+    <div class="rating star-rating">
+        <input type="radio" id="star5" name="rating" value="5"><label for="star5">5</label>
+        <input type="radio" id="star4" name="rating" value="4"><label for="star4">4</label>
+        <input type="radio" id="star3" name="rating" value="3"><label for="star3">3</label>
+        <input type="radio" id="star2" name="rating" value="2"><label for="star2">2</label>
+        <input type="radio" id="star1" name="rating" value="1"><label for="star1">1</label>
     </div>
 
     <p class="animated" id="commentLabel">Deixe seu comentário/sugestão: (opcional)</p>
@@ -181,4 +199,3 @@ $conexao->close();
 
 </body>
 </html>
-

@@ -33,7 +33,7 @@ $stmt->close();
       font-family: 'Times New Roman', Times, serif; /* Definindo a fonte para Times New Roman */
       margin: 0;
       padding: 0;
-      background-color: #fff;
+      background-color: #D9D9D9;
     }
     .admin-header {
       background-color:  #44277D; /* Lilás Escuro */

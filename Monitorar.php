@@ -1,7 +1,7 @@
 <?php
 include('conexao2.php');
 include('admin.php');
-include('protect.php'); 
+include('protect.php');
 
 $hostname = "localhost";
 $bancodedados = "if0_36181052_sistemadoreforco";
@@ -14,8 +14,8 @@ if ($conexao->connect_error) {
     die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
 }
 
-// Selecionar os três últimos registros com o nome do usuário
-$query_select = "SELECT atividades.*, usuarios.nome as nome_usuario 
+// Selecionar os cinco últimos registros com o nome do usuário e a imagem
+$query_select = "SELECT atividades.*, usuarios.nome as nome_usuario, usuarios.usu_img 
                  FROM atividades 
                  INNER JOIN usuarios ON atividades.id_usuario = usuarios.id 
                  ORDER BY atividades.data_hora DESC 
@@ -34,9 +34,18 @@ if ($resultado_select && $resultado_select->num_rows > 0) {
     }
 }
 
-// Excluir os registros antigos
-$query_delete = "DELETE FROM atividades WHERE id NOT IN (SELECT id FROM (SELECT id FROM atividades ORDER BY data_hora DESC LIMIT 3) AS subquery)";
+// Deleta todos os registros da tabela atividades
+$query_delete = "DELETE FROM atividades";
 $conexao->query($query_delete);
+
+// Insere os 5 últimos registros de volta na tabela atividades
+foreach ($atividades as $atividade) {
+    $id_usuario = $atividade['id_usuario'];
+    $data_hora = $atividade['data_hora'];
+    // Insira os dados de $atividade de volta na tabela atividades
+    $query_insert = "INSERT INTO atividades (id_usuario, data_hora) VALUES ('$id_usuario', '$data_hora')";
+    $conexao->query($query_insert);
+}
 ?>
 
 <!DOCTYPE html>
@@ -154,24 +163,27 @@ $conexao->query($query_delete);
         opacity: 0;
     }
 }
-
+ /* Estilos CSS existentes omitidos para brevidade */
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="btn-novo">
+    <div class="btn-novo">
             <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
                 <img src="./imagens/logo sem fundo2.png" alt="Home">
             </a>
         </div>
+        <!-- Código HTML existente omitido para brevidade -->
         <h1 style=" text-align: center; font-family: 'Tahoma', sans-serif; font-size: 40px; margin-top: 3%; font-weight: normal; color: #D9D9D9; text-shadow: -2px -2px 0 #44277D, 2px -2px 0 #44277D, -2px 2px 0 #44277D, 2px 2px 0 #44277D;">Timeline de Atividades</h1>
         <ul class="timeline">
             <?php foreach ($atividades as $index => $atividade) : ?>
                 <li class="timeline-item" id="item-<?php echo $index; ?>">
                     <div class="timeline-item-content">
-                        <p>Data e Hora: <?php echo $atividade['data_hora']; ?></p>
+                        <!-- Exibe a imagem do usuário -->
+                        <img src="<?php echo $atividade['usu_img']; ?>" alt="Imagem do Usuário" style="width: 50px; height: 50px; border-radius: 50%;">
                         <p>Nome do Usuário: <?php echo $atividade['nome_usuario']; ?></p>
+                        <p>Data e Hora: <?php echo $atividade['data_hora']; ?></p>
                     </div>
                 </li>
             <?php endforeach; ?>
@@ -179,7 +191,7 @@ $conexao->query($query_delete);
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+       document.addEventListener("DOMContentLoaded", function() {
             var timelineItems = document.querySelectorAll('.timeline-item');
 
             timelineItems.forEach(function(item, index) {

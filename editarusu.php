@@ -135,8 +135,10 @@ $conexao->close();
             <option value="pleno" <?php if($row['tipo'] == 'pleno') echo 'selected'; ?>>PLENO</option>
             <option value="limitado" <?php if($row['tipo'] == 'limitado') echo 'selected'; ?>>LIMITADO</option>
         </select><br>
-        <label for="imagem">Imagem:</label><br>
+        <label for="imagem">Nova Imagem: (ao atualizar qualquer informação, atualize também sua imagem)</label><br>
         <input type="file" id="imagem" name="imagem" accept="image/*"><br><br>
+        <label for="imagem">Imagem Atual:</label><br>
+        <img src="<?php echo $row['usu_img']; ?>" alt="Imagem atual do usuário" style="max-width:70px; border-radius: 50%;"><br><br>
         <input type="submit" value="Salvar">
     </form>
     <script>
