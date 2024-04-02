@@ -258,7 +258,7 @@ $conexao->close();
                 <p>Este gráfico mostra a distribuição das <br> avaliações em relação ao número de<br> estrelas escolhidas pelos pais.</p>
                 <p>Total de participantes: <span id="totalParticipantes"><?php echo $totalAvaliacoes; ?></span></p>
             </div>
-            <div id="myChart" style="width:50%; height:400px;"></div>
+            <div id="myChart" style="width:100%; height:400px;"></div>
             <button id="btnComentarios" class="<?php echo ($ultimaAtualizacao == date('Y-m-d')) ? 'novo-comentario' : ''; ?>">Ver Comentários</button>
         </div>
 
@@ -353,13 +353,13 @@ $conexao->close();
                     title: 'Avaliações',
                     legend: { position: 'none' },
                     colors: ['purple'],
-                    hAxis: {
+                    vAxis: {
                         title: 'Porcentagem',
                         textStyle: {
                             fontSize: 14
                         }
                     },
-                    vAxis: {
+                    hAxis: {
                         title: 'Estrelas',
                         textStyle: {
                             fontSize: 14
@@ -367,10 +367,10 @@ $conexao->close();
                     },
                     width: '100%',
                     height: '100%',
-                    bars: 'horizontal',
+                    bar: { groupWidth: '5%' } // Ajuste a largura das barras aqui
                 };
 
-                var chart = new google.visualization.BarChart(document.getElementById('myChart'));
+                var chart = new google.visualization.ColumnChart(document.getElementById('myChart'));
                 chart.draw(data, options);
             }
 

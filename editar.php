@@ -69,7 +69,7 @@ if(isset($_GET['ra'])) {
         body {
             width: 100%;
             height: 100vh;
-            background-image: url("./imagens/111.png");
+            background-image: url("../imagens/111.png");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
@@ -154,7 +154,15 @@ if(isset($_GET['ra'])) {
                     <option value="Feminino" <?php if($aluno['genero'] == 'Feminino') echo 'selected'; ?>>Feminino</option>
                 </select><br>
                 <label for="turma">Turma:</label>
-                <input type="text" name="turma" id="turma" value="<?php echo $aluno['turma']; ?>"><br>
+<select name="turma" id="turma">
+    <option value="Turma 1" <?php if($aluno['turma'] == 'Turma 1') echo 'selected'; ?>>Turma 1</option>
+    <option value="Turma 2" <?php if($aluno['turma'] == 'Turma 2') echo 'selected'; ?>>Turma 2</option>
+    <option value="Turma 3" <?php if($aluno['turma'] == 'Turma 3') echo 'selected'; ?>>Turma 3</option>
+    <option value="Turma 4" <?php if($aluno['turma'] == 'Turma 4') echo 'selected'; ?>>Turma 4</option>
+    <option value="Turma 5" <?php if($aluno['turma'] == 'Turma 5') echo 'selected'; ?>>Turma 5</option>
+    <option value="Turma 6" <?php if($aluno['turma'] == 'Turma 6') echo 'selected'; ?>>Turma 6</option>
+</select><br>
+
                 <input type="submit" value="Salvar">
             </form>
         </body>

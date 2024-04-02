@@ -1,9 +1,3 @@
-<?php 
-    include('conexao2.php');
-    include('admin.php');
-    include('protect.php');
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -14,7 +8,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <style>
         body {
-            
             background-image: url("./imagens/111.png");
             background-repeat: no-repeat;
             background-size: cover;
@@ -28,7 +21,6 @@
             margin-bottom: 20px;
             color:white; /* Define a cor do texto */
             text-shadow: 
-               
         }
 
         /* Estilos para a imagem */
@@ -39,6 +31,13 @@
             margin-top: -25px;
             margin-bottom: 7px;
         }
+
+        .table-container {
+            max-height: 500px; /* Defina a altura máxima desejada */
+            overflow-y: auto; /* Adiciona barra de rolagem vertical quando necessário */
+            margin-top: 20px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -73,7 +72,7 @@
             margin-right: 5px;
             cursor: pointer; /* Adicionando estilo de cursor para indicar que é clicável */
         }
-        
+
         .titulo {
             text-align: center;
             color: #6a5acd; /* lilás médio */
@@ -84,7 +83,7 @@
             table, th, td {
                 font-size: 14px;
             }
-            
+
             th, td {
                 width: 100%;
             }
@@ -159,24 +158,25 @@
     </a>
 </div>
 
-    <div class="search-container">
-        <form method="GET" action="">
-            <!-- Adiciona um campo hidden para o id_aluno -->
-            <input type="hidden" name="id_aluno" value="<?php echo isset($_GET['id_aluno']) ? $_GET['id_aluno'] : ''; ?>">
-            <input type="text" name="search" class="search-input" placeholder="Buscar por RA ou nome do aluno" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
-            <button type="submit" class="search-btn">Buscar</button>
-        </form>
-        <!-- Adiciona um link oculto para download do PDF -->
-        <a id="download-link" download="alunos.pdf"></a>
-        <a href="#" onclick="generatePDF()" class="print-icon"><i class="fas fa-print"></i></a>
-    </div>
+<div class="search-container">
+    <form method="GET" action="">
+        <!-- Adiciona um campo hidden para o id_aluno -->
+        <input type="hidden" name="id_aluno" value="<?php echo isset($_GET['id_aluno']) ? $_GET['id_aluno'] : ''; ?>">
+        <input type="text" name="search" class="search-input" placeholder="Buscar por RA ou nome do aluno" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+        <button type="submit" class="search-btn">Buscar</button>
+    </form>
+    <!-- Adiciona um link oculto para download do PDF -->
+    <a id="download-link" download="alunos.pdf"></a>
+    <a href="#" onclick="generatePDF()" class="print-icon"><i class="fas fa-print"></i></a>
+</div>
 
-    <?php if(isset($_GET['exclusao_sucesso'])): ?>
-        <p style="color: green;">Registro excluído com sucesso!</p>
-    <?php elseif(isset($_GET['exclusao_erro'])): ?>
-        <p style="color: red;">Erro ao excluir o registro.</p>
-    <?php endif; ?>
+<?php if(isset($_GET['exclusao_sucesso'])): ?>
+    <p style="color: green;">Registro excluído com sucesso!</p>
+<?php elseif(isset($_GET['exclusao_erro'])): ?>
+    <p style="color: red;">Erro ao excluir o registro.</p>
+<?php endif; ?>
 
+<div class="table-container">
     <table id="alunosTable">
         <tr>
             <th>RA</th>
@@ -234,9 +234,10 @@
         $conexao->close();
         ?>
     </table>
+</div>
 
-    <script>
-        // Função JavaScript não precisa de alteração
-    </script>
+<script>
+    // Função JavaScript não precisa de alteração
+</script>
 </body>
 </html>

@@ -1,78 +1,80 @@
-<?php 
-
+<?php
 include('conexao2.php');
 include('admin.php');
 include('protect.php');
 
+$errors = array(); // Array para armazenar mensagens de erro
+
 // Verificar se o formulário de cadastro foi submetido
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($_POST['pagador']) && !empty($_POST['id_aluno']) && !empty($_POST['pagador'])) {
-    // Processar os dados do formulário
-    $id_aluno = $_POST['id_aluno'];
-    $pagador = $_POST['pagador'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['id_aluno'], $_POST['pagador']) && !empty($_POST['id_aluno']) && !empty($_POST['pagador'])) {
+        // Processar os dados do formulário
+        $id_aluno = $_POST['id_aluno'];
+        $pagador = $_POST['pagador'];
 
-    // Estabelecer conexão
-    $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+        // Estabelecer conexão
+        $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
-    // Verificar se houve erro na conexão
-    if($conexao->connect_error) {
-        die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
-    }
-
-    // Preparar a consulta SQL para inserir dados
-    $query_insercao = "INSERT INTO meses (id_aluno, pagador) VALUES (?, ?)";
-    $stmt = $conexao->prepare($query_insercao);
-
-    // Verificar se a preparação da consulta foi bem-sucedida
-    if ($stmt) {
-        // Vincular os parâmetros da consulta preparada
-        $stmt->bind_param("ss", $id_aluno, $pagador);
-        
-        // Executar a consulta preparada
-        $resultado_insercao = $stmt->execute();
-        
-        // Verificar se a execução da consulta foi bem-sucedida
-        if ($resultado_insercao) {
-            echo "<p>Dados cadastrados com sucesso!</p>";
-            
-            // Redirecionar para a página específica após 3 segundos
-            header("refresh:3;url=mensalidade.php");
-            exit(); // Encerra o script para garantir que o redirecionamento seja feito corretamente
-        } else {
-            echo "<p>Ocorreu um erro ao cadastrar os dados.</p>";
+        // Verificar se houve erro na conexão
+        if ($conexao->connect_error) {
+            die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
         }
-    } else {
-        // Se a preparação da consulta falhar, exibir mensagem de erro
-        echo "<p>Ocorreu um erro ao preparar a consulta.</p>";
+
+        // Preparar a consulta SQL para inserir dados
+        $query_insercao = "INSERT INTO meses (id_aluno, pagador) VALUES (?, ?)";
+        $stmt = $conexao->prepare($query_insercao);
+
+        // Verificar se a preparação da consulta foi bem-sucedida
+        if ($stmt) {
+            // Vincular os parâmetros da consulta preparada
+            $stmt->bind_param("ss", $id_aluno, $pagador);
+
+            // Executar a consulta preparada
+            $resultado_insercao = $stmt->execute();
+
+            // Verificar se a execução da consulta foi bem-sucedida
+            if ($resultado_insercao) {
+                echo "<p>Dados cadastrados com sucesso!</p>";
+
+                // Redirecionar para a página específica após 3 segundos
+                header("refresh:3;url=mensalidade.php");
+                exit(); // Encerra o script para garantir que o redirecionamento seja feito corretamente
+            } else {
+                $errors[] = "Ocorreu um erro ao cadastrar os dados.";
+            }
+        } else {
+            $errors[] = "Ocorreu um erro ao preparar a consulta.";
+        }
+
+        // Fechar conexão
+        $conexao->close();
+    } elseif (isset($_POST['ra'])) {
+        // Processamento da exclusão
+        $ra = $_POST['ra'];
+
+        // Estabelecer conexão
+        $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+
+        // Verificar se houve erro na conexão
+        if ($conexao->connect_error) {
+            die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
+        }
+
+        // Excluir o registro
+        $query_exclusao = "DELETE FROM meses WHERE ra = ?";
+        $stmt = $conexao->prepare($query_exclusao);
+        $stmt->bind_param("s", $ra);
+        $resultado_exclusao = $stmt->execute();
+
+        if ($resultado_exclusao) {
+            echo "<p>Registro excluído com sucesso.</p>";
+        } else {
+            $errors[] = "Ocorreu um erro ao excluir o registro.";
+        }
+
+        // Fechar conexão
+        $conexao->close();
     }
-
-    // Fechar conexão
-    $conexao->close();
-} elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ra'])) {
-    // Processamento da exclusão
-    $ra = $_POST['ra'];
-
-    // Estabelecer conexão
-    $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-
-    // Verificar se houve erro na conexão
-    if($conexao->connect_error) {
-        die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
-    }
-
-    // Excluir o registro
-    $query_exclusao = "DELETE FROM meses WHERE ra = ?";
-    $stmt = $conexao->prepare($query_exclusao);
-    $stmt->bind_param("s", $ra);
-    $resultado_exclusao = $stmt->execute();
-
-    if ($resultado_exclusao) {
-        echo "<p>Registro excluído com sucesso.</p>";
-    } else {
-        echo "<p>Ocorreu um erro ao excluir o registro.</p>";
-    }
-
-    // Fechar conexão
-    $conexao->close();
 }
 
 // Consultar os alunos cadastrados na tabela alunos
@@ -228,7 +230,7 @@ $resultado_alunos = $conexao->query($query_alunos);
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
+            font-size: 11px;
             margin-top: 30px;
         }
 
@@ -274,7 +276,7 @@ $resultado_alunos = $conexao->query($query_alunos);
             form {
                 padding: 10px;
                 width: 100%;
-            max-width: 300px;
+                max-width: 300px;
             }
 
             input[type="text"],
@@ -334,6 +336,17 @@ $resultado_alunos = $conexao->query($query_alunos);
         <input type="submit" value="Cadastrar">
     </form>
 
+    <!-- Mensagens de erro -->
+    <?php
+    if (!empty($errors)) {
+        echo "<div>";
+        foreach ($errors as $error) {
+            echo "<p>$error</p>";
+        }
+        echo "</div>";
+    }
+    ?>
+
     <!-- Pesquisa e botões de impressão -->
     <div class="search2">
         <form method="GET" action="">
@@ -359,7 +372,7 @@ $resultado_alunos = $conexao->query($query_alunos);
                 <tr>
                     <th>RA</th>
                     <th>ID Aluno</th>
-                    <th>Pagador</th>
+                    <th>Cliente/Pai</th>
                     <th>Janeiro</th>
                     <th>Fevereiro</th>
                     <th>Março</th>
@@ -414,8 +427,8 @@ $resultado_alunos = $conexao->query($query_alunos);
         }
 
         function deleteRow(button) {
-            var row = button.parentNode.parentNode;
-            var ra = row.getElementsByTagName("td")[0].innerText;
+            var row = button.parentNode;
+            var ra = row.cells[0].innerText; // Obtém o RA da célula na mesma linha
             if (confirm("Tem certeza que deseja excluir o registro com RA " + ra + "?")) {
                 var form = document.createElement("form");
                 form.method = "POST";
