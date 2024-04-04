@@ -148,6 +148,11 @@
         #download-link {
             display: none;
         }
+
+        /* Estilo específico para células da coluna Situação contendo a palavra "Inativo" */
+        .situacao-inativo {
+            color: #ff6666; /* Vermelho claro */
+        }
     </style>
 </head>
 <body>
@@ -171,8 +176,10 @@
 </div>
 
 <?php if(isset($_GET['exclusao_sucesso'])): ?>
+    <!-- Mensagem de exclusão bem-sucedida -->
     <p style="color: green;">Registro excluído com sucesso!</p>
 <?php elseif(isset($_GET['exclusao_erro'])): ?>
+    <!-- Mensagem de erro de exclusão -->
     <p style="color: red;">Erro ao excluir o registro.</p>
 <?php endif; ?>
 
@@ -186,6 +193,7 @@
             <th>Responsável</th>
             <th>Gênero</th>
             <th>Turma</th>
+            <th>Situação</th> <!-- Adicionando a coluna Situação -->
             <th>Ações</th>
         </tr>
         <?php
@@ -217,6 +225,12 @@
                 echo "<td>".$row["responsavel"]."</td>";
                 echo "<td>".$row["genero"]."</td>";
                 echo "<td>".$row["turma"]."</td>";
+                // Verifica se a situação é "Inativo" e aplica a classe correspondente
+                if (strpos(strtolower($row["situacao"]), 'inativo') !== false) {
+                    echo "<td class='situacao situacao-inativo'>".$row["situacao"]."</td>";
+                } else {
+                    echo "<td class='situacao'>".$row["situacao"]."</td>";
+                }
                 echo "<td>";        
                 if(isset($row["ra"])) {
                     echo "<a href='editar.php?ra=".$row["ra"]."'><i class='fas fa-edit icon edit-icon'></i></a> | ";
@@ -228,7 +242,7 @@
                 echo "</tr>";
             }
         } else {
-            echo "<tr><td colspan='8'>0 resultados</td></tr>";
+            echo "<tr><td colspan='9'>0 resultados</td></tr>";
         }
 
         $conexao->close();
@@ -237,7 +251,19 @@
 </div>
 
 <script>
-    // Função JavaScript não precisa de alteração
+   document.addEventListener("DOMContentLoaded", function() {
+        var cells = document.querySelectorAll('inativo');
+
+        cells.forEach(function(cell) {
+            cell.addEventListener('mouseover', function() {
+                cell.style.backgroundColor = '#ff9999'; // Vermelho mais escuro quando o cursor passa por cima
+            });
+
+            cell.addEventListener('mouseout', function() {
+                cell.style.backgroundColor = '#ffcccc'; // Volta para a cor original quando o cursor sai
+            });
+        });
+    });
 </script>
 </body>
 </html>
