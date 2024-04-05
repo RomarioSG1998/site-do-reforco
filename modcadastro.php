@@ -1,3 +1,9 @@
+<?php 
+
+include('conexao2.php');
+include('admin.php');
+include('protect.php');
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -42,6 +48,7 @@
             width: 100%;
             border-collapse: collapse;
             background-color: #fff;
+            table-layout: fixed;
         }
 
         table, th, td {
@@ -149,9 +156,9 @@
             display: none;
         }
 
-        /* Estilo específico para células da coluna Situação contendo a palavra "Inativo" */
-        .situacao-inativo {
-            color: #ff6666; /* Vermelho claro */
+        /* Adiciona estilo para linhas com a classe 'inativo' */
+        tr.inativo td {
+            background-color: #ff1b1b; /* Vermelho claro */
         }
     </style>
 </head>
@@ -176,10 +183,8 @@
 </div>
 
 <?php if(isset($_GET['exclusao_sucesso'])): ?>
-    <!-- Mensagem de exclusão bem-sucedida -->
     <p style="color: green;">Registro excluído com sucesso!</p>
 <?php elseif(isset($_GET['exclusao_erro'])): ?>
-    <!-- Mensagem de erro de exclusão -->
     <p style="color: red;">Erro ao excluir o registro.</p>
 <?php endif; ?>
 
@@ -193,7 +198,7 @@
             <th>Responsável</th>
             <th>Gênero</th>
             <th>Turma</th>
-            <th>Situação</th> <!-- Adicionando a coluna Situação -->
+            <th>Situação</th> <!-- Adiciona a coluna Situação -->
             <th>Ações</th>
         </tr>
         <?php
@@ -216,8 +221,11 @@
 
         if ($result && $result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                // Modificação aqui: o número do aluno (RA) agora é um link para mensalidade.php
+                // Adiciona uma classe 'inativo' se a situação do aluno for 'inativo'
+                $rowClass = ($row['situacao'] == 'Inativo') ? 'Inativo' : '';
+                echo "<tr class='$rowClass'>"; // Adiciona a classe à linha
+                
+                // Restante do seu código para exibir os dados da linha...
                 echo "<td><a href='mensalidade.php?ra=".$row["ra"]."'>".$row["ra"]."</a></td>";
                 echo "<td>".$row["nome"]."</td>";
                 echo "<td>".$row["datanasc"]."</td>";
@@ -225,12 +233,8 @@
                 echo "<td>".$row["responsavel"]."</td>";
                 echo "<td>".$row["genero"]."</td>";
                 echo "<td>".$row["turma"]."</td>";
-                // Verifica se a situação é "Inativo" e aplica a classe correspondente
-                if (strpos(strtolower($row["situacao"]), 'inativo') !== false) {
-                    echo "<td class='situacao situacao-inativo'>".$row["situacao"]."</td>";
-                } else {
-                    echo "<td class='situacao'>".$row["situacao"]."</td>";
-                }
+                echo "<td>".$row["situacao"]."</td>"; // Exibe a situação do aluno
+                
                 echo "<td>";        
                 if(isset($row["ra"])) {
                     echo "<a href='editar.php?ra=".$row["ra"]."'><i class='fas fa-edit icon edit-icon'></i></a> | ";
@@ -239,6 +243,7 @@
                     echo "<i class='fas fa-edit icon edit-icon'></i> | <i class='fas fa-trash-alt icon delete-icon'></i>";
                 }
                 echo "</td>";
+                
                 echo "</tr>";
             }
         } else {
@@ -251,19 +256,7 @@
 </div>
 
 <script>
-   document.addEventListener("DOMContentLoaded", function() {
-        var cells = document.querySelectorAll('inativo');
-
-        cells.forEach(function(cell) {
-            cell.addEventListener('mouseover', function() {
-                cell.style.backgroundColor = '#ff9999'; // Vermelho mais escuro quando o cursor passa por cima
-            });
-
-            cell.addEventListener('mouseout', function() {
-                cell.style.backgroundColor = '#ffcccc'; // Volta para a cor original quando o cursor sai
-            });
-        });
-    });
+    // Função JavaScript não precisa de alteração
 </script>
 </body>
 </html>

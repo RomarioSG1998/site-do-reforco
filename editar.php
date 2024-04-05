@@ -23,16 +23,17 @@ if(isset($_GET['ra'])) {
         $aluno = $result->fetch_assoc();
 
         // Verifique se os dados do aluno foram enviados via POST
-        if(isset($_POST['ra']) && isset($_POST['nome']) && isset($_POST['datanasc']) && isset($_POST['celular']) && isset($_POST['responsavel']) && isset($_POST['genero']) && isset($_POST['turma'])) {
+        if(isset($_POST['ra']) && isset($_POST['nome']) && isset($_POST['datanasc']) && isset($_POST['celular']) && isset($_POST['responsavel']) && isset($_POST['genero']) && isset($_POST['turma']) && isset($_POST['situacao'])) {
             $nome = $_POST['nome'];
             $datanasc = $_POST['datanasc'];
             $celular = $_POST['celular'];
             $responsavel = $_POST['responsavel'];
             $genero = $_POST['genero'];
             $turma = $_POST['turma'];
+            $situacao = $_POST['situacao']; // Adicionado
 
             // Atualize os dados do aluno no banco de dados
-            $sql = "UPDATE alunos SET nome='$nome', datanasc='$datanasc', celular='$celular', responsavel='$responsavel', genero='$genero', turma='$turma' WHERE ra='$ra'";
+            $sql = "UPDATE alunos SET nome='$nome', datanasc='$datanasc', celular='$celular', responsavel='$responsavel', genero='$genero', turma='$turma', situacao='$situacao' WHERE ra='$ra'";
             if ($conexao->query($sql) === TRUE) {
                 // Exibir mensagem de sucesso
                 echo "<p>Edição concluída com sucesso!</p>";
@@ -69,7 +70,7 @@ if(isset($_GET['ra'])) {
         body {
             width: 100%;
             height: 100vh;
-            background-image: url("../imagens/111.png");
+            background-image: url("./imagens/111.png");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
@@ -154,15 +155,19 @@ if(isset($_GET['ra'])) {
                     <option value="Feminino" <?php if($aluno['genero'] == 'Feminino') echo 'selected'; ?>>Feminino</option>
                 </select><br>
                 <label for="turma">Turma:</label>
-<select name="turma" id="turma">
-    <option value="Turma 1" <?php if($aluno['turma'] == 'Turma 1') echo 'selected'; ?>>Turma 1</option>
-    <option value="Turma 2" <?php if($aluno['turma'] == 'Turma 2') echo 'selected'; ?>>Turma 2</option>
-    <option value="Turma 3" <?php if($aluno['turma'] == 'Turma 3') echo 'selected'; ?>>Turma 3</option>
-    <option value="Turma 4" <?php if($aluno['turma'] == 'Turma 4') echo 'selected'; ?>>Turma 4</option>
-    <option value="Turma 5" <?php if($aluno['turma'] == 'Turma 5') echo 'selected'; ?>>Turma 5</option>
-    <option value="Turma 6" <?php if($aluno['turma'] == 'Turma 6') echo 'selected'; ?>>Turma 6</option>
-</select><br>
-
+                <select name="turma" id="turma">
+                    <option value="Turma 1" <?php if($aluno['turma'] == 'Turma 1') echo 'selected'; ?>>Turma 1</option>
+                    <option value="Turma 2" <?php if($aluno['turma'] == 'Turma 2') echo 'selected'; ?>>Turma 2</option>
+                    <option value="Turma 3" <?php if($aluno['turma'] == 'Turma 3') echo 'selected'; ?>>Turma 3</option>
+                    <option value="Turma 4" <?php if($aluno['turma'] == 'Turma 4') echo 'selected'; ?>>Turma 4</option>
+                    <option value="Turma 5" <?php if($aluno['turma'] == 'Turma 5') echo 'selected'; ?>>Turma 5</option>
+                    <option value="Turma 6" <?php if($aluno['turma'] == 'Turma 6') echo 'selected'; ?>>Turma 6</option>
+                </select><br>
+                <label for="situacao">Situação:</label>
+                <select name="situacao" id="situacao">
+                    <option value="Ativo" <?php if($aluno['situacao'] == 'Ativo') echo 'selected'; ?>>Ativo</option>
+                    <option value="Inativo" <?php if($aluno['situacao'] == 'Inativo') echo 'selected'; ?>>Inativo</option>
+                </select><br>
                 <input type="submit" value="Salvar">
             </form>
         </body>

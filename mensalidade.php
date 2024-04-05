@@ -142,6 +142,7 @@ $resultado_alunos = $conexao->query($query_alunos);
             border-radius: 15px;
             border: 5px solid #BF7BE8;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
         }
 
         form h1 {
@@ -232,6 +233,7 @@ $resultado_alunos = $conexao->query($query_alunos);
             border-collapse: collapse;
             font-size: 11px;
             margin-top: 30px;
+            table-layout: fixed;
         }
 
         th,
@@ -261,6 +263,19 @@ $resultado_alunos = $conexao->query($query_alunos);
         .delete-button:hover {
             background-color: #ff6666;
         }
+        .container {
+    max-height: 500px; /* Defina a altura máxima desejada */
+    overflow-y: auto; /* Adiciona barra de rolagem vertical quando necessário */
+    margin-top: 30px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin-top: 30px;
+    table-layout: fixed; /* Fixa a largura da tabela */
+}
+
 
         @media only screen and (max-width: 750px) {
             .cadastro-frase {

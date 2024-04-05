@@ -147,6 +147,23 @@ $stmt->close();
             opacity: 0;
         }
     }
+    .popup-content button {
+  display: block;
+  align:center;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: white; /* Cor de fundo */
+  color: black; /* Cor do texto */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background-color: #836fff; /* Altere a cor de fundo quando hover */
+}
 
 
     /* Media queries para responsividade */
