@@ -263,19 +263,23 @@ $resultado_alunos = $conexao->query($query_alunos);
         .delete-button:hover {
             background-color: #ff6666;
         }
-        .container {
-    max-height: 500px; /* Defina a altura máxima desejada */
-    overflow-y: auto; /* Adiciona barra de rolagem vertical quando necessário */
-    margin-top: 30px;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 11px;
-    margin-top: 30px;
-    table-layout: fixed; /* Fixa a largura da tabela */
-}
 
+        .container {
+            max-height: 500px;
+            /* Defina a altura máxima desejada */
+            overflow-y: auto;
+            /* Adiciona barra de rolagem vertical quando necessário */
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin-top: 30px;
+            table-layout: fixed;
+            /* Fixa a largura da tabela */
+        }
 
         @media only screen and (max-width: 750px) {
             .cadastro-frase {
@@ -321,8 +325,15 @@ table {
             }
 
             table {
-                font-size: 12px;
-            }
+        font-size: 10px; /* Reduzindo o tamanho da fonte */
+        width: auto; /* Removendo a largura fixa da tabela */
+    }
+
+    th,
+    td {
+        padding: 8px; /* Reduzindo o preenchimento das células */
+        width: auto; /* Definindo a largura das células para automático */
+    }
         }
     </style>
 </head>

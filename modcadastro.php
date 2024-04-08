@@ -86,9 +86,10 @@ include('protect.php');
             margin-top: 20px;
         }
 
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 750px) {
             table, th, td {
                 font-size: 14px;
+                width: auto; 
             }
 
             th, td {

@@ -57,17 +57,18 @@ foreach ($atividades as $atividade) {
     <title>Timeline de Atividades</title>
     <style>
         body {
+            background-color: #9932CC;
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color:#9932CC;
             margin: 0;
             padding: 0;
         }
 
         .container {
+            background-color:#9932CC;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
@@ -92,23 +93,25 @@ foreach ($atividades as $atividade) {
         }
 
         .timeline-item::before {
-            content: '';
-            display: block;
-            width: 20px;
-            height: 20px;
-            background-color: #9b59b6; /* tom de lilás */
-            border-radius: 50%;
-            position: absolute;
-            left: -11px; /* ajuste para centralizar */
-            top: 10px;
-            transition: transform 0.5s;
-        }
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: red; /* Nova cor da bolinha */
+    border-radius: 50%;
+    position: absolute;
+    left: -11px; /* ajuste para centralizar */
+    top: 10px;
+    transition: transform 0.5s;
+}
 
-        .timeline-item.active::before {
-            transform: rotate(360deg);
-        }
+.timeline-item.active::before {
+    transform: rotate(360deg);
+}
+
 
         .timeline-item-content {
+            
             padding-left: 30px; /* ajuste para alinhar com a bolinha */
             padding: 20px;
             background-color: #fff;
@@ -149,9 +152,6 @@ foreach ($atividades as $atividade) {
             transform: scale(1.1);
         }
         .timeline-item::before {
-    /* Seu código CSS existente */
-
-    /* Adicionando animação de piscar */
     animation: blink 1s infinite alternate;
 }
 
@@ -163,7 +163,6 @@ foreach ($atividades as $atividade) {
         opacity: 0;
     }
 }
- /* Estilos CSS existentes omitidos para brevidade */
     </style>
 </head>
 
@@ -171,7 +170,7 @@ foreach ($atividades as $atividade) {
     <div class="container">
     <div class="btn-novo">
             <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-                <img src="./imagens/logo sem fundo2.png" alt="Home">
+                <img src="./imagens/logo sem fundo1.png" alt="Home">
             </a>
         </div>
         <!-- Código HTML existente omitido para brevidade -->
