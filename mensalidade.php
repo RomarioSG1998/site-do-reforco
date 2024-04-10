@@ -241,6 +241,7 @@ $resultado_alunos = $conexao->query($query_alunos);
             border: 1px solid #44277D;
             padding: 10px;
             text-align: left;
+            word-wrap: break-word; /* Quebra de palavra */
         }
 
         th {
@@ -325,15 +326,19 @@ $resultado_alunos = $conexao->query($query_alunos);
             }
 
             table {
-        font-size: 10px; /* Reduzindo o tamanho da fonte */
-        width: auto; /* Removendo a largura fixa da tabela */
-    }
+                font-size: 10px;
+                /* Reduzindo o tamanho da fonte */
+                width: auto;
+                /* Removendo a largura fixa da tabela */
+            }
 
-    th,
-    td {
-        padding: 8px; /* Reduzindo o preenchimento das células */
-        width: auto; /* Definindo a largura das células para automático */
-    }
+            th,
+            td {
+                padding: 8px;
+                /* Reduzindo o preenchimento das células */
+                width: auto;
+                /* Definindo a largura das células para automático */
+            }
         }
     </style>
 </head>
@@ -395,6 +400,25 @@ $resultado_alunos = $conexao->query($query_alunos);
 
         if ($resultado->num_rows > 0) {
             echo "<table>
+                <colgroup>
+                    <col style='width: 5%;'>
+                    <col style='width: 5%;'>
+                    <col style='width: 10%;'>
+                    <col style='width: 5%;'>
+                    <col style='width: 5%;'>
+                    <col style='width: 5%;'>
+                    <col style='width: 5%;'>
+                    <col style='width: 5%;'>
+                    <col style='width: 5%;'>
+                    <col style='width: 5%;'>
+                    <col style='width: 5%;'>
+                    <col style='width: 5%;'>
+                    <col style='width: 5%;'>
+                    <col style='width: 5%;'>
+                    <col style='width: 5%;'>
+                    <col style='width: 15%;'>
+                    <col style='width: 10%;'>
+                </colgroup>
                 <tr>
                     <th>RA</th>
                     <th>ID Aluno</th>
