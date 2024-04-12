@@ -1,4 +1,5 @@
-<?php 
+
+        <?php 
 
 include('conexao2.php');
 include('admin.php');
@@ -173,13 +174,10 @@ include('protect.php');
 
 <div class="search-container">
     <form method="GET" action="">
-        <!-- Adiciona um campo hidden para o id_aluno -->
         <input type="hidden" name="id_aluno" value="<?php echo isset($_GET['id_aluno']) ? $_GET['id_aluno'] : ''; ?>">
         <input type="text" name="search" class="search-input" placeholder="Buscar por RA ou nome do aluno" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
         <button type="submit" class="search-btn">Buscar</button>
     </form>
-    <!-- Adiciona um link oculto para download do PDF -->
-    <a id="download-link" download="alunos.pdf"></a>
     <a href="#" onclick="generatePDF()" class="print-icon"><i class="fas fa-print"></i></a>
 </div>
 
@@ -199,7 +197,7 @@ include('protect.php');
             <th>Responsável</th>
             <th>Gênero</th>
             <th>Turma</th>
-            <th>Situação</th> <!-- Adiciona a coluna Situação -->
+            <th>Situação</th>
             <th>Ações</th>
         </tr>
         <?php
@@ -253,11 +251,14 @@ include('protect.php');
 
         $conexao->close();
         ?>
-    </table>
 </div>
 
 <script>
-    // Função JavaScript não precisa de alteração
+    function generatePDF() {
+    // Função para gerar o PDF
+    window.location.href = 'gerar_pdf.php';
+}
+
 </script>
 </body>
 </html>
