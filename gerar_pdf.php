@@ -23,6 +23,32 @@ function generatePDF() {
     // Define fontes e tamanho da fonte menor
     $pdf->SetFont('helvetica', '', 10);
 
+    // Adiciona espaço em branco antes da legenda
+    $pdf->Ln(10);
+
+    // Adiciona legenda explicando a cor vermelha
+    $pdf->SetFont('', 'B');
+    $pdf->SetTextColor(0, 0, 0); // Define a cor do texto como preta
+    $pdf->Write(10, 'LEGENDA');
+    $pdf->Ln();
+    $pdf->Write(10, 'Ativo: ');
+    $pdf->SetFont('');
+    $pdf->Write(10, 'Aluno que frequenta');
+    $pdf->Ln();
+    $pdf->SetFont('', 'B');
+    $pdf->Write(10, 'Inativo: ');
+    $pdf->SetFont('');
+    $pdf->Write(10, 'Aluno que não frequenta');
+    $pdf->Ln();
+    $pdf->Ln();
+
+    // Adiciona espaço em branco entre a legenda e o total de alunos
+    $pdf->Ln(10);
+
+    // Inicializa os contadores para alunos ativos e inativos
+    $ativos = 0;
+    $inativos = 0;
+
     // Centraliza a logo acima da tabela
     $image_file = './imagens/logo-sem-fundo3.jpg';
 
@@ -34,10 +60,10 @@ function generatePDF() {
     // Obtém a largura da página
     $pageWidth = $pdf->getPageWidth();
 
-    // Define o tamanho e a posição da imagem (centralizada horizontalmente e descendo um pouco)
+    // Define o tamanho e a posição da imagem (centralizada horizontalmente e descendo um pouco após a legenda)
     $imageWidth = 20; // Novo tamanho da imagem
     $imageX = ($pageWidth - $imageWidth) / 2; // Posição X centralizada
-    $imageY = 20; // Posição Y ajustada para descer um pouco
+    $imageY = $pdf->getY() + 10; // Posição Y ajustada para descer um pouco após a legenda
     $pdf->Image($image_file, $imageX, $imageY, $imageWidth, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
 
     // Adiciona espaço em branco entre a imagem e a tabela
@@ -73,7 +99,7 @@ function generatePDF() {
         $html .= '<th style="padding: 14px;">Situação</th>';
         $html .= '</tr>';
 
-        // Exibe os dados da tabela
+        // Exibe os dados da tabela e incrementa os contadores de alunos ativos e inativos
         while($row = $result->fetch_assoc()) {
             $html .= '<tr>';
             $html .= '<td style="text-align:center; vertical-align: middle; padding: 8px;">'.$row["ra"].'</td>';
@@ -83,7 +109,13 @@ function generatePDF() {
             $html .= '<td style="text-align:center; vertical-align: middle; padding: 8px;">'.$row["responsavel"].'</td>';
             $html .= '<td style="text-align:center; vertical-align: middle; padding: 8px;">'.$row["genero"].'</td>';
             $html .= '<td style="text-align:center; vertical-align: middle; padding: 8px;">'.$row["turma"].'</td>';
-            $html .= '<td style="text-align:center; vertical-align: middle; padding: 8px;">'.$row["situacao"].'</td>';
+            if ($row["situacao"] == 'Inativo') {
+                $html .= '<td style="text-align:center; vertical-align: middle; padding: 8px; color: red; font-weight: bold;">'.$row["situacao"].'</td>';
+                $inativos++;
+            } else {
+                $html .= '<td style="text-align:center; vertical-align: middle; padding: 8px;">'.$row["situacao"].'</td>';
+                $ativos++;
+            }
             $html .= '</tr>';
         }
 
@@ -91,7 +123,15 @@ function generatePDF() {
 
         // Escreve o HTML no PDF
         $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Mostra o total de alunos ativos e inativos após a tabela
+        $pdf->Ln(10);
+        $pdf->SetFont('', 'B');
+        $pdf->Write(10, 'Total de Alunos Ativos: ' . $ativos);
+        $pdf->Ln();
+        $pdf->Write(10, 'Total de Alunos Inativos: ' . $inativos);
     } else {
+        // Se não houver resultados, exibe uma mensagem
         $pdf->Cell(0, 10, '0 resultados', 0, 1, 'C');
     }
 
