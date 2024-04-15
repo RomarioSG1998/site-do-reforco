@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $comment = $_POST['comment'];
 
     // Insere os dados na tabela
-    $sql = "INSERT INTO avalicao (ns, comente, data) VALUES ('$rating', '$comment', NOW())";
+    $sql = "INSERT INTO avaliacao (ns, comente, data) VALUES ('$rating', '$comment', NOW())";
 
     if ($conexao->query($sql) === TRUE) {
         echo "Avaliação registrada com sucesso!";
@@ -36,6 +36,7 @@ $conexao->close();
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="./imagens/3333.ico" type="image/x-icon" >
 <title>Avaliação de Produto</title>
 <!-- Bootstrap CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -118,7 +119,7 @@ $conexao->close();
         font-size: 0; /* Remove o espaço entre as estrelas */
     }
     .star-rating label {
-        font-size: 30px;
+        font-size: 20px;
     }
     .star-rating input[type="radio"] {
         display: none;
@@ -149,7 +150,7 @@ $conexao->close();
         <input type="radio" id="star1" name="rating" value="1"><label for="star1">1</label>
     </div>
 
-    <p class="animated" id="commentLabel">Deixe seu comentário/sugestão: (opcional)</p>
+    <p class="animated" id="commentLabel">Envie um comentário/sugestão: (opcional)</p>
     <textarea id="comment" class="form-control animated" placeholder="Digite seu comentário aqui"></textarea>
 
     <button id="submitBtn" class="btn btn-success mt-3">Enviar</button>
