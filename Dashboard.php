@@ -3,7 +3,7 @@ include('protect.php');
 include('conexao2.php');
 
 // Consulta SQL para buscar dados gerais
-$sqlGeral = "SELECT COUNT(ra) as totalAlunos, AVG(YEAR(CURRENT_DATE) - YEAR(datanasc)) as mediaIdade FROM alunos";
+$sqlGeral = "SELECT COUNT(ra) as totalAlunos, AVG(TIMESTAMPDIFF(YEAR, datanasc, CURRENT_DATE())) as mediaIdade FROM alunos";
 $resultGeral = $conexao->query($sqlGeral);
 $rowGeral = $resultGeral->fetch_assoc();
 
@@ -20,24 +20,7 @@ $resultTurma = $conexao->query($sqlTurma);
 $sqlGenero = "SELECT genero, COUNT(ra) as totalAlunosGenero FROM alunos GROUP BY genero";
 $resultGenero = $conexao->query($sqlGenero);
 
-// Consulta SQL para buscar os dados por número de escolhas
-$sqlEscolhas = "SELECT ns, COUNT(*) as total FROM avaliacao GROUP BY ns";
-$resultEscolhas = $conexao->query($sqlEscolhas);
 
-// Array para armazenar os dados do gráfico de escolhas
-$dados_grafico_escolhas = array();
-$dados_grafico_escolhas[] = ['Nota', 'Total'];
-
-// Preencher os dados do gráfico de escolhas com os resultados da consulta
-while ($linhaEscolha = $resultEscolhas->fetch_assoc()) {
-    $dados_grafico_escolhas[] = [$linhaEscolha['ns'], (int)$linhaEscolha['total']];
-}
-
-// Obter a última data de atualização das informações
-$sqlUltimaAtualizacao = "SELECT MAX(data) as ultima_atualizacao FROM avaliacao";
-$resultUltimaAtualizacao = $conexao->query($sqlUltimaAtualizacao);
-$rowUltimaAtualizacao = $resultUltimaAtualizacao->fetch_assoc();
-$ultimaAtualizacao = $rowUltimaAtualizacao['ultima_atualizacao'];
 
 $conexao->close();
 ?>
@@ -134,7 +117,7 @@ $conexao->close();
         }
 
         /* Estilos para o popup */
-        #comentariosPopup {
+        #popupComentarios {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -144,6 +127,7 @@ $conexao->close();
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
             z-index: 9999;
+            display: none; /* inicialmente oculto */
         }
 
         .popup-content {
@@ -239,11 +223,15 @@ $conexao->close();
         <h2>Total de Alunos por Turma</h2>
         <div id="piechartTurma"></div>
 
-        <h2>Avaliação dos pais</h2>
-        <div id="piechartEscolhas"></div>
+       
 
+<!-- Botão para abrir o popup -->
+    <button onclick="exibirPopup()">Abrir Gráfico de Avaliação</button>
+    <!-- Div que conterá o conteúdo do popup -->
+    <div id="popupContainer"></div>
 
-    </div>
+    
+
 
     <script type="text/javascript">
         google.charts.load('current', {'packages':['corechart']});
@@ -311,22 +299,6 @@ $conexao->close();
             chart.draw(data, options);
         }
 
-        google.charts.setOnLoadCallback(drawChartEscolhas);
-
-        function drawChartEscolhas() {
-            var data = google.visualization.arrayToDataTable(<?php echo json_encode($dados_grafico_escolhas); ?>);
-
-            var options = {
-                title: 'Número de Escolhas',
-                is3D: true,
-                width: '100%',
-                height: '100%',
-                chartArea: { width: '90%', height: '90%' },
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechartEscolhas'));
-            chart.draw(data, options);
-        }
 
         function mostrarTodosAniversariantes() {
             var aniversariantes = document.querySelectorAll('#aniversariantes li.hidden');
@@ -334,7 +306,16 @@ $conexao->close();
                 aniversariantes[i].classList.remove('hidden');
             }
         }
-        
+        function exibirPopup() {
+            // Carregar a página do popup dentro da div popupContainer
+            document.getElementById('popupContainer').innerHTML = '<iframe src="pagina_popup.php" style="width: 80%; height: 80vh; border: none;"></iframe>';
+        }
+
+        // Função para fechar o popup
+        function fecharPopup() {
+            // Limpar o conteúdo da div popupContainer para fechar o popup
+            document.getElementById('popupContainer').innerHTML = '';
+        }
     </script>
 </body>
 </html>
