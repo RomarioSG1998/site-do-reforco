@@ -151,7 +151,7 @@ $conexao->close();
     </div>
 
     <p class="animated" id="commentLabel">Envie um comentário/sugestão: (opcional)</p>
-    <textarea id="comment" class="form-control animated" placeholder="Digite seu comentário aqui"></textarea>
+    <textarea id="comment" class="form-control animated" placeholder="Digite seu comentário aqui" maxlength="100"></textarea>
 
     <button id="submitBtn" class="btn btn-success mt-3">Enviar</button>
     <div class="success-message">Avaliação registrada com sucesso!</div>
@@ -172,6 +172,11 @@ $conexao->close();
 
             if (!rating) {
                 $("#instruction").effect("shake");
+                return;
+            }
+
+            if (comment.length > 100) {
+                alert("O comentário não pode exceder 100 caracteres.");
                 return;
             }
 

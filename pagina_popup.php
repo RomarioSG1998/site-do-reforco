@@ -32,13 +32,31 @@ $linha_total_pessoas = $resultado_total_pessoas->fetch_assoc();
 $total_pessoas = $linha_total_pessoas['total_pessoas'] ?? 0; // Definir como 0 se não houver resultados
 
 // Consulta SQL para obter os comentários e datas
-$query_comentarios = "SELECT comente, data, ns FROM avaliacao";
+$query_comentarios = "SELECT id, comente, data, ns FROM avaliacao";
 $resultado_comentarios = $conexao->query($query_comentarios);
 
 // Array para armazenar os comentários e datas
 $comentarios = array();
 while ($linha_comentario = $resultado_comentarios->fetch_assoc()) {
+    // Adiciona quebra de linha a cada 50 caracteres para comentários longos
+    $comentario_formatado = wordwrap($linha_comentario['comente'], 20 , "\n", true);
+    $linha_comentario['comente'] = $comentario_formatado;
     $comentarios[] = $linha_comentario;
+}
+
+// Processar a exclusão do comentário, se houver solicitação POST
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["excluir_comentario"])) {
+    $id_comentario_excluir = $_POST["excluir_comentario"];
+    // Preparar e executar a consulta SQL para excluir o comentário do banco de dados
+    $query_excluir_comentario = "DELETE FROM avaliacao WHERE id = ?";
+    $stmt = $conexao->prepare($query_excluir_comentario);
+    $stmt->bind_param("i", $id_comentario_excluir);
+    if ($stmt->execute()) {
+        echo "Comentário com ID $id_comentario_excluir excluído com sucesso!";
+    } else {
+        echo "Falha ao excluir o comentário com ID $id_comentario_excluir: " . $conexao->error;
+    }
+    $stmt->close();
 }
 
 // Fechar a conexão com o banco de dados
@@ -49,6 +67,7 @@ $conexao->close();
 <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
     <style>
         #popup {
             display: none;
@@ -133,18 +152,32 @@ $conexao->close();
             chart.draw(data, options);
         }
 
-        // Função para exibir o popup com os comentários e datas
-        function exibirComentarios() {
-            var comentarios = <?php echo json_encode($comentarios); ?>;
-            var popupContent = '<div id="popup"><span id="fechar-popup" onclick="fecharPopup()">Fechar</span><h2>Comentários e Datas</h2><ul>';
-            comentarios.forEach(function (item, index) {
-                var corClasse = (item.ns <= 2) ? 'red' : '';
-                popupContent += '<li class="' + corClasse + '"><strong>Data:</strong> ' + item.data + '<br><strong>Comentário:</strong> ' + item.comente + '</li>';
-            });
-            popupContent += '</ul></div>';
-            $('body').append(popupContent);
-            $('#popup').fadeIn();
+        // Função para excluir um comentário
+        function excluirComentario(id) {
+            // Aqui você pode enviar uma solicitação AJAX para excluir o comentário do banco de dados
+            // Neste exemplo, vamos apenas remover o comentário da lista
+            $('#comentario_' + id).remove();
+            
+            // Enviar o ID do comentário a ser excluído para o PHP
+            $.post(window.location.href, {excluir_comentario: id});
         }
+
+        function exibirComentarios() {
+    var comentarios = <?php echo json_encode($comentarios); ?>;
+    var popupContent = '<div id="popup"><span id="fechar-popup" onclick="fecharPopup()">Fechar</span><h2>Comentários e Datas</h2><ul>';
+    comentarios.forEach(function (item, index) {
+        var corClasse = (item.ns <= 2) ? 'red' : '';
+        popupContent += '<li id="comentario_' + item.id + '" class="' + corClasse + '"><strong>Data:</strong> ' + item.data + '<br><strong>Comentário:</strong> <br>' + item.comente;
+        if (item.ns) { // Verifica se há um valor em ns
+            popupContent += ' (Estrelas: ' + item.ns + ')'; // Adiciona a nota ao comentário
+        }
+        popupContent += ' <span class="delete-icon" onclick="excluirComentario(' + item.id + ')"><i class="fas fa-trash-alt" style="color: blue;"></i></span></li>';
+    });
+    popupContent += '</ul></div>';
+    $('body').append(popupContent);
+    $('#popup').fadeIn();
+}
+
 
         // Função para fechar o popup
         function fecharPopup() {
@@ -155,7 +188,7 @@ $conexao->close();
 </head>
 <body>
 <div id="piechart_3d" style="width: 300px; height: 300px;"></div>
-<p>O número inteiro representa a quantidade de estrelas ( em uma escala de 1 a 5 estrelas), <br> a porcentagem representa a quantidade de pessoas que escolheram esse número.<br>Total de pessoas que participaram da pesquisa: <?php echo $total_pessoas; ?></p> <!-- Adicionando total de pessoas -->
+<p>O número inteiro representa a quantidade de estrelas (em uma escala de 1 a 5 estrelas), <br> a porcentagem representa a quantidade de pessoas que escolheram esse número.<br>Total de pessoas que participaram da pesquisa: <?php echo $total_pessoas; ?></p> <!-- Adicionando total de pessoas -->
 <!-- Botão de popup -->
 <button onclick="exibirComentarios()">Exibir Comentários</button>
 
