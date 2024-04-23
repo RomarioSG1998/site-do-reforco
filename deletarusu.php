@@ -2,7 +2,7 @@
 
 include('conexao2.php');
 include('admin.php');
-include('protect.php'); 
+include('protect.php');
 
 // Verificar se o ID do usuário foi fornecido na URL
 if (!isset($_GET['id']) || empty($_GET['id'])) {
@@ -27,6 +27,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['confirmar'])) {
         // Se o usuário confirmar a exclusão, deletar o usuário do banco de dados
         $id = $_GET['id'];
+        
+        // Excluir os registros relacionados na tabela "atividades"
+        $sql_delete_atividades = "DELETE FROM atividades WHERE id_usuario=?";
+        $stmt_atividades = $conexao->prepare($sql_delete_atividades);
+        $stmt_atividades->bind_param("i", $id);
+        if (!$stmt_atividades->execute()) {
+            echo "Erro ao deletar atividades relacionadas: " . $conexao->error;
+            exit;
+        }
+        
+        // Excluir o usuário da tabela "usuarios"
         $sql_delete = "DELETE FROM usuarios WHERE id=?";
         $stmt = $conexao->prepare($sql_delete);
         $stmt->bind_param("i", $id);
@@ -62,6 +73,7 @@ if ($result->num_rows > 0) {
 // Fechar a conexão com o banco de dados
 $conexao->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

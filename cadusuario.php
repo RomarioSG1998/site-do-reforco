@@ -3,6 +3,7 @@ include('conexao2.php');
 include('admin.php');
 include('protect.php'); 
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -122,46 +123,80 @@ include('protect.php');
     // Verificar se o formulário foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verificar se todos os campos foram preenchidos
-        if (!empty($_POST['nome']) && !empty($_POST['senha']) && !empty($_POST['email']) && !empty($_POST['tipo']) && isset($_FILES['imagem'])) {
+        if (!empty($_POST['nome']) && !empty($_POST['senha']) && !empty($_POST['email']) && !empty($_POST['tipo'])) {
             // Sanitize os dados de entrada
             $nome = htmlspecialchars($_POST['nome']);
             $senha_usuario = htmlspecialchars($_POST['senha']);
             $email = htmlspecialchars($_POST['email']);
             $tipo = htmlspecialchars($_POST['tipo']);
-            
-            // Upload da imagem
-            $nome_imagem = $_FILES['imagem']['name'];
-            $diretorio_imagem = 'imagens/';
-            $caminho_imagem = $diretorio_imagem . $nome_imagem;
-            move_uploaded_file($_FILES['imagem']['tmp_name'], $caminho_imagem);
 
-            // Conexão com o banco de dados
-            $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+            // Verificar se um arquivo de imagem foi enviado
+            if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] !== UPLOAD_ERR_NO_FILE) {
+                // Defina o caminho de destino para a imagem
+                $caminho_arquivo = 'imagens/' . $_FILES['imagem']['name'];
 
-            // Verificar se a conexão foi estabelecida corretamente
-            if ($conexao->connect_error) {
-                die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
-            }
+                // Salvar a imagem no servidor
+                if (move_uploaded_file($_FILES['imagem']['tmp_name'], $caminho_arquivo)) {
+                    // Conexão com o banco de dados
+                    $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
-            // Preparar e executar a declaração SQL para inserir o novo usuário
-            $sql_insert = "INSERT INTO usuarios (nome, senha, email, data_criacao, tipo, usu_img) VALUES (?, ?, ?, NOW(), ?, ?)";
-            $stmt = $conexao->prepare($sql_insert);
-            $stmt->bind_param("sssss", $nome, $senha_usuario, $email, $tipo, $caminho_imagem);
-            
-            if ($stmt->execute()) {
-                echo "<script>
-                        alert('Usuário cadastrado com sucesso!');
-                        setTimeout(function() {
-                            window.location.href = 'cadusuario.php';
-                        }, 2000); // 2 segundos
-                      </script>";
-                exit;
+                    // Verificar se a conexão foi estabelecida corretamente
+                    if ($conexao->connect_error) {
+                        die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
+                    }
+
+                    // Preparar e executar a declaração SQL para inserir o novo usuário com o caminho da imagem
+                    $sql_insert = "INSERT INTO usuarios (nome, senha, email, data_criacao, tipo, usu_img) VALUES (?, ?, ?, NOW(), ?, ?)";
+                    $stmt = $conexao->prepare($sql_insert);
+                    $stmt->bind_param("sssss", $nome, $senha_usuario, $email, $tipo, $caminho_arquivo);
+                    
+                    if ($stmt->execute()) {
+                        echo "<script>
+                                alert('Usuário cadastrado com sucesso!');
+                                setTimeout(function() {
+                                    window.location.href = 'cadusuario.php';
+                                }, 2000); // 2 segundos
+                              </script>";
+                        exit;
+                    } else {
+                        echo "<script>alert('Erro ao cadastrar usuário.');</script>";
+                    }
+
+                    // Fechar a conexão com o banco de dados
+                    $conexao->close();
+                } else {
+                    echo "<script>alert('Erro ao fazer upload da imagem.');</script>";
+                }
             } else {
-                echo "<script>alert('Erro ao cadastrar usuário.');</script>";
-            }
+                // Se nenhum arquivo de imagem foi enviado, insira apenas os dados do usuário sem o caminho da imagem
+                // Conexão com o banco de dados
+                $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
-            // Fechar a conexão com o banco de dados
-            $conexao->close();
+                // Verificar se a conexão foi estabelecida corretamente
+                if ($conexao->connect_error) {
+                    die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
+                }
+
+                // Preparar e executar a declaração SQL para inserir o novo usuário sem o caminho da imagem
+                $sql_insert = "INSERT INTO usuarios (nome, senha, email, data_criacao, tipo) VALUES (?, ?, ?, NOW(), ?)";
+                $stmt = $conexao->prepare($sql_insert);
+                $stmt->bind_param("ssss", $nome, $senha_usuario, $email, $tipo);
+                
+                if ($stmt->execute()) {
+                    echo "<script>
+                            alert('Usuário cadastrado com sucesso!');
+                            setTimeout(function() {
+                                window.location.href = 'cadusuario.php';
+                            }, 2000); // 2 segundos
+                          </script>";
+                    exit;
+                } else {
+                    echo "<script>alert('Erro ao cadastrar usuário.');</script>";
+                }
+
+                // Fechar a conexão com o banco de dados
+                $conexao->close();
+            }
         } else {
             echo "<script>alert('Todos os campos devem ser preenchidos!');</script>";
         }
@@ -181,7 +216,7 @@ include('protect.php');
             <option value="limitado">LIMITADO</option>
         </select><br><br>
         <label for="imagem">IMAGEM:</label><br>
-        <input type="file" id="imagem" name="imagem" accept="image/*" required><br><br>
+        <input type="file" id="imagem" name="imagem" accept="image/*"><br><br>
         <input type="submit" value="Cadastrar">
     </form>
 
