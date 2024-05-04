@@ -2,7 +2,7 @@
 $hostname = "localhost";
 $bancodedados = "if0_36181052_sistemadoreforco";
 $usuario = "if0_36181052";
-$senha = "A7E5zgIppyr";
+$senha = "";
 
 // Conectar ao banco de dados
 $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
