@@ -2,7 +2,7 @@
 $hostname = "localhost";
 $bancodedados = "if0_36181052_sistemadoreforco";
 $usuario = "if0_36181052";
-$senha = "A7E5zgIppyr";
+$senha = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Cria a conexão com o banco de dados
