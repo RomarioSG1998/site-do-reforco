@@ -7,7 +7,7 @@ if (session_status() == PHP_SESSION_NONE) {
 $hostname = "localhost";
 $bancodedados = "if0_36181052_sistemadoreforco";
 $usuario = "if0_36181052";
-$senha = "A7E5zgIppyr";
+$senha = "";
 
 // Estabelecer conexão
 $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
