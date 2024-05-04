@@ -13,7 +13,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 $hostname = "localhost";
 $bancodedados = "if0_36181052_sistemadoreforco";
 $usuario = "if0_36181052";
-$senha = "A7E5zgIppyr";
+$senha = "";
 $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
 // Verificar se a conexão foi estabelecida corretamente
