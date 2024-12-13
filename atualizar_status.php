@@ -11,8 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Aqui você deve adicionar o código para atualizar o status do aluno no banco de dados
         // Substitua este exemplo pelo seu código real
         $hostname = "localhost";
-        $bancodedados = "if0_36181052_sistemadoreforco";
-        $usuario = "if0_36181052";
+        $bancodedados = "id21964020_sistemadoreforco";
+        $usuario = "root";
         $senha = "";
 
         $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);

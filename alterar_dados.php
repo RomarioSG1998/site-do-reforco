@@ -5,8 +5,8 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 $hostname = "localhost";
-$bancodedados = "if0_36181052_sistemadoreforco";
-$usuario = "if0_36181052";
+$bancodedados = "id21964020_sistemadoreforco";
+$usuario = "root";
 $senha = "";
 
 // Estabelecer conexão

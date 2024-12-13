@@ -16,7 +16,7 @@ function usuarioPleno($id_usuario) {
         $tipo_usuario = $row['tipo'];
         
         // Verifica se o tipo de usuário é "pleno"
-        if ($tipo_usuario === 'pleno') {
+        if ($tipo_usuario === 'Admin') {
             return true;
         }
     }
@@ -39,7 +39,7 @@ if(isset($_SESSION['id'])) {
     } else {
         // O usuário não é pleno, exibe mensagem de acesso negado
         echo "<div style=\"text-align: center;\">";
-        echo "Acesso negado, pois não é um usuário pleno. <p><a href=\"painel.php\">Voltar</a></p><img src=\"https://cdn.pixabay.com/animation/2022/07/31/05/09/05-09-50-80_512.gif\" alt=\"Acesso negado\">";
+        echo "Acesso negado, pois não é um usuário Admin. <p><a href=\"painel.php\">Voltar</a></p><img src=\"https://cdn.pixabay.com/animation/2022/07/31/05/09/05-09-50-80_512.gif\" alt=\"Acesso negado\">";
         echo "</div>";
         // Impede o script de continuar a execução
         exit();

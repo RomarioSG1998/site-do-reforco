@@ -1,6 +1,7 @@
 <?php 
 include('conexao2.php');
-include('admin.php');
+//include('admin.php');//
+include('config.php');
 include('protect.php');
 
 // Consulta para obter o caminho da imagem do usuário atual
@@ -164,6 +165,7 @@ $stmt->close();
 .popup-content button:hover {
   background-color: #836fff; /* Altere a cor de fundo quando hover */
 }
+
 
 
     /* Media queries para responsividade */

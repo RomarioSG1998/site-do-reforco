@@ -2,7 +2,7 @@
         <?php 
 
 include('conexao2.php');
-include('admin.php');
+//include('admin.php');//
 include('protect.php');
 ?>
 <!DOCTYPE html>
@@ -202,9 +202,9 @@ include('protect.php');
         </tr>
         <?php
         $hostname = "localhost";
-        $bancodedados = "if0_36181052_sistemadoreforco";
-        $usuario = "if0_36181052";
-        $senha = "A7E5zgIppyr";
+        $bancodedados = "id21964020_sistemadoreforco";
+        $usuario = "root";
+        $senha = "";
 
         $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 

@@ -3,8 +3,8 @@ include('protect.php');
 
 // Conecte-se ao banco de dados
 $hostname = "localhost";
-$bancodedados = "if0_36181052_sistemadoreforco";
-$usuario = "if0_36181052";
+$bancodedados = "id21964020_sistemadoreforco";
+$usuario = "root";
 $senha = "";
 $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 if ($conexao->connect_error) {
@@ -162,6 +162,7 @@ if(isset($_GET['ra'])) {
                     <option value="Turma 4" <?php if($aluno['turma'] == 'Turma 4') echo 'selected'; ?>>Turma 4</option>
                     <option value="Turma 5" <?php if($aluno['turma'] == 'Turma 5') echo 'selected'; ?>>Turma 5</option>
                     <option value="Turma 6" <?php if($aluno['turma'] == 'Turma 6') echo 'selected'; ?>>Turma 6</option>
+                    <option value="PB" <?php if($aluno['turma'] == 'PB') echo 'selected'; ?>>PB</option>
                 </select><br>
                 <label for="situacao">Situação:</label>
                 <select name="situacao" id="situacao">

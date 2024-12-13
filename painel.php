@@ -1,258 +1,234 @@
-<?php include('protect.php'); ?>
+<?php
+include('protect.php');
+include('conexao2.php');
+
+$id_usuario = $_SESSION['id'];
+
+$sql = "SELECT usu_img FROM usuarios WHERE id = ?";
+$stmt = $conexao->prepare($sql);
+$stmt->bind_param("i", $id_usuario);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $imagem = htmlspecialchars($row['usu_img']);
+} else {
+    die("<div class='error-msg'>Usuário não encontrado.</div>");
+}
+
+$stmt->close();
+$conexao->close();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <style>
+        /* Reset e configurações gerais */
         * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Tahoma', sans-serif; /* Adiciona a fonte Tahoma a todos os elementos */
-}
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tahoma', sans-serif;
+        }
 
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh; /* Alterado para min-height */
-    background-image: url("./imagens/bg-signin1.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+        body {
+            min-height: 100vh;
+            background-image: url("./imagens/bg-signin1.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+        .profile-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-/* Estilos para a saudação de boas-vindas */
-h1 {
-    color: #680246;
-    text-align: center;
-    font-weight: bold; /* Adiciona negrito */
-    margin-top: 20px; /* Ajuste para adicionar espaço entre a imagem e o título */
-    order: 3; /* Define a ordem dos elementos flexíveis */
-}
+        /* Estilos do header */
+        header {
+            background-color: rgba(68, 39, 125, 0.8); /* Fundo semi-transparente */
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
-    padding: 10px;
-    border-radius: 4%;
-    box-shadow: 3px 3px 1px 0px rgba(0, 0, 0, 0.4);
-    max-width: 350px;
-    gap: 20px;
-    margin-top: 20px; /* Ajustado para centrar */
-    margin-left: auto; /* Centraliza horizontalmente */
-    margin-right: auto; /* Centraliza horizontalmente */
-}
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
 
-.btn,
-.logout-button {
-    padding: 5px 5px;
-    background-color: #4caf50;
-    border: none;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    width: 200px;
-    border-radius: 15px;
-    border: 3px solid #58216d;
-}
+        .logo {
+            width: 70px;
+            height: auto;
+            margin-right: 10px;
+        }
 
-.btn a,
-.logout-button a {
-    color: white;
-    text-decoration: none;
-}
+        header h1 {
+            color: #fff;
+            font-size: 25px;
+        }
 
-.logout-button {
-    background-color: #dc3545;
-    max-width: 100px;
-}
+        nav {
+            position: relative;
+        }
 
-img {
-    max-width: 35%;
-    height: 30%;
-    display: block;
-    margin: 10px auto;
-    order: 2; /* Define a ordem dos elementos flexíveis */
-}
+        /* Menu padrão */
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
 
-.popup-content {
-    visibility: hidden;
-    width: 160px;
-    background-color: rgba(68, 39, 125, 0.7);
-    color: white;
-    text-align: center;
-    border-radius: 16px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    top: 50%; /* Centraliza verticalmente */
-    left: 50%; /* Centraliza horizontalmente */
-    transform: translate(-50%, -50%); /* Move o popup para o centro */
-    transition: visibility 0.3s ease;
-}
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+            padding: 10px 15px;
+            display: block;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
 
-.popup:hover .popup-content {
-    visibility: visible;
-}
+        nav ul li a:hover {
+            background-color: #4caf50;
+        }
 
-.popup-content a {
-    font-family: 'Tahoma', sans-serif;
-    font-size:20px;
-    display: block; /* Ajustado para block */
-    padding: 18px 0;
-    color: #fff;
-    text-decoration: none;
-}
+        /* Dropdown */
+        nav ul li {
+            position: relative;
+        }
 
-.popup-content a:hover {
-    color: purple;
-}
+        nav ul li .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #44277D;
+            flex-direction: column;
+            min-width: 150px;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
 
-#watermark {
-    font-family: 'Tahoma', sans-serif;
-    text-align:center;
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 10px;
-    color: rgba(128, 128, 128, 0.3);
-    pointer-events: none; /* Permite que o texto de marca d'água não seja clicável */
-    z-index: 9999; /* Garante que o texto fique na frente de outros elementos */
-}
+        nav ul li .dropdown li {
+            padding: 10px;
+        }
 
-#watermark2 {
-    font-family: 'Tahoma', sans-serif;
-    text-align: center;
-    position: relative; /* Alterado para posição relativa */
-    top: 10px; /* Ajustado conforme necessário */
-    font-size: 12px;
-    color: rgba(128, 128, 128, 0.9);
-    pointer-events: none;
-    z-index: 9999;
-}
+        nav ul li .dropdown li a {
+            color: #fff;
+            text-decoration: none;
+        }
 
-@media screen and (max-width: 750px) {
-    body {
-        padding: 15px;
-    }
+        nav ul li:hover .dropdown {
+            display: flex;
+        }
 
-    .container {
-        max-width: 282px;
-    }
+        .dropdown-toggle {
+            cursor: pointer;
+        }
 
-    img {
-        max-width: 50%;
-        height: auto;
-    }
+        .user-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+        }
 
-    .popup-content {
-        width: 200px; 
-    }
+        /* Menu responsivo */
+        #menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
 
-    #watermark {
-        font-size: 7px; /* Alterado o tamanho da fonte */
-         top: 40px; /* Ajustado conforme necessário */
-    }
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                background-color: rgba(68, 39, 125, 0.9);
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                width: 200px;
+                border-radius: 8px;
+                z-index: 10;
+            }
 
-    #watermark2 {
-        top: 10px; /* Ajustado conforme necessário */
-        left: 0%; /* Ajustado conforme necessário */
-    }
-    .container{
-        top: 60px; /* Ajustado conforme necessário */
-        left: 0%; /* Ajustado conforme necessário */
-    }
-}
+            nav ul li a {
+                text-align: center;
+            }
+
+            #menu-toggle {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
-    <header>
-        <div id="watermark">Desenvolvido por Romário, sob o design cuidadoso de Álvaro, <br>e criado em colaboração com o Reforço Sede do Saber.</div>
-        <h1 style="font-family: 'Tahoma', sans-serif; font-size: 40px; font-weight: normal; color: #D9D9D9; text-shadow: -2px -2px 0 #44277D, 2px -2px 0 #44277D, -2px 2px 0 #44277D, 2px 2px 0 #44277D;">
-            Bem-vindo/a, <span id="nome" style="color: #44277D; text-shadow: none;"></span>.
-        </h1>
-        <img src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
-        <h1 id="logado"></h1>
-        <div class="container">
-            <div>
-                <button onclick="togglePopup('popup')" class="btn">Cadastrar/Alterar</button>
-                <div id="popup" class="popup">
-                    <div class="popup-content">
-                        <a href="cadastro2.php">Cadastrar</a>
-                        <a href="modcadastro.php">Alterar</a>
-                    </div>
-                </div>
-            </div>
-            <div class="btn">
-                <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>" style="text-decoration: none;">Admin</a>
-            </div>
-            <div class="btn">
-                <a href="./Dashboard.php" style="text-decoration: none;">Ver análises</a>
-            </div>
+<header>
+    <div class="logo-container">
+        <a href="painel.php">
+            <img src="./imagens/logo sem fundo1.png" alt="Logo" class="logo">
+        </a>
+        <h1>Bem-vindo, <?php echo htmlspecialchars($_SESSION['nome']); ?>!</h1>
+    </div>
+    <nav>
+        <button id="menu-toggle" aria-label="Menu">☰</button>
+        <ul id="menu">
+            <li><a href="?page=PB">PB</a></li>
+            <li>
+                <a href="#" class="dropdown-toggle">Admin</a>
+                <ul class="dropdown">
+                    <li><a href="?page=paisava">Para os pais</a></li>
+                    <li><a href="?page=cadusuario">Cadastro de usuário</a></li>
+                    <li><a href="?page=modcadastro">Alterar Cadastro</a></li>
+                    <li><a href="?page=Monitorar">Monitorar Acessos</a></li>
+                </ul>
+            </li>
+            <li><a href="?page=cadastro2">Cadastrar</a></li>
+            <li><a href="?page=modcadastro">Alterar</a></li>
+            <li style="display: flex; align-items: center; gap: 10px;">
+                <a href="logout.php">Sair</a>
+                <img class="profile-image" src="<?php echo $imagem; ?>" alt="Imagem do Usuário">
+            </li>
+        </ul>
+    </nav>
+</header>
+<main style="margin-top: 100px; padding: 20px;">
+    <?php
+    $page = isset($_GET['page']) ? htmlspecialchars($_GET['page']) : 'Dashboard';
+    $allowed_pages = ['Dashboard', 'pageadmin', 'cadastro2', 'modcadastro', 'PB', 'Monitorar', 'cadusuario', 'paisava'];
 
-            <div>
-                <a href="logout.php" class="logout-button">SAIR</a>
-            </div>
-        </div>
-        <div id="watermark2">Developed by Romário Galdino<br> versão 0.1</div>
-    </header>
-
-    <script>
-         function togglePopup(popupId) {
-            var popup = document.getElementById(popupId);
-            var popupContent = popup.querySelector('.popup-content');
-            popupContent.style.visibility = (popupContent.style.visibility === "visible") ? "hidden" : "visible";
-        }
-
-        document.addEventListener('click', function(event) {
-            var popups = document.querySelectorAll('.popup');
-            popups.forEach(function(popup) {
-                if (!popup.contains(event.target)) {
-                    popup.classList.remove('show');
-                }
-            });
-        });
-
-        const nome = "<?php echo $_SESSION['nome']; ?>"; // Obtém o nome da sessão PHP
-const spanNome = document.getElementById('nome');
-
-function typeWriter(text, i, fnCallback) {
-    if (i < (text.length)) {
-        spanNome.innerHTML = text.substring(0, i+1) + '_';
-        setTimeout(function() {
-            typeWriter(text, i + 1, fnCallback)
-        }, 100);
-    } else if (typeof fnCallback == 'function') {
-        setTimeout(fnCallback, 700);
+    if (in_array($page, $allowed_pages)) {
+        include("$page.php");
+    } else {
+        echo "<p>Página não encontrada.</p>";
     }
-}
-
-function startTextAnimation() {
-    if (typeof nome !== 'undefined') {
-        typeWriter(nome, 0, function() {
-            // Remover o caractere de sublinhado no final da animação
-            spanNome.innerHTML = spanNome.innerHTML.slice(0, -1);
-        });
-    }
-}
-
-// Iniciar a animação de digitação
-startTextAnimation();
-
-    </script>
+    ?>
+</main>
+<script>
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+        const menu = document.getElementById('menu');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    });
+</script>
 </body>
 </html>

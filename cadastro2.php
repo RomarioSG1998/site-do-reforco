@@ -11,6 +11,7 @@ include('protect.php');
     <link rel="stylesheet" href="../css/Cadastro2.css">
     <style>
         /* Estilos para a frase */
+
         .cadastro-frase {
             font-size: 35px;
             font-family: 'Tahoma', sans-serif;
@@ -58,14 +59,17 @@ include('protect.php');
         }
 
         form {
-            width: 40%;
-            max-width: 330px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 90px; /* Reduzi a margem para ficar mais próximo do conteúdo acima */
-        }
+    width: 60%;
+    max-width: 330px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 90px auto; /* Centralização horizontal */
+}
+
+
+
 
         label {
             display: block;
@@ -153,9 +157,6 @@ include('protect.php');
 <body>
 <div class="content">
     <p class="cadastro-frase">CADASTRO DO ALUNO/A:</p>
-    <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-        <img class="cadastro-imagem" src="./imagens/logo sem fundo1.png" alt="Descrição da imagem">
-    </a>
 </div>
 
 
@@ -188,6 +189,7 @@ include('protect.php');
             <option value="Turma 4">4</option>
             <option value="Turma 5">5</option>
             <option value="Turma 6">6</option>
+            <option value="PB">PB</option>
         </select>
 
         <input type="submit" value="Salvar">
@@ -231,4 +233,3 @@ fetch(this.action, {
 </body>
 
 </html>
-

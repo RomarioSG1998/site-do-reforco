@@ -42,16 +42,11 @@ $conexao->close();
         }
         .cadastro-frase {
             font-size: 35px;
-            font-family: 'Tahoma', sans-serif;
+            font-family: 'arial', sans-serif;
             font-weight: bold;
             text-align:center;
             margin-bottom: 20px;
-            color:WHITE;
-            text-shadow: 
-                -2px -2px 0 #44277D,  
-                2px -2px 0 #44277D,
-                -2px 2px 0 #44277D,
-                2px 2px 0 #44277D;
+            color:#44277D;
         }
         .cadastro-imagem {
             display: block;
@@ -114,6 +109,9 @@ $conexao->close();
                 margin: 20px auto;
                 text-align: center;
             }
+            .cadastro-frase {
+            font-size: 20px;
+        }
         }
 
         /* Estilos para o popup */
@@ -174,15 +172,13 @@ $conexao->close();
         .animate__flash {
             animation-duration: 1s;
         }
+        
     </style>
 </head>
 <body>
     <div class="container">
         <div class="content">
-            <p class="cadastro-frase">INFORMAÇÕES</p>
-            <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-                <img class="cadastro-imagem" src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
-            </a>
+            <p class="cadastro-frase">INFORMAÇÕES IMPORTANTES</p>
         </div>
 
         <div class="dashboard">

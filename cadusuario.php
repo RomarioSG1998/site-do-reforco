@@ -1,6 +1,5 @@
 <?php
 include('conexao2.php');
-include('admin.php');
 include('protect.php'); 
 ?>
 
@@ -114,7 +113,7 @@ include('protect.php');
 <body>
 <div class="content">
     <p class="cadastro-frase">CADASTRO DO USUARIO</p>
-    <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
+    <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
         <img class="cadastro-imagem" src="./imagens/logo sem fundo1.png" alt="Descrição da imagem">
     </a>
 </div>
@@ -212,8 +211,8 @@ include('protect.php');
         <input type="email" id="email" name="email" required><br><br>
         <label for="tipo">TIPO DE USUARIO:</label><br>
         <select id="tipo" name="tipo" required>
-            <option value="pleno">PLENO</option>
-            <option value="limitado">LIMITADO</option>
+            <option value="Professor(a)">Professor(a)</option>
+            <option value="Admin">Admin</option>
         </select><br><br>
         <label for="imagem">IMAGEM:</label><br>
         <input type="file" id="imagem" name="imagem" accept="image/*"><br><br>

@@ -11,8 +11,8 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 // Conexão com o banco de dados
 $hostname = "localhost";
-$bancodedados = "if0_36181052_sistemadoreforco";
-$usuario = "if0_36181052";
+$bancodedados = "id21964020_sistemadoreforco";
+$usuario = "root";
 $senha = "";
 $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
@@ -132,8 +132,8 @@ $conexao->close();
         <input type="email" id="email" name="email" value="<?php echo $row['email']; ?>" required><br>
         <label for="tipo">Tipo de Usuário:</label><br>
         <select id="tipo" name="tipo" required>
-            <option value="pleno" <?php if($row['tipo'] == 'pleno') echo 'selected'; ?>>PLENO</option>
-            <option value="limitado" <?php if($row['tipo'] == 'limitado') echo 'selected'; ?>>LIMITADO</option>
+            <option value="Professor(a)" <?php if($row['tipo'] == 'Professor(a)') echo 'selected'; ?>>Professor(a)</option>
+            <option value="Admin" <?php if($row['tipo'] == 'Admin') echo 'selected'; ?>>Admin</option>
         </select><br>
         <label for="imagem">Nova Imagem: (ao atualizar qualquer informação, atualize também sua imagem)</label><br>
         <input type="file" id="imagem" name="imagem" accept="image/*"><br><br>

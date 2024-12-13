@@ -1,11 +1,10 @@
 <?php
 include('conexao2.php');
-include('admin.php');
 include('protect.php');
 
 $hostname = "localhost";
-$bancodedados = "if0_36181052_sistemadoreforco";
-$usuario = "if0_36181052";
+$bancodedados = "id21964020_sistemadoreforco";
+$usuario = "root";
 $senha = "";
 
 $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
@@ -57,26 +56,51 @@ foreach ($atividades as $atividade) {
     <title>Timeline de Atividades</title>
     <style>
         body {
-            background-color: #9932CC;
-            font-family: Arial, sans-serif;
-            background-color:#9932CC;
+            background-color: #f5f5f5;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
         }
 
         .container {
-            background-color:#9932CC;
-            max-width: 800px;
+            background-color: #fff;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .btn-novo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-novo img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .btn-novo img:hover {
+            transform: scale(1.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Tahoma', sans-serif;
+            font-size: 36px;
+            margin-top: 0;
+            color: #44277D;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .timeline {
             list-style: none;
             padding: 0;
-            margin: 40px 0;
+            margin: 0;
         }
 
         .timeline-item {
@@ -93,29 +117,27 @@ foreach ($atividades as $atividade) {
         }
 
         .timeline-item::before {
-    content: '';
-    display: block;
-    width: 20px;
-    height: 20px;
-    background-color: red; /* Nova cor da bolinha */
-    border-radius: 50%;
-    position: absolute;
-    left: -11px; /* ajuste para centralizar */
-    top: 10px;
-    transition: transform 0.5s;
-}
+            content: '';
+            display: block;
+            width: 20px;
+            height: 20px;
+            background-color: #9b59b6; /* Cor lilás */
+            border-radius: 50%;
+            position: absolute;
+            left: -11px;
+            top: 10px;
+            transition: transform 0.5s;
+        }
 
-.timeline-item.active::before {
-    transform: rotate(360deg);
-}
-
+        .timeline-item.active::before {
+            transform: rotate(360deg);
+        }
 
         .timeline-item-content {
-            
-            padding-left: 30px; /* ajuste para alinhar com a bolinha */
+            padding-left: 35px;
             padding: 20px;
             background-color: #fff;
-            border: 2px solid #9b59b6; /* tom de lilás */
+            border: 2px solid #9b59b6;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             opacity: 0;
@@ -128,61 +150,59 @@ foreach ($atividades as $atividade) {
 
         .timeline-item-content h2 {
             margin-top: 0;
-            color: #9b59b6; /* tom de lilás */
+            color: #9b59b6;
+            font-size: 22px;
         }
 
         .timeline-item-content p {
             margin: 0;
             color: #555;
+            font-size: 16px;
         }
 
-        .btn-novo {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .btn-novo img {
-            width: 90px;
-            height: 90px;
+        .timeline-item-content img {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            transition: transform 0.3s ease-in-out;
+            margin-right: 15px;
         }
 
-        .btn-novo img:hover {
-            transform: scale(1.1);
+        .timeline-item-content .info {
+            display: flex;
+            align-items: center;
         }
-        .timeline-item::before {
-    animation: blink 1s infinite alternate;
-}
 
-@keyframes blink {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
+        .timeline-item-content .info p {
+            margin-left: 10px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-    <div class="btn-novo">
-            <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-                <img src="./imagens/logo sem fundo1.png" alt="Home">
-            </a>
-        </div>
-        <!-- Código HTML existente omitido para brevidade -->
-        <h1 style=" text-align: center; font-family: 'Tahoma', sans-serif; font-size: 40px; margin-top: 3%; font-weight: normal; color: #D9D9D9; text-shadow: -2px -2px 0 #44277D, 2px -2px 0 #44277D, -2px 2px 0 #44277D, 2px 2px 0 #44277D;">Timeline de Atividades</h1>
+        <h1>Timeline de Acessos</h1>
         <ul class="timeline">
             <?php foreach ($atividades as $index => $atividade) : ?>
                 <li class="timeline-item" id="item-<?php echo $index; ?>">
                     <div class="timeline-item-content">
-                        <!-- Exibe a imagem do usuário -->
-                        <img src="<?php echo $atividade['usu_img']; ?>" alt="Imagem do Usuário" style="width: 50px; height: 50px; border-radius: 50%;">
-                        <p>Nome do Usuário: <?php echo $atividade['nome_usuario']; ?></p>
-                        <p>Data e Hora: <?php echo $atividade['data_hora']; ?></p>
+                        <div class="info">
+                            <!-- Exibe a imagem do usuário -->
+                            <img src="<?php echo $atividade['usu_img']; ?>" alt="Imagem do Usuário">
+                            <div>
+                                <h2><?php echo $atividade['nome_usuario']; ?></h2>
+                                <p><strong>Data e Hora:</strong> <?php echo $atividade['data_hora']; ?></p>
+                            </div>
+                        </div>
                     </div>
                 </li>
             <?php endforeach; ?>
@@ -190,7 +210,7 @@ foreach ($atividades as $atividade) {
     </div>
 
     <script>
-       document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function() {
             var timelineItems = document.querySelectorAll('.timeline-item');
 
             timelineItems.forEach(function(item, index) {
