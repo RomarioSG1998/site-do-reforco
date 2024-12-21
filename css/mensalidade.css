@@ -1,0 +1,250 @@
+
+        body {
+            font-family: "Tahoma", Times, serif;
+            background-image: url("./imagens/111.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cadastro-frase {
+            font-size: 25px;
+            font-family: 'Tahoma', sans-serif;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .cadastro-imagem {
+            display: block;
+            margin: 0 auto;
+            max-width: 200px;
+            margin-top: -25px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #44277D;
+            margin-top: 20px;
+            
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            border: 5px solid #BF7BE8;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+        }
+
+        form h1 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #44277D;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #44277D;
+            border-radius: 15px;
+        }
+
+        input[type="submit"] {
+            background-color: #44277D;
+            color: #fff;
+            border: none;
+            padding: 12px 0;
+            border-radius: 15px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #836fff;
+        }
+
+        .search2 {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .search2 h1 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            padding: 10px;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .search-btn {
+            padding: 12px 0;
+            background-color: #44277D;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 40%;
+            font-size: 16px;
+        }
+
+        .search-btn:hover {
+            background-color: #836fff;
+        }
+
+        .print-icon {
+            display: inline-block;
+            color: #44277D;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+
+        .print-icon i {
+            font-size: 20px;
+        }
+
+        .print-icon:hover {
+            color: #836fff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin-top: 30px;
+            table-layout: fixed;
+        }
+
+        th,
+        td {
+            border: 1px solid #44277D;
+            padding: 10px;
+            text-align: left;
+            word-wrap: break-word; /* Quebra de palavra */
+        }
+
+        th {
+            background-color: #44277D;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .delete-button {
+            text-align: center;
+            font-size: 14px;
+            color: red;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .delete-button:hover {
+            background-color: #ff6666;
+        }
+
+        .container {
+            max-height: 500px;
+            /* Defina a altura máxima desejada */
+            overflow-y: auto;
+            /* Adiciona barra de rolagem vertical quando necessário */
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin-top: 30px;
+            table-layout: fixed;
+            /* Fixa a largura da tabela */
+        }
+
+        @media only screen and (max-width: 750px) {
+            .cadastro-frase {
+                font-size: 20px;
+                margin-top: 20px;
+            }
+
+            .cadastro-imagem {
+                max-width: 100px;
+                margin-top: -25px;
+            }
+
+            form {
+                padding: 10px;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            input[type="text"],
+            select {
+                padding: 8px;
+                margin-bottom: 15px;
+            }
+
+            input[type="submit"] {
+                padding: 10px 0;
+                font-size: 14px;
+            }
+
+            .search2 h1 {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+
+            .search-input {
+                padding: 8px;
+                width: 70%;
+            }
+
+            .search-btn {
+                padding: 10px 0;
+                font-size: 14px;
+            }
+
+            table {
+                font-size: 10px;
+                /* Reduzindo o tamanho da fonte */
+                width: auto;
+                /* Removendo a largura fixa da tabela */
+            }
+
+            th,
+            td {
+                padding: 8px;
+                /* Reduzindo o preenchimento das células */
+                width: auto;
+                /* Definindo a largura das células para automático */
+            }
+        }
+    
