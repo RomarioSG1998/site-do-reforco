@@ -202,22 +202,71 @@ include('protect.php');
     }
     ?>
 
-    <form id="userForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
-        <label for="nome">NOME:</label><br>
-        <input type="text" id="nome" name="nome" required><br>
-        <label for="senha">SENHA:</label><br>
-        <input type="password" id="senha" name="senha" required><br>
-        <label for="email">E-MAIL:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
-        <label for="tipo">TIPO DE USUARIO:</label><br>
-        <select id="tipo" name="tipo" required>
-            <option value="Professor(a)">Professor(a)</option>
-            <option value="Admin">Admin</option>
-        </select><br><br>
-        <label for="imagem">IMAGEM:</label><br>
-        <input type="file" id="imagem" name="imagem" accept="image/*"><br><br>
-        <input type="submit" value="Cadastrar">
-    </form>
+    <button id="toggleFormButton" style="
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #6a5acd;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        font-family: 'Tahoma', sans-serif;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+    ">Cadastrar Novo Usuário</button>
+
+    <style>
+        #toggleFormButton:hover {
+            background-color: #5a4bbd;
+        }
+    </style>
+    <div id="formPopup" style="display: none;">
+        <form id="userForm" action="javascript:void(0);" method="POST" enctype="multipart/form-data">
+            <label for="nome">NOME:</label><br>
+            <input type="text" id="nome" name="nome" required><br>
+            <label for="senha">SENHA:</label><br>
+            <input type="password" id="senha" name="senha" required><br>
+            <label for="email">E-MAIL:</label><br>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="tipo">TIPO DE USUARIO:</label><br>
+            <select id="tipo" name="tipo" required>
+                <option value="Professor(a)">Professor(a)</option>
+                <option value="Admin">Admin</option>
+            </select><br><br>
+            <label for="imagem">IMAGEM:</label><br>
+            <input type="file" id="imagem" name="imagem" accept="image/*"><br><br>
+            <input type="submit" value="Cadastrar">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('toggleFormButton').addEventListener('click', function() {
+            const formPopup = document.getElementById('formPopup');
+            formPopup.style.display = formPopup.style.display === 'none' ? 'block' : 'none';
+        });
+
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('cadusuario.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert('Usuário cadastrado com sucesso!');
+                document.getElementById('formPopup').style.display = 'none';
+                location.reload(); // Reload the page to update the user list
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao cadastrar usuário.');
+            });
+        });
+    </script>
 
     <?php
     // Conexão com o banco de dados

@@ -1,6 +1,6 @@
 <?php  
 include('conexao2.php');
-include('admin.php');
+//include('admin.php');
 include('protect.php'); 
 ?>
 

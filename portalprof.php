@@ -88,6 +88,16 @@ $conexao->close();
         }
 
         /* Menu padrão */
+        nav ul li {
+    display: flex;
+    align-items: center;
+}
+
+nav ul li a,
+.profile-image {
+    vertical-align: middle; /* Garante que ambos os elementos fiquem alinhados */
+}
+
         nav ul {
             list-style: none;
             display: flex;

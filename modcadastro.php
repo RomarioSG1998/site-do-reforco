@@ -1,8 +1,6 @@
-
-        <?php 
+<?php 
 
 include('conexao2.php');
-//include('admin.php');//
 include('protect.php');
 ?>
 <!DOCTYPE html>
@@ -14,6 +12,7 @@ include('protect.php');
     <title>Dados da Tabela</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <style>
+        /* Estilos gerais */
         body {
             background-image: url("./imagens/111.png");
             background-repeat: no-repeat;
@@ -162,12 +161,84 @@ include('protect.php');
         tr.inativo td {
             background-color: #ff1b1b; /* Vermelho claro */
         }
+
+        .inativo {
+            background-color: #f8d7da; /* Cor de destaque para alunos inativos */
+        }
+
+        /* Estilo do popup (modal) */
+        .modal {
+            display: none; /* Escondido por padrão */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro com transparência */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 90%; /* Largura para caber em telas de celular */
+            max-width: 500px; /* Largura máxima em telas maiores */
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #000;
+            cursor: pointer;
+        }
+
+        .modal iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
     </style>
+    <script>
+        // Função para abrir o popup (modal)
+        function abrirJanela(url) {
+            const modal = document.getElementById('modal');
+            const iframe = document.getElementById('modal-iframe');
+
+            // Configura o iframe com o URL desejado
+            iframe.src = url;
+
+            // Exibe o modal
+            modal.style.display = 'flex';
+        }
+
+        // Função para fechar o popup (modal)
+        function fecharJanela() {
+            const modal = document.getElementById('modal');
+            const iframe = document.getElementById('modal-iframe');
+
+            // Esconde o modal
+            modal.style.display = 'none';
+
+            // Limpa o conteúdo do iframe
+            iframe.src = '';
+
+            // Atualiza a página após fechar o popup
+            window.location.reload();
+        }
+    </script>
 </head>
 <body>
 <div class="content">
     <p class="cadastro-frase">ALTERAR/EXCLUIR MATRÍCULAS</p>
-    <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
+    <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
         <img class="cadastro-imagem" src="./imagens/logo sem fundo1.png" alt="Descrição da imagem">
     </a>
 </div>
@@ -193,7 +264,7 @@ include('protect.php');
             <th>RA</th>
             <th>Nome</th>
             <th>Data de Nascimento</th>
-            <th class="zoomable">Celular</th>
+            <th>Celular</th>
             <th>Responsável</th>
             <th>Gênero</th>
             <th>Turma</th>
@@ -214,17 +285,13 @@ include('protect.php');
 
         $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-        // Consulta SQL modificada para incluir pesquisa por RA ou nome
         $sql = "SELECT * FROM alunos WHERE ra LIKE '%$search%' OR nome LIKE '%$search%'";
         $result = $conexao->query($sql);
 
         if ($result && $result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                // Adiciona uma classe 'inativo' se a situação do aluno for 'inativo'
-                $rowClass = ($row['situacao'] == 'Inativo') ? 'Inativo' : '';
-                echo "<tr class='$rowClass'>"; // Adiciona a classe à linha
-                
-                // Restante do seu código para exibir os dados da linha...
+                $rowClass = ($row['situacao'] == 'Inativo') ? 'inativo' : '';
+                echo "<tr class='$rowClass'>";
                 echo "<td><a href='mensalidade.php?ra=".$row["ra"]."'>".$row["ra"]."</a></td>";
                 echo "<td>".$row["nome"]."</td>";
                 echo "<td>".$row["datanasc"]."</td>";
@@ -232,33 +299,27 @@ include('protect.php');
                 echo "<td>".$row["responsavel"]."</td>";
                 echo "<td>".$row["genero"]."</td>";
                 echo "<td>".$row["turma"]."</td>";
-                echo "<td>".$row["situacao"]."</td>"; // Exibe a situação do aluno
-                
-                echo "<td>";        
-                if(isset($row["ra"])) {
-                    echo "<a href='editar.php?ra=".$row["ra"]."'><i class='fas fa-edit icon edit-icon'></i></a> | ";
-                    echo "<a href='apagar.php?ra=".$row["ra"]."'><i class='fas fa-trash-alt icon delete-icon'></i></a>";
-                } else {
-                    echo "<i class='fas fa-edit icon edit-icon'></i> | <i class='fas fa-trash-alt icon delete-icon'></i>";
-                }
+                echo "<td>".$row["situacao"]."</td>";
+                echo "<td>";
+                echo "<a href='#' onclick=\"abrirJanela('editar.php?ra=" . $row['ra'] . "')\"><i class='fas fa-edit icon edit-icon'></i></a> | ";
+                echo "<a href='#' onclick=\"abrirJanela('apagar.php?ra=" . $row['ra'] . "')\"><i class='fas fa-trash icon delete-icon'></i></a>";
                 echo "</td>";
-                
                 echo "</tr>";
             }
         } else {
-            echo "<tr><td colspan='9'>0 resultados</td></tr>";
+            echo "<tr><td colspan='9'>Nenhum aluno encontrado.</td></tr>";
         }
-
         $conexao->close();
         ?>
+    </table>
 </div>
 
-<script>
-    function generatePDF() {
-    // Função para gerar o PDF
-    window.location.href = 'gerar_pdf.php';
-}
-
-</script>
+<!-- Modal para o popup -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="fecharJanela()">&times;</span>
+        <iframe id="modal-iframe"></iframe>
+    </div>
+</div>
 </body>
 </html>

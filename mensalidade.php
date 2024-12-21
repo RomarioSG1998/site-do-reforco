@@ -1,6 +1,7 @@
+
 <?php
 include('conexao2.php');
-include('admin.php');
+//include('admin.php');
 include('protect.php');
 
 $errors = array(); // Array para armazenar mensagens de erro
@@ -37,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "<p>Dados cadastrados com sucesso!</p>";
 
                 // Redirecionar para a página específica após 3 segundos
-                header("refresh:3;url=mensalidade.php");
+                header("refresh:3;url=http://localhost/sededosaber/painel.php?page=mensalidade");
                 exit(); // Encerra o script para garantir que o redirecionamento seja feito corretamente
             } else {
                 $errors[] = "Ocorreu um erro ao cadastrar os dados.";
@@ -130,7 +131,7 @@ $resultado_alunos = $conexao->query($query_alunos);
             text-align: center;
             color: #44277D;
             margin-top: 20px;
-            text-shadow: -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white, 2px 2px 0 white;
+            
         }
 
         form {
@@ -281,6 +282,65 @@ $resultado_alunos = $conexao->query($query_alunos);
             table-layout: fixed;
             /* Fixa a largura da tabela */
         }
+        /* Estilização do modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-content h2 {
+    color: #44277D;
+}
+
+.modal-content button {
+    margin: 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-content button[type="submit"] {
+    background-color: red;
+    color: white;
+}
+
+.modal-content button[type="button"] {
+    background-color: #44277D;
+    color: white;
+}
 
         @media only screen and (max-width: 750px) {
             .cadastro-frase {
@@ -346,26 +406,47 @@ $resultado_alunos = $conexao->query($query_alunos);
 <body>
     <div class="content">
         <p class="cadastro-frase">CADASTRO DO RESPONSÁVEL:</p>
-        <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
+        <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
             <img class="cadastro-imagem" src="./imagens/logo sem fundo1.png" alt="Descrição da imagem">
         </a>
     </div>
 
     <!-- Formulário de Cadastro -->
-    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <h1>CADASTRE</h1>
-        <label for="id_aluno">ALUNO:</label>
-        <select id="id_aluno" name="id_aluno">
-            <?php
-            while ($row = $resultado_alunos->fetch_assoc()) {
-                echo "<option value='" . $row['ra'] . "'>" . $row['nome'] . "</option>";
-            }
-            ?>
-        </select><br><br>
-        <label for="pagador">PAI/RESPONSÁVEL:</label>
-        <input type="text" id="pagador" name="pagador"><br><br>
-        <input type="submit" value="Cadastrar">
-    </form>
+    <button onclick="openFormPopup()">Cadastrar</button>
+
+    <div id="formPopup" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeFormPopup()">&times;</span>
+            <form id="cadastroForm" method="POST">
+                <h1>CADASTRE</h1>
+                <label for="id_aluno">ALUNO:</label>
+                <select id="id_aluno" name="id_aluno">
+                    <?php
+                    while ($row = $resultado_alunos->fetch_assoc()) {
+                        echo "<option value='" . $row['ra'] . "'>" . $row['nome'] . "</option>";
+                    }
+                    ?>
+                </select><br><br>
+                <label for="pagador">PAI/RESPONSÁVEL:</label>
+                <input type="text" id="pagador" name="pagador"><br><br>
+                <input type="submit" value="Cadastrar">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openFormPopup() {
+            document.getElementById('formPopup').style.display = 'block';
+        }
+
+        function closeFormPopup() {
+            document.getElementById('formPopup').style.display = 'none';
+        }
+
+        document.getElementById('cadastroForm').addEventListener('submit', function() {
+            closeFormPopup();
+        });
+    </script>
 
     <!-- Mensagens de erro -->
     <?php
@@ -392,82 +473,95 @@ $resultado_alunos = $conexao->query($query_alunos);
 
     <!-- Tabela de Pagamentos -->
     <div class="container">
-        <h1>Tabela de pagamentos mensais</h1>
-        <?php
-        $search = isset($_GET['search']) ? $_GET['search'] : '';
-        $query = "SELECT * FROM meses WHERE id_aluno LIKE '%$search%' OR pagador LIKE '%$search%'";
-        $resultado = $conexao->query($query);
+    <h1>Tabela de pagamentos mensais</h1>
+    <?php
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+    $query = "SELECT * FROM meses WHERE id_aluno LIKE '%$search%' OR pagador LIKE '%$search%'";
+    $resultado = $conexao->query($query);
 
-        if ($resultado->num_rows > 0) {
-            echo "<table>
-                <colgroup>
-                    <col style='width: 5%;'>
-                    <col style='width: 5%;'>
-                    <col style='width: 10%;'>
-                    <col style='width: 5%;'>
-                    <col style='width: 5%;'>
-                    <col style='width: 5%;'>
-                    <col style='width: 5%;'>
-                    <col style='width: 5%;'>
-                    <col style='width: 5%;'>
-                    <col style='width: 5%;'>
-                    <col style='width: 5%;'>
-                    <col style='width: 5%;'>
-                    <col style='width: 5%;'>
-                    <col style='width: 5%;'>
-                    <col style='width: 5%;'>
-                    <col style='width: 15%;'>
-                    <col style='width: 10%;'>
-                </colgroup>
-                <tr>
-                    <th>RA</th>
-                    <th>ID Aluno</th>
-                    <th>Cliente/Pai</th>
-                    <th>Janeiro</th>
-                    <th>Fevereiro</th>
-                    <th>Março</th>
-                    <th>Abril</th>
-                    <th>Maio</th>
-                    <th>Junho</th>
-                    <th>Julho</th>
-                    <th>Agosto</th>
-                    <th>Setembro</th>
-                    <th>Outubro</th>
-                    <th>Novembro</th>
-                    <th>Dezembro</th>
-                    <th>Obs.</th>
-                    <th>Ação</th>
-                </tr>";
+    if ($resultado->num_rows > 0) {
+        echo "<table>
+            <colgroup>
+                <col style='width: 5%;'>
+                <col style='width: 5%;'>
+                <col style='width: 10%;'>
+                <col style='width: 5%;'>
+                <col style='width: 5%;'>
+                <col style='width: 5%;'>
+                <col style='width: 5%;'>
+                <col style='width: 5%;'>
+                <col style='width: 5%;'>
+                <col style='width: 5%;'>
+                <col style='width: 5%;'>
+                <col style='width: 5%;'>
+                <col style='width: 5%;'>
+                <col style='width: 5%;'>
+                <col style='width: 5%;'>
+                <col style='width: 15%;'>
+                <col style='width: 10%;'>
+            </colgroup>
+            <tr>
+                <th>RA</th>
+                <th>ID Aluno</th>
+                <th>Cliente/Pai</th>
+                <th>Janeiro</th>
+                <th>Fevereiro</th>
+                <th>Março</th>
+                <th>Abril</th>
+                <th>Maio</th>
+                <th>Junho</th>
+                <th>Julho</th>
+                <th>Agosto</th>
+                <th>Setembro</th>
+                <th>Outubro</th>
+                <th>Novembro</th>
+                <th>Dezembro</th>
+                <th>Obs.</th>
+                <th>Ação</th>
+            </tr>";
 
-            while ($linha = $resultado->fetch_assoc()) {
-                echo "<tr>
-                    <td><a href='alterarpag.php?ra=" . $linha['ra'] . "&id_aluno=" . $linha['id_aluno'] . "&janeiro=" . $linha['janeiro'] . "&fevereiro=" . $linha['fevereiro'] . "&marco=" . $linha['marco'] . "&abril=" . $linha['abril'] . "&maio=" . $linha['maio'] . "&junho=" . $linha['junho'] . "&julho=" . $linha['julho'] . "&agosto=" . $linha['agosto'] . "&setembro=" . $linha['setembro'] . "&outubro=" . $linha['outubro'] . "&novembro=" . $linha['novembro'] . "&dezembro=" . $linha['dezembro'] . "&obs=" . $linha['obs'] . "'>" . $linha['ra'] . "</a></td>
-                    <td><a href='modcadastro.php?id_aluno=" . $linha['id_aluno'] . "&search=" . urlencode($linha['id_aluno']) . "'>" . $linha['id_aluno'] . "</a></td>
-                    <td>" . $linha['pagador'] . "</td>";
-
+        while ($linha = $resultado->fetch_assoc()) {
+            echo "<tr>
+                <td>
+                    <a href='#' 
+                       onclick=\"openPopup('alterarpag.php?ra={$linha['ra']}&id_aluno={$linha['id_aluno']}&janeiro={$linha['janeiro']}&fevereiro={$linha['fevereiro']}&marco={$linha['marco']}&abril={$linha['abril']}&maio={$linha['maio']}&junho={$linha['junho']}&julho={$linha['julho']}&agosto={$linha['agosto']}&setembro={$linha['setembro']}&outubro={$linha['outubro']}&novembro={$linha['novembro']}&dezembro={$linha['dezembro']}&obs={$linha['obs']}')\">
+                        {$linha['ra']}
+                    </a>
+                </td>
+                <td>
+                    <a href='modcadastro.php?id_aluno={$linha['id_aluno']}&search=" . urlencode($linha['id_aluno']) . "'>{$linha['id_aluno']}</a>
+                </td>
+                <td>{$linha['pagador']}</td>";
                 foreach ($linha as $campo => $valor) {
                     if ($campo != 'ra' && $campo != 'id_aluno' && $campo != 'pagador') {
                         if ($campo != 'obs') {
-                            $cor = ($valor == "0001-01-01 00:00:01" || $valor == "0001-01-01 00:00:00") ? "#ff9999" : ($valor == "0001-11-30 00:00:00" ? "#ff0000" : "#99cc99");
+                            $cor = ($valor == "0001-01-01 00:00:01" || $valor == "0001-01-01 00:00:00") 
+                                ? "#ff9999" 
+                                : ($valor == "0001-11-30 00:00:00" ? "#ff0000" : "#99cc99");
+                
                             echo "<td style='background-color: $cor;'>" . date('Y-m-d H:i:s', strtotime($valor)) . "</td>";
                         } else {
                             $cor = ($valor != "") ? "yellow" : "";
-                            echo "<td style='background-color: $cor;'>" . $valor . "</td>";
+                            echo "<td style='background-color: $cor;'>$valor</td>";
                         }
                     }
                 }
-                echo "<td class='delete-button' onclick='deleteRow(this)'>Delete</td>";
+                ?>
+                <td class="delete-button" data-ra="<?php echo $linha['ra']; ?>">Deletar</td>
+                <?php
                 echo "</tr>";
-            }
+                }
+                echo "</table>";
+                } else {
+                    echo "Não foram encontrados resultados na tabela.";
+                }
+                
+                $conexao->close();
+                ?>
+                
+</div>
 
-            echo "</table>";
-        } else {
-            echo "Não foram encontrados resultados na tabela.";
-        }
 
-        $conexao->close();
-        ?>
-    </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
@@ -492,7 +586,91 @@ $resultado_alunos = $conexao->query($query_alunos);
                 form.submit();
             }
         }
+         // Função para abrir o modal
+    function openPopup(url) {
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+
+        // Definir o conteúdo do iframe no modal
+        modalContent.innerHTML = `<iframe src="${url}" style="width: 100%; height: 400px; border: none;"></iframe>`;
+
+        // Exibir o modal
+        modal.style.display = 'block';
+    }
+
+    // Fechar o modal
+    function closeModal() {
+        const modal = document.getElementById('modal');
+        modal.style.display = 'none';
+    }
+
+    // Fechar o modal ao clicar fora dele
+    window.onclick = function (event) {
+        const modal = document.getElementById('modal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("deleteModal");
+        const confirmDeleteButton = document.getElementById("confirmDelete");
+        const cancelDeleteButton = document.getElementById("cancelDelete");
+        let selectedRA = null; // Armazena o RA do registro a ser excluído
+
+        // Abrir o modal ao clicar em "Deletar"
+        document.querySelectorAll(".delete-button").forEach(button => {
+            button.addEventListener("click", function () {
+                selectedRA = this.getAttribute("data-ra"); // Obter o RA do registro
+                modal.style.display = "block"; // Exibir o modal
+            });
+        });
+
+        // Confirmar exclusão
+        confirmDeleteButton.addEventListener("click", function () {
+            if (selectedRA) {
+                // Enviar o formulário para exclusão via POST
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.action = ""; // Enviar para a mesma página
+                const inputRA = document.createElement("input");
+                inputRA.type = "hidden";
+                inputRA.name = "ra";
+                inputRA.value = selectedRA;
+                form.appendChild(inputRA);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+
+        // Cancelar exclusão
+        cancelDeleteButton.addEventListener("click", function () {
+            modal.style.display = "none"; // Ocultar o modal
+            selectedRA = null; // Limpar o RA selecionado
+        });
+
+        // Fechar o modal ao clicar fora dele
+        window.addEventListener("click", function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                selectedRA = null;
+            }
+        });
+    });
     </script>
+    <div id="modal" class="modal">
+    <div class="modal-content" id="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+    </div>
+</div>
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <p>Tem certeza de que deseja excluir este registro?</p>
+        <button id="confirmDelete" class="modal-btn">Sim</button>
+        <button id="cancelDelete" class="modal-btn">Não</button>
+    </div>
+</div>
+
 </body>
 
 </html>

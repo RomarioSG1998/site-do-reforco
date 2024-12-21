@@ -1,7 +1,7 @@
 <?php
 
 include('conexao2.php');
-include('admin.php');
+//include('admin.php');
 include('protect.php');
 
 // Verificar se o ID do usuário foi fornecido na URL
@@ -43,14 +43,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("i", $id);
         if ($stmt->execute()) {
             echo "Usuário deletado com sucesso!";
-            echo "<script>window.location.href = 'cadusuario.php';</script>";
+            echo "<script>window.location.href = 'http://localhost/sededosaber/painel.php?page=cadusuario';</script>";
             exit;
         } else {
             echo "Erro ao deletar usuário: " . $conexao->error;
         }
     } elseif (isset($_POST['cancelar'])) {
         // Se o usuário cancelar a exclusão, redirecionar para a página de cadastro de usuários
-        header("Location: cadusuario.php");
+        header("Location: http://localhost/sededosaber/painel.php?page=cadusuario");
         exit;
     }
 }

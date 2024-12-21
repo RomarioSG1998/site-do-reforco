@@ -44,6 +44,7 @@ if(isset($_POST['email']) && isset($_POST['senha'])) {
 
         } else {
             echo "Falha ao logar! E-mail ou senha incorretos";
+            die("  Você não pode acessar esta página, pois não está logado.<p><a href=\"logadmin.php\">Entrar</a></p>");
         }
 
     }

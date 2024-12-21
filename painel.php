@@ -197,6 +197,7 @@ $conexao->close();
             <li>
                 <a href="#" class="dropdown-toggle">Admin</a>
                 <ul class="dropdown">
+                    <li><a href="?page=mensalidade">Pagamentos</a></li>
                     <li><a href="?page=paisava">Para os pais</a></li>
                     <li><a href="?page=cadusuario">Cadastro de usuário</a></li>
                     <li><a href="?page=modcadastro">Alterar Cadastro</a></li>
@@ -215,7 +216,7 @@ $conexao->close();
 <main style="margin-top: 100px; padding: 20px;">
     <?php
     $page = isset($_GET['page']) ? htmlspecialchars($_GET['page']) : 'Dashboard';
-    $allowed_pages = ['Dashboard', 'pageadmin', 'cadastro2', 'modcadastro', 'PB', 'Monitorar', 'cadusuario', 'paisava'];
+    $allowed_pages = ['Dashboard', 'pageadmin', 'cadastro2', 'modcadastro', 'PB', 'Monitorar', 'cadusuario', 'paisava', 'mensalidade'];
 
     if (in_array($page, $allowed_pages)) {
         include("$page.php");

@@ -127,7 +127,76 @@
         .data-fim {
             color: red;
         }
+        .form-container {
+    display: none;
+    position: fixed; /* Torna o formulário fixo na tela */
+    top: 20%; /* Ajuste a posição vertical conforme necessário */
+    left: 50%;
+    transform: translateX(-50%); /* Centraliza o formulário horizontalmente */
+    border: 1px solid #ddd;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    width: 250px;
+    max-width: 100%;
+    z-index: 1000; /* Garante que o formulário fique acima de outros elementos */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
+}
+
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 20px;
+            color: green;
+        }
     </style>
+    <script>
+       function toggleForm() {
+    const formContainer = document.getElementById('form-container');
+    formContainer.style.display = formContainer.style.display === 'none' || formContainer.style.display === '' ? 'block' : 'none';
+}
+
+// Função para enviar o formulário via AJAX
+function submitForm(event) {
+    event.preventDefault(); // Impede o comportamento padrão do formulário
+
+    // Criação de um objeto FormData com os dados do formulário
+    const formData = new FormData(document.querySelector('form'));
+
+    // Envia os dados via AJAX
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'processa_notifica.php', true);
+    
+    // Função que é chamada quando a requisição termina
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Exibe a mensagem de sucesso ou erro
+            document.getElementById('message').innerHTML = xhr.responseText;
+            // Limpa o formulário
+            document.querySelector('form').reset();
+            // Recarrega a página para atualizar as notificações
+            window.location.reload();
+        } else {
+            document.getElementById('message').innerHTML = 'Erro ao enviar o formulário!';
+        }
+    };
+
+    // Envia os dados
+    xhr.send(formData);
+}
+
+    </script>
 </head>
 <body>
     <?php
@@ -164,6 +233,41 @@
                 </div>
             </div>
             <div class="section">
+            <div class="container">
+        <button onclick="toggleForm()">Adicionar Registro</button>
+        <div id="form-container" class="form-container">
+    <form onsubmit="submitForm(event)">
+        <div>
+            <label for="autor">Autor:</label><br>
+            <input type="text" id="autor" name="autor" value="<?php echo $_SESSION['nome']; ?>" readonly required>
+        </div>
+        <div>
+            <label for="descricao">Descrição:</label><br>
+            <textarea id="descricao" name="descricao" rows="4" required></textarea>
+        </div>
+        <div>
+            <label for="destinatario">Destinatário:</label><br>
+            <input type="text" id="destinatario" name="destinatario" required>
+        </div>
+        <div>
+            <label for="date_start">Data de Início:</label><br>
+            <input type="date" id="date_start" name="date_start" required>
+        </div>
+        <div>
+            <label for="date_end">Data de Término:</label><br>
+            <input type="date" id="date_end" name="date_end">
+        </div>
+        <div style="margin-top: 20px;">
+            <button type="submit">Salvar Registro</button>
+        </div>
+    </form>
+    <!-- Mensagem de sucesso ou erro -->
+    <div id="message" class="message"></div>
+    <!-- Botão de Fechar -->
+    <button type="button" onclick="toggleForm()">Fechar</button>
+</div>
+
+    </div>
                 <h2>Últimas Notificações</h2>
                 <ul>
                     <?php if ($resultNotificacoes->num_rows > 0): ?>

@@ -1,6 +1,6 @@
 <?php
 include('conexao2.php');
-include('admin.php');
+//include('admin.php');
 include('protect.php'); 
 
 // Verificar se o ID do usuário foi fornecido na URL
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Redirecionar para cadusuario.php após a edição
         echo "<script>
                 setTimeout(function() {
-                    window.location.href = 'cadusuario.php';
+                    window.location.href = 'http://localhost/sededosaber/painel.php?page=cadusuario';
                 }, 2000); // 2 segundos
               </script>";
         exit;
@@ -132,8 +132,8 @@ $conexao->close();
         <input type="email" id="email" name="email" value="<?php echo $row['email']; ?>" required><br>
         <label for="tipo">Tipo de Usuário:</label><br>
         <select id="tipo" name="tipo" required>
-            <option value="Professor(a)" <?php if($row['tipo'] == 'Professor(a)') echo 'selected'; ?>>Professor(a)</option>
-            <option value="Admin" <?php if($row['tipo'] == 'Admin') echo 'selected'; ?>>Admin</option>
+            <option value="professor(a)" <?php if($row['tipo'] == 'Professor(a)') echo 'selected'; ?>>Professor(a)</option>
+            <option value="admin" <?php if($row['tipo'] == 'Admin') echo 'selected'; ?>>Admin</option>
         </select><br>
         <label for="imagem">Nova Imagem: (ao atualizar qualquer informação, atualize também sua imagem)</label><br>
         <input type="file" id="imagem" name="imagem" accept="image/*"><br><br>
