@@ -39,7 +39,7 @@ $conexao->close();
 
         body {
             min-height: 100vh;
-            background-image: url("./imagens/bg-signin1.png");
+            background-color: #dcdcdc;
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;

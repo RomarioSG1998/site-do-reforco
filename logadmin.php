@@ -61,7 +61,8 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
       margin: 0;
       padding: 0;
       height: 100vh;
-      background-image: url("./imagens/bg-signin1.png");
+      background-color: #dcdcdc;
+      /*background-image: url("./imagens/bg-signin1.png");*/
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
@@ -213,13 +214,23 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
     -2px 2px 0 #44277D,
     2px 2px 0 #44277D;
     }
-  img {
-  max-width: 55%;
-  height: 30%;
-  display: block;
-  margin: 10px auto 0;/* Isso centraliza a imagem horizontalmente */
-  margin-bottom: -150px;
-}
+    img {
+    max-width: 55%;
+    height: 30%;
+    display: block;
+    margin: 10px auto 0; /* Isso centraliza a imagem horizontalmente */
+    margin-bottom: -150px;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
 
     @media only screen and (max-width: 768px) {
       .card {

@@ -14,12 +14,12 @@ include('protect.php');
        body {
         font-family: 'Tahoma', sans-serif;
             margin: 20px;
-            background-image: url("./imagens/111.png");
+            background-color: #dcdcdc;
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
             padding: 0;
-            background-color: #f5f5fd; /* Lilás claro para o fundo */
+           
         }
         .cadastro-frase {
             font-size: 35px;
@@ -27,7 +27,7 @@ include('protect.php');
             font-family: 'Tahoma', sans-serif;
             font-weight: bold;
             margin-bottom: 20px;
-            color:white; /* Define a cor do texto */
+            color:black; /* Define a cor do texto */
             
         }
 
@@ -114,7 +114,7 @@ include('protect.php');
 <div class="content">
     <p class="cadastro-frase">CADASTRO DO USUARIO</p>
     <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-        <img class="cadastro-imagem" src="./imagens/logo sem fundo1.png" alt="Descrição da imagem">
+        <img class="cadastro-imagem" src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
     </a>
 </div>
 

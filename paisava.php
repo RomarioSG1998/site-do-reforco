@@ -6,13 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Links para os Pais</title>
     <style>
-        /* Reset e estilos básicos */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
 
         body {
             min-height: 100vh;
@@ -20,18 +13,10 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: #f4f4f9;
+            background-color: #dcdcdc;
             padding: 20px;
         }
 
-        header {
-            background-color: #44277D;
-            color: #fff;
-            width: 100%;
-            text-align: center;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
 
         main {
             max-width: 600px;
@@ -96,7 +81,7 @@
     <header>
     </header>
     <main>
-        <h1>Bem-vindo!</h1>
+        <h1>Esses links são públicos</h1>
         <p>Aqui você pode compartilhar esses links com os pais para que eles avaliem o nosso trabalho ou atualizem o cadastro do estudante.</p>
         <div class="links">
             <div class="link-container">

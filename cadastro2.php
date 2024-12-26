@@ -8,28 +8,7 @@ include('protect.php');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/Cadastro2.css">
     <style>
-        /* Estilos para a frase */
-
-        .cadastro-frase {
-            font-size: 35px;
-            font-family: 'Tahoma', sans-serif;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color:WHITE; /* Define a cor do texto */
-            
-        }
-
-        /* Estilos para a imagem */
-        .cadastro-imagem {
-            display: block;
-            margin: 0 auto;
-            max-width: 20%;
-            margin-top: -25px;
-            margin-bottom: -50px;
-        }
-        
         /* Adicione o CSS aqui */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=Open+Sans:wght@300;400;500;600&display=swap');
 
@@ -43,9 +22,7 @@ include('protect.php');
         body {
             width: 100%;
             height: 100vh;
-            background-image: url("./imagens/111.png");
-            background-repeat: no-repeat;
-            background-size: cover;
+            background-color: #dcdcdc;
             background-position: center;
             display: flex;
             justify-content: center;
@@ -59,14 +36,14 @@ include('protect.php');
         }
 
         form {
-    width: 60%;
-    max-width: 330px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 90px auto; /* Centralização horizontal */
-}
+            width: 100%;
+            max-width: 330px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 90px auto; /* Centralização horizontal */
+        }
 
 
 
@@ -155,9 +132,6 @@ include('protect.php');
 </head>
 
 <body>
-<div class="content">
-    <p class="cadastro-frase">CADASTRO DO ALUNO/A:</p>
-</div>
 
 
     <form id="form" action="./conexao.php" method="POST">

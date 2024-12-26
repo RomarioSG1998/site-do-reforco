@@ -32,6 +32,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+// Verifica se o formulário de exclusão foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
+    $delete_id = $_POST['delete_id'];
+    $sql_delete = "DELETE FROM tarefa WHERE id='$delete_id'";
+    
+    if ($conexao->query($sql_delete) === TRUE) {
+        $sucesso = "Tarefa deletada com sucesso!";
+    } else {
+        $erro = "Erro ao deletar tarefa: " . $conexao->error;
+    }
+}
+
 // Consulta SQL para exibir todas as tarefas
 $sql_tarefas = "SELECT id, autor, descricao, link, turma, date_start, date_end FROM tarefa";
 $result_tarefas = $conexao->query($sql_tarefas);
@@ -50,7 +62,7 @@ $result_alunos = $conexao->query($sql_alunos);
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f5f7fa;
+            background-color: #dcdcdc;
             color: #333;
             margin: 0;
             padding: 0;
@@ -201,38 +213,74 @@ $result_alunos = $conexao->query($sql_alunos);
     <div class="container">
         <!-- Exibição das tarefas cadastradas -->
         <h2>Tarefas Cadastradas</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Autor</th>
-                    <th>Descrição</th>
-                    <th>Link</th>
-                    <th>Turma</th>
-                    <th>Data de Início</th>
-                    <th>Data de Fim</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($result_tarefas->num_rows > 0) {
-                    while ($row = $result_tarefas->fetch_assoc()) {
-                        echo "<tr>
-                                <td>{$row['id']}</td>
-                                <td>{$row['autor']}</td>
-                                <td>{$row['descricao']}</td>
-                                <td><a href='{$row['link']}' target='_blank'>Link</a></td>
-                                <td>{$row['turma']}</td>
-                                <td>{$row['date_start']}</td>
-                                <td>{$row['date_end']}</td>
-                              </tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='7' style='text-align:center;'>Nenhuma tarefa cadastrada.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
+        <?php
+        // Exibir as tarefas em uma tabela
+        if ($result_tarefas->num_rows > 0) {
+            echo "<table>";
+            echo "<tr><th>ID</th><th>Autor</th><th>Descrição</th><th>Link</th><th>Turma</th><th>Data de Início</th><th>Data de Término</th><th>Ações</th></tr>";
+            while($row = $result_tarefas->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row["id"] . "</td>";
+                echo "<td>" . $row["autor"] . "</td>";
+                echo "<td>" . $row["descricao"] . "</td>";
+                echo "<td>" . $row["link"] . "</td>";
+                echo "<td>" . $row["turma"] . "</td>";
+                echo "<td>" . $row["date_start"] . "</td>";
+                echo "<td>" . $row["date_end"] . "</td>";
+                echo "<td><form method='POST' action=''><input type='hidden' name='delete_id' value='" . $row["id"] . "'><input type='submit' value='Deletar'></form></td>";
+                echo "</tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "Nenhuma tarefa encontrada.";
+        }
+        ?>
     </div>
+<?php
+// Verifica se o botão de deletar foi clicado
+if (isset($_POST['delete'])) {
+    $id_to_delete = $_POST['id_to_delete'];
+    $sql_delete = "DELETE FROM tarefa WHERE id='$id_to_delete'";
+    
+    if ($conexao->query($sql_delete) === TRUE) {
+        echo "<p class='message'>Tarefa deletada com sucesso!</p>";
+    } else {
+        echo "<p class='error'>Erro ao deletar tarefa: " . $conexao->error . "</p>";
+    }
+}
+?>
+
+<script>
+function confirmDelete(id) {
+    if (confirm('Tem certeza que deseja deletar esta tarefa?')) {
+        document.getElementById('delete-form-' + id).submit();
+    }
+}
+</script>
+
+<?php
+// Adiciona o botão de deletar na tabela de tarefas
+if ($result_tarefas->num_rows > 0) {
+    while ($row = $result_tarefas->fetch_assoc()) {
+        echo "<tr>
+                <td>{$row['id']}</td>
+                <td>{$row['autor']}</td>
+                <td>{$row['descricao']}</td>
+                <td><a href='{$row['link']}' target='_blank'>Link</a></td>
+                <td>{$row['turma']}</td>
+                <td>{$row['date_start']}</td>
+                <td>{$row['date_end']}</td>
+                <td>
+                    <form id='delete-form-{$row['id']}' method='POST' action=''>
+                        <input type='hidden' name='id_to_delete' value='{$row['id']}'>
+                        <button type='button' onclick='confirmDelete({$row['id']})'>Deletar</button>
+                    </form>
+                </td>
+              </tr>";
+    }
+} else {
+    echo "<tr><td colspan='8' style='text-align:center;'>Nenhuma tarefa cadastrada.</td></tr>";
+}
+?>
 </body>
 </html>

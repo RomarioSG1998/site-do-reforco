@@ -5,8 +5,358 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Comercial - Escola</title>
-    <link rel="stylesheet" href="./css/index.css">
     <script src="./js/index.js" defer></script>
+    <style>
+        /* Corpo */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Garante que o corpo ocupe toda a altura da tela */
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    /* Propriedades do fundo */
+    background-image: url("../imagens/fundo2.png"); /* Verifique se o caminho está correto */
+    background-size: 105% auto; /* Ajusta a largura para ser maior que a tela */
+    background-repeat: no-repeat; /* Evita repetição */
+    background-attachment: scroll; /* Permite o movimento do fundo */
+    background-position: 0% 0%; /* Posição inicial */
+    
+    /* Animação */
+    animation: moveBackground 10s infinite alternate; 
+}
+
+/* Definição da animação */
+@keyframes moveBackground {
+    0% {
+        background-position: 0% 0%; /* Posição inicial (horizontal apenas) */
+    }
+    100% {
+        background-position: 100% 0%; /* Movimento final (horizontal apenas) */
+    }
+}
+
+.background-overlay {
+    position: fixed; /* Garante que a sobreposição cobre toda a tela */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../imagens/index.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 0; /* Atrás de todos os outros elementos, mas na frente do body */
+}
+
+/* Para garantir que os outros elementos fiquem na frente */
+main, footer {
+    position: relative;
+    z-index: 2; /* Esses elementos ficam na frente da sobreposição */
+}
+
+
+
+/* Animação de entrada de cima para baixo */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px); /* Move o elemento para cima antes da entrada */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(50); /* Retorna à posição original */
+    }
+}
+
+/* Animação de entrada da direita para esquerda */
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(50px); /* Move o elemento para a direita antes da entrada */
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0); /* Retorna à posição original */
+    }
+}
+
+/* Animação de entrada de baixo para cima */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px); /* Move o elemento para baixo antes da entrada */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Retorna à posição original */
+    }
+}
+
+/* Animação de flutuação contínua */
+@keyframes floating {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px); /* Sobe ligeiramente */
+    }
+    100% {
+        transform: translateY(0); /* Retorna à posição original */
+    }
+}
+
+/* Botões no topo esquerdo */
+.top-left-buttons {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1;
+    animation: fadeInDown 1s ease-in-out;
+    animation-delay: 0.2s; /* Atraso da animação */
+}
+
+/* Vídeo no canto superior direito */
+.video-container {
+    position: absolute;
+    top: 120px;
+    right: 100px;
+    z-index: 0;
+    animation: fadeInLeft 1.5s ease-in-out;
+    animation-delay: 0.4s; /* Atraso da animação */
+    width: 505px; /* Definido conforme o tamanho desejado */
+    height: 285px; /* Definido conforme o tamanho desejado */
+    overflow: hidden; /* Esconde qualquer parte do vídeo que ultrapasse o contêiner */
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+/* Botões no canto inferior esquerdo */
+.bottom-left-buttons {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1;
+    animation: fadeInDown 1s ease-in-out;
+    animation-delay: 0.6s; /* Atraso da animação */
+}
+
+/* Logo no canto inferior direito */
+.bottom-right-logo {
+    position: absolute;
+    bottom: 5px;
+    right: 260px;
+    width: 190px;
+    animation: fadeInUp 2s ease-in-out, floating 3s ease-in-out infinite; /* Animação de entrada seguida de flutuação contínua */
+    animation-delay: 0.8s; /* Atraso da animação de entrada */
+    z-index: 1;
+}
+
+.bottom-right-logo img {
+    width: 240px;
+    height: auto;
+    max-width: 100%;
+}
+
+/* Botões do menu */
+.btn {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    animation: fadeInDown 1s ease-in-out;
+    animation-delay: 1s; /* Atraso da animação */
+    transition: background-color 0.3s ease; /* Transição suave para a mudança de cor */
+}
+
+/* Cores de fundo diferentes ao passar o mouse para cada botão */
+.header-menu .btn0:hover {
+    background-color: #ff33e4; /* Cor para o botão 1 */
+}
+.header-menu .btn1:hover {
+    background-color: #FF5733; /* Cor para o botão 1 */
+}
+
+.header-menu .btn2:hover {
+    background-color: #33FF57; /* Cor para o botão 2 */
+}
+
+.header-menu .btn3:hover {
+    background-color: #3357FF; /* Cor para o botão 3 */
+
+}
+.header-menu .btn4:hover {
+    background-color: #ff33cc; /* Cor para o botão 3 */
+
+}
+.header-menu .btn5:hover {
+    background-color: #e0ff33; /* Cor para o botão 3 */
+
+}
+
+/* Estilos do menu no cabeçalho */
+.header-menu {
+    display: flex;
+    border-radius: 2%;
+    background-color: rgba(249, 249, 249, 0.9); /* 0.7 significa 70% opaco */
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    z-index: 2;
+    animation: fadeInDown 1s ease-in-out;
+    animation-delay: 1.2s; /* Atraso da animação */
+}
+
+/* Dropdown do menu */
+.dropdown-content {
+    display: flex;
+}
+
+.dropdown-button {
+    display: none !important;
+}
+
+.dropdown-content button {
+    margin: 5px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+#content-container {
+    position: fixed; /* Fixa o elemento em relação à viewport */
+    top: 50%; /* Centraliza verticalmente */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta o deslocamento para centralizar */
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    min-height: 200px;
+    min-width: 300px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Adiciona sombra */
+    z-index: 1000; /* Garante que o elemento ficará acima de outros */
+    display: none; /* Inicialmente escondido */
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    z-index: 999; /* Fica abaixo do content-container */
+    display: none; /* Inicialmente escondido */
+}
+#countdown {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #d9534f; /* Vermelho para dar destaque */
+    animation: pulse 1s infinite; /* Animação de pulsação */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+footer {
+    margin-top: auto; /* Move o rodapé para o final da página */
+    background-color: none;
+    text-align: center;
+    padding: 15px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Estilo do menu dropdown para dispositivos móveis */
+@media (max-width: 768px) {
+    .header-menu {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #f9f9f9;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+
+    .dropdown-content button {
+        padding: 12px 16px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .dropdown-content button:last-child {
+        border-bottom: none;
+    }
+
+    .dropdown-button {
+        display: block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .header-menu.active .dropdown-content {
+        display: flex;
+    }
+}
+
+        
+    </style>
 </head>
 <body>
     <div class="background-overlay"></div>
@@ -25,8 +375,8 @@
         </div>
     </header>
 
-    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
-    <div id="content-container" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 80%; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000; overflow: hidden;"></div>
+    <div id="overlay"></div>
+    <div id="content-container"></div>
     
     <!-- Vídeo no canto superior direito -->
     <div class="video-container">
@@ -43,4 +393,3 @@
     </footer>
 </body>
 </html>
-

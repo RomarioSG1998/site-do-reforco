@@ -17,6 +17,7 @@
 
         body {
             display: flex;
+            background-color: #dcdcdc;
             flex-direction: column;
             min-height: 100vh;
         }
@@ -201,6 +202,10 @@ function submitForm(event) {
 <body>
     <?php
     include 'conexao2.php';
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    $professorLogado = $_SESSION['nome']; // Supondo que o nome do professor está armazenado na sessão
 
     // Consulta para contar os alunos da turma "PB"
     $queryAlunos = "SELECT COUNT(*) AS total FROM alunos WHERE turma = 'PB'";
@@ -215,6 +220,23 @@ function submitForm(event) {
                           WHERE CURDATE() BETWEEN date_start AND date_end 
                           ORDER BY date_start DESC LIMIT 5";
     $resultNotificacoes = $conexao->query($queryNotificacoes);
+
+    // Consulta para obter a próxima aula do professor logado
+    $queryProximaAula = "SELECT nome, dia_aula, DATE_FORMAT(hora_aula, '%H:%i') AS hora_aula 
+                         FROM disciplinas 
+                         WHERE professor = '$professorLogado' 
+                         ORDER BY FIELD(dia_aula, 'Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'), hora_aula ASC LIMIT 1";
+    $resultProximaAula = $conexao->query($queryProximaAula);
+    $proximaAula = ($resultProximaAula->num_rows > 0) ? $resultProximaAula->fetch_assoc() : null;
+
+    // Calcular a data da próxima aula
+    if ($proximaAula) {
+        $diaSemana = $proximaAula['dia_aula'];
+        $diasSemana = ['Domingo' => 0, 'Segunda-feira' => 1, 'Terça-feira' => 2, 'Quarta-feira' => 3, 'Quinta-feira' => 4, 'Sexta-feira' => 5, 'Sábado' => 6];
+        $hoje = date('w');
+        $diasAteProximaAula = ($diasSemana[$diaSemana] - $hoje + 7) % 7;
+        $dataProximaAula = date('d/m/Y', strtotime("+$diasAteProximaAula days"));
+    }
     ?>
     <main class="main-content">
         <section class="content">
@@ -225,16 +247,25 @@ function submitForm(event) {
                 </div>
                 <div class="card">
                     <h2>Próxima Aula</h2>
-                    <p>Matemática - 14:00</p>
+                    <p><?php echo $proximaAula ? $proximaAula['nome'] . ' - ' . $dataProximaAula . ' - ' . $proximaAula['hora_aula'] : 'Nenhuma aula agendada'; ?></p>
                 </div>
                 <div class="card">
-                    <h2>Tarefas Pendentes</h2>
-                    <p>5 Tarefas</p>
+                    <h2>Tarefas ativas</h2>
+                    <?php
+                    include 'conexao2.php';
+                    // Consulta para contar as tarefas pendentes da turma "PB"
+                    $queryTarefa = "SELECT COUNT(*) AS total FROM tarefa
+                                     WHERE turma = 'PB' 
+                                     AND CURDATE() <= date_end";
+                    $resultTarefa = $conexao->query($queryTarefa);
+                    $totalTarefaPB = ($resultTarefa->num_rows > 0) ? $resultTarefa->fetch_assoc()['total'] : 0;
+                    ?>
+                    <p><?php echo $totalTarefaPB; ?> Tarefas</p>
                 </div>
             </div>
             <div class="section">
             <div class="container">
-        <button onclick="toggleForm()">Adicionar Registro</button>
+        <button onclick="toggleForm()">Adicionar uma noticação</button>
         <div id="form-container" class="form-container">
     <form onsubmit="submitForm(event)">
         <div>
@@ -247,7 +278,17 @@ function submitForm(event) {
         </div>
         <div>
             <label for="destinatario">Destinatário:</label><br>
-            <input type="text" id="destinatario" name="destinatario" required>
+            <select id="destinatario" name="destinatario" required>
+            <?php
+            $queryTurmas = "SELECT DISTINCT turma FROM alunos";
+            $resultTurmas = $conexao->query($queryTurmas);
+            if ($resultTurmas->num_rows > 0) {
+                while ($turma = $resultTurmas->fetch_assoc()) {
+                echo '<option value="' . htmlspecialchars($turma['turma']) . '">' . htmlspecialchars($turma['turma']) . '</option>';
+                }
+            }
+            ?>
+            </select>
         </div>
         <div>
             <label for="date_start">Data de Início:</label><br>

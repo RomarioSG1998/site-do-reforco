@@ -14,7 +14,7 @@ include('protect.php');
     <style>
         /* Estilos gerais */
         body {
-            background-image: url("./imagens/111.png");
+            background-color: #dcdcdc;
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
@@ -25,7 +25,7 @@ include('protect.php');
             font-weight: bold;
             text-align:center;
             margin-bottom: 20px;
-            color:white; /* Define a cor do texto */
+            color:black; /* Define a cor do texto */
             text-shadow: 
         }
 
@@ -239,13 +239,12 @@ include('protect.php');
 <div class="content">
     <p class="cadastro-frase">ALTERAR/EXCLUIR MATRÍCULAS</p>
     <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-        <img class="cadastro-imagem" src="./imagens/logo sem fundo1.png" alt="Descrição da imagem">
+        <img class="cadastro-imagem" src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
     </a>
 </div>
 
 <div class="search-container">
-    <form method="GET" action="">
-        <input type="hidden" name="id_aluno" value="<?php echo isset($_GET['id_aluno']) ? $_GET['id_aluno'] : ''; ?>">
+    <form method="GET" action="modcadastro.php">
         <input type="text" name="search" class="search-input" placeholder="Buscar por RA ou nome do aluno" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
         <button type="submit" class="search-btn">Buscar</button>
     </form>

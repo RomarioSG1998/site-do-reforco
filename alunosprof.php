@@ -19,8 +19,7 @@ $result = $conexao->query($sql);
         /* Fonte e cores */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f5f7fa;
-            color: #333;
+            background-color: #dcdcdc;
             margin: 0;
             padding: 0;
         }
@@ -28,7 +27,7 @@ $result = $conexao->query($sql);
         /* Cabeçalho */
         h2 {
             text-align: center;
-            background-color: rgba(68, 39, 125, 0.8);;
+            background-color: #44397d;
             color: white;
             padding: 20px 0;
             margin: 0;

@@ -36,10 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Verificar se a execução da consulta foi bem-sucedida
             if ($resultado_insercao) {
                 echo "<p>Dados cadastrados com sucesso!</p>";
-
-                // Redirecionar para a página específica após 3 segundos
-                header("refresh:3;url=http://localhost/sededosaber/painel.php?page=mensalidade");
-                exit(); // Encerra o script para garantir que o redirecionamento seja feito corretamente
+                // Do nothing after this message
             } else {
                 $errors[] = "Ocorreu um erro ao cadastrar os dados.";
             }
@@ -95,9 +92,7 @@ $resultado_alunos = $conexao->query($query_alunos);
     <style>
         body {
             font-family: "Tahoma", Times, serif;
-            background-image: url("./imagens/111.png");
-            background-repeat: no-repeat;
-            background-size: cover;
+            background-color: #dcdcdc;
             background-position: center;
             margin: 0;
             padding: 0;
@@ -116,7 +111,7 @@ $resultado_alunos = $conexao->query($query_alunos);
             text-align: center;
             margin-top: 30px;
             margin-bottom: 20px;
-            color: white;
+            color: black;
         }
 
         .cadastro-imagem {
@@ -342,6 +337,25 @@ $resultado_alunos = $conexao->query($query_alunos);
     color: white;
 }
 
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .cadastrar-button {
+            background-color: #44277D;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .cadastrar-button:hover {
+            background-color: #836fff;
+        }
+
         @media only screen and (max-width: 750px) {
             .cadastro-frase {
                 font-size: 20px;
@@ -392,14 +406,7 @@ $resultado_alunos = $conexao->query($query_alunos);
                 /* Removendo a largura fixa da tabela */
             }
 
-            th,
-            td {
-                padding: 8px;
-                /* Reduzindo o preenchimento das células */
-                width: auto;
-                /* Definindo a largura das células para automático */
-            }
-        }
+            
     </style>
 </head>
 
@@ -407,12 +414,14 @@ $resultado_alunos = $conexao->query($query_alunos);
     <div class="content">
         <p class="cadastro-frase">CADASTRO DO RESPONSÁVEL:</p>
         <a href="./painel.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
-            <img class="cadastro-imagem" src="./imagens/logo sem fundo1.png" alt="Descrição da imagem">
+            <img class="cadastro-imagem" src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
         </a>
     </div>
 
     <!-- Formulário de Cadastro -->
-    <button onclick="openFormPopup()">Cadastrar</button>
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="openFormPopup()" style="background-color: #44277D; color: white; border: none; padding: 12px 20px; border-radius: 15px; cursor: pointer; font-size: 16px;">Cadastrar</button>
+    </div>
 
     <div id="formPopup" class="modal">
         <div class="modal-content">
@@ -461,7 +470,7 @@ $resultado_alunos = $conexao->query($query_alunos);
 
     <!-- Pesquisa e botões de impressão -->
     <div class="search2">
-        <form method="GET" action="">
+        <form id="searchForm" method="GET" action="">
             <h1>PESQUISE</h1>
             <input type="hidden" name="ra" value="<?php echo isset($_GET['ra']) ? $_GET['ra'] : ''; ?>">
             <input type="text" id="search" name="search" class="search-input" placeholder="Buscar por RA ou nome do responsável">
@@ -470,6 +479,38 @@ $resultado_alunos = $conexao->query($query_alunos);
         <a id="download-link" download="alunos.pdf"></a>
         <a href="#" onclick="generatePDF()" class="print-icon"><i class="fas fa-print"></i></a>
     </div>
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const rows = document.querySelectorAll('table tr:not(:first-child)');
+
+            rows.forEach(row => {
+                const ra = row.cells[0].innerText.toLowerCase();
+                const pagador = row.cells[2].innerText.toLowerCase();
+                if (ra.includes(searchValue) || pagador.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        document.getElementById('search').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const rows = document.querySelectorAll('table tr:not(:first-child)');
+
+            rows.forEach(row => {
+                const ra = row.cells[0].innerText.toLowerCase();
+                const pagador = row.cells[2].innerText.toLowerCase();
+                if (ra.includes(searchValue) || pagador.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
 
     <!-- Tabela de Pagamentos -->
     <div class="container">
