@@ -436,7 +436,18 @@ $resultado_alunos = $conexao->query($query_alunos);
                     ?>
                 </select><br><br>
                 <label for="pagador">PAI/RESPONSÁVEL:</label>
-                <input type="text" id="pagador" name="pagador"><br><br>
+                <select id="pagador" name="pagador">
+        <?php
+        // Consultar os responsáveis cadastrados na tabela alunos
+        $query_responsaveis = "SELECT DISTINCT responsavel FROM alunos";
+        $resultado_responsaveis = $conexao->query($query_responsaveis);
+
+        // Iterar através dos resultados da consulta de responsáveis
+        while($row = $resultado_responsaveis->fetch_assoc()) {
+            echo "<option value='" . $row['responsavel'] . "'>" . $row['responsavel'] . "</option>";
+        }
+        ?>
+    </select><br><br>
                 <input type="submit" value="Cadastrar">
             </form>
         </div>

@@ -158,6 +158,12 @@ $resultado_alunos = $conexao->query($query_alunos);
             cursor: pointer;
             width: 100%;
         }
+        h3{
+            text-align: center;
+            font-size: 12px;
+            color:rgb(241, 40, 14);
+            margin-top: 20px;
+        }
 
         input[type="submit"]:hover {
             background-color: #836fff;
@@ -230,8 +236,8 @@ $resultado_alunos = $conexao->query($query_alunos);
 
             .cadastro-imagem {
                 max-width: 30%;
-                margin-top: 100px;
                 margin-bottom: 5px;
+                margin-top: -20px;
             }
 
             h1 {
@@ -252,6 +258,7 @@ $resultado_alunos = $conexao->query($query_alunos);
                 border-radius: 10px;
                 border: 3px solid #BF7BE8;
                 box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+                margin-top: -8px; /* Adicionado para mover o formulário um pouco mais para cima */
             }
             form h1{
                 font-size: 14px;
@@ -295,7 +302,8 @@ $resultado_alunos = $conexao->query($query_alunos);
 </head>
 <body>
 <div class="content">
-    <p class="cadastro-frase">Selecione o aluno, <br>em seguida, selecione <br> o pai/mãe ou responsável.</p>
+    <p class="cadastro-frase">Atenção:<br> Agora você vai confirmar as informações <br> que você acabou de cadastrar, o nome do <br> aluno e o responsável.</p>
+    <h3>Observação: os nomes estão em ordem alfabética</h3>
     <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
         <img class="cadastro-imagem" src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
     </a>
@@ -303,21 +311,25 @@ $resultado_alunos = $conexao->query($query_alunos);
 
 <!-- Formulário de Cadastro -->
 <form id="cadastroForm" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    <h1>CADASTRE</h1>
+    <h1>Selecione</h1>
     <label for="id_aluno">ALUNO:</label>
     <select id="id_aluno" name="id_aluno">
         <?php
+        // Consultar os alunos cadastrados na tabela alunos em ordem alfabética
+        $query_alunos = "SELECT ra, nome FROM alunos ORDER BY nome ASC";
+        $resultado_alunos = $conexao->query($query_alunos);
+
         // Iterar através dos resultados da consulta de alunos
         while($row = $resultado_alunos->fetch_assoc()) {
-            echo "<option value='" . $row['ra'] . "'>" . $row['nome'] . "</option>"; // Corrigido para 'ra' e 'nome'
+            echo "<option value='" . $row['ra'] . "'>" . $row['nome'] . "</option>";
         }
         ?>
     </select><br><br>
     <label for="pagador">PAI/RESPONSÁVEL:</label>
     <select id="pagador" name="pagador">
         <?php
-        // Consultar os responsáveis cadastrados na tabela alunos
-        $query_responsaveis = "SELECT DISTINCT responsavel FROM alunos";
+        // Consultar os responsáveis cadastrados na tabela alunos em ordem alfabética
+        $query_responsaveis = "SELECT DISTINCT responsavel FROM alunos ORDER BY responsavel ASC";
         $resultado_responsaveis = $conexao->query($query_responsaveis);
 
         // Iterar através dos resultados da consulta de responsáveis
@@ -326,7 +338,7 @@ $resultado_alunos = $conexao->query($query_alunos);
         }
         ?>
     </select><br><br>
-    <input type="submit" value="Cadastrar">
+    <input type="submit" value="Confirmar">
 </form>
 
 <!-- Container para a animação e mensagem de sucesso -->
