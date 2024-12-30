@@ -295,7 +295,7 @@ $resultado_alunos = $conexao->query($query_alunos);
 </head>
 <body>
 <div class="content">
-    <p class="cadastro-frase">Selecione o aluno, <br>em seguida, escreva o primeiro nome<br> do pai/mãe ou responsável.</p>
+    <p class="cadastro-frase">Selecione o aluno, <br>em seguida, selecione <br> o pai/mãe ou responsável.</p>
     <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
         <img class="cadastro-imagem" src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
     </a>
@@ -314,7 +314,18 @@ $resultado_alunos = $conexao->query($query_alunos);
         ?>
     </select><br><br>
     <label for="pagador">PAI/RESPONSÁVEL:</label>
-    <input type="text" id="pagador" name="pagador"><br><br>
+    <select id="pagador" name="pagador">
+        <?php
+        // Consultar os responsáveis cadastrados na tabela alunos
+        $query_responsaveis = "SELECT DISTINCT responsavel FROM alunos";
+        $resultado_responsaveis = $conexao->query($query_responsaveis);
+
+        // Iterar através dos resultados da consulta de responsáveis
+        while($row = $resultado_responsaveis->fetch_assoc()) {
+            echo "<option value='" . $row['responsavel'] . "'>" . $row['responsavel'] . "</option>";
+        }
+        ?>
+    </select><br><br>
     <input type="submit" value="Cadastrar">
 </form>
 

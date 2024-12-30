@@ -1,16 +1,5 @@
 <?php
-$hostname = "localhost";
-$bancodedados = "id21964020_sistemadoreforco";
-$usuario = "root";
-$senha = "";
-
-// Conectar ao banco de dados
-$conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-
-// Verificar se a conexão foi bem-sucedida
-if ($conexao->connect_error) {
-    die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
-}
+include('conexao2.php');
 
 // Consulta SQL para obter contagem de notas
 $query = "SELECT ns, COUNT(*) AS total FROM avaliacao GROUP BY ns";

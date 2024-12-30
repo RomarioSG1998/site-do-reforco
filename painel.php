@@ -53,16 +53,16 @@ $conexao->close();
 
         /* Estilos do header */
         header {
-            background-color: rgba(68, 39, 125, 0.8); /* Fundo semi-transparente */
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 10;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: rgba(68, 39, 125, 0.8) !important; /* Fundo semi-transparente */
+            padding: 20px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            position: fixed !important;
+            top: 0 !important;
+            width: 100% !important;
+            z-index: 10 !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
         }
 
         .logo-container {

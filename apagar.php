@@ -1,14 +1,7 @@
 <?php
 
 // Conecte-se ao banco de dados
-$hostname = "localhost";
-$bancodedados = "id21964020_sistemadoreforco";
-$usuario = "root";
-$senha = "";
-$conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-if ($conexao->connect_error) {
-    die("Erro na conexão: " . $conexao->connect_error);
-}
+include('conexao2.php');
 
 // Verifique se os dados do formulário foram recebidos corretamente
 if(isset($_GET['ra']) && !empty($_GET['ra'])) {

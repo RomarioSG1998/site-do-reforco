@@ -271,16 +271,7 @@ include('protect.php');
             <th>Ações</th>
         </tr>
         <?php
-        $hostname = "localhost";
-        $bancodedados = "id21964020_sistemadoreforco";
-        $usuario = "root";
-        $senha = "";
-
-        $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-
-        if ($conexao->connect_error) {
-            die("Erro na conexão: " . $conexao->connect_error);
-        }
+        include('conexao2.php');
 
         $search = isset($_GET['search']) ? $_GET['search'] : '';
 
@@ -291,11 +282,11 @@ include('protect.php');
             while($row = $result->fetch_assoc()) {
                 $rowClass = ($row['situacao'] == 'Inativo') ? 'inativo' : '';
                 echo "<tr class='$rowClass'>";
-                echo "<td><a href='mensalidade.php?ra=".$row["ra"]."'>".$row["ra"]."</a></td>";
+                echo "<td>".$row["ra"]."</td>";
                 echo "<td>".$row["nome"]."</td>";
                 echo "<td>".$row["datanasc"]."</td>";
                 echo "<td>".$row["celular"]."</td>";
-                echo "<td>".$row["responsavel"]."</td>";
+                echo "<td><a href='mensalidade.php?ra=".$row["responsavel"]."'>".$row["responsavel"]."</a></td>";
                 echo "<td>".$row["genero"]."</td>";
                 echo "<td>".$row["turma"]."</td>";
                 echo "<td>".$row["situacao"]."</td>";

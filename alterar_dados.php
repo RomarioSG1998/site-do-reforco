@@ -4,18 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$hostname = "localhost";
-$bancodedados = "id21964020_sistemadoreforco";
-$usuario = "root";
-$senha = "";
-
-// Estabelecer conexão
-$conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-
-// Verificar se houve erro na conexão
-if($conexao->connect_error) {
-    die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
-}
+include('conexao2.php');
 
 // Verificar se o formulário foi submetido
 if($_SERVER["REQUEST_METHOD"] == "POST") {

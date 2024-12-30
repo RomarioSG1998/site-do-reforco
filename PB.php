@@ -210,7 +210,7 @@
         }
          //$conexao->close();
         ?>
-        <button onclick="openPopup('cad_disciplina.php')">Nova Página</button>
+        <button onclick="openPopup('cad_disciplina.php')">Nova disciplina</button>
     </div>
     <div class="divider"></div>
 <h2>Próximas Aulas</h2>

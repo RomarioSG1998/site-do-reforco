@@ -10,18 +10,6 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
     exit;
 }
 
-// Conexão com o banco de dados
-$hostname = "localhost";
-$bancodedados = "id21964020_sistemadoreforco";
-$usuario = "root";
-$senha = "";
-$conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-
-// Verificar se a conexão foi estabelecida corretamente
-if ($conexao->connect_error) {
-    die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
-}
-
 // Verificar se o formulário foi submetido
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['confirmar'])) {

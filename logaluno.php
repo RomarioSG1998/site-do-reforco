@@ -260,12 +260,12 @@ if (isset($_POST['email']) || isset($_POST['senha'])) {
 <body>
 <div class="container">
     <div class="justify-right1">
-      <p1>Portal do </p1> <br> <p2>Professor (a)</p2>
+      <p1>Portal do </p1> <br> <p2>Aluno (a)</p2>
     </div>
     <img src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
     <div class="card">
       <div id="msgError"></div>
-      <form id="loginForm" action="conect1.php" method="post">
+      <form id="loginForm" action="conect2.php" method="post">
         <div class="label-float">
         <input type="text" id="usuario" name="email" placeholder="Digite seu e-mail" required>
           <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -353,5 +353,3 @@ if (isset($_POST['email']) || isset($_POST['senha'])) {
   <!-- Adicione seu rodapé aqui -->
 </footer>
 </html>
-
-     

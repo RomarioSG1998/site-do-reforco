@@ -1,16 +1,6 @@
 <?php
 // Configurações do banco de dados
-$hostname = "localhost";
-$bancodedados = "id21964020_sistemadoreforco";
-$usuario = "root";
-$senha = "";
-
-// Conexão com o banco de dados
-$conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-
-if ($conexao->connect_error) {
-    die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
-}
+include('conexao2.php');
 
 // Verifica se os dados do formulário foram enviados
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

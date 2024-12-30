@@ -2,19 +2,8 @@
 include('conexao2.php');
 include('protect.php');
 
-$hostname = "localhost";
-$bancodedados = "id21964020_sistemadoreforco";
-$usuario = "root";
-$senha = "";
-
-$conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-
-if ($conexao->connect_error) {
-    die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
-}
-
-// Selecionar os cinco últimos registros com o nome do usuário e a imagem
-$query_select = "SELECT atividades.*, usuarios.nome as nome_usuario, usuarios.usu_img 
+// Selecionar os cinco últimos registros com o nome do usuário, a imagem e o tipo
+$query_select = "SELECT atividades.*, usuarios.nome as nome_usuario, usuarios.usu_img, usuarios.tipo 
                  FROM atividades 
                  INNER JOIN usuarios ON atividades.id_usuario = usuarios.id 
                  ORDER BY atividades.data_hora DESC 
@@ -41,6 +30,7 @@ $conexao->query($query_delete);
 foreach ($atividades as $atividade) {
     $id_usuario = $atividade['id_usuario'];
     $data_hora = $atividade['data_hora'];
+    $tipo_usuario = $atividade['tipo']; // Adiciona o tipo de usuário
     // Insira os dados de $atividade de volta na tabela atividades
     $query_insert = "INSERT INTO atividades (id_usuario, data_hora) VALUES ('$id_usuario', '$data_hora')";
     $conexao->query($query_insert);
@@ -56,7 +46,7 @@ foreach ($atividades as $atividade) {
     <title>Timeline de Atividades</title>
     <style>
         body {
-            background-color: #f5f5f5;
+            background-color: #dcdcdc;
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
@@ -190,7 +180,7 @@ foreach ($atividades as $atividade) {
 
 <body>
     <div class="container">
-        <h1>Timeline de Acessos</h1>
+        <h1>Quem acessou o sistema?</h1>
         <ul class="timeline">
             <?php foreach ($atividades as $index => $atividade) : ?>
                 <li class="timeline-item" id="item-<?php echo $index; ?>">
@@ -201,6 +191,7 @@ foreach ($atividades as $atividade) {
                             <div>
                                 <h2><?php echo $atividade['nome_usuario']; ?></h2>
                                 <p><strong>Data e Hora:</strong> <?php echo $atividade['data_hora']; ?></p>
+                                <p><strong>Tipo de Usuário:</strong> <?php echo $atividade['tipo']; ?></p> <!-- Adiciona o tipo de usuário -->
                             </div>
                         </div>
                     </div>

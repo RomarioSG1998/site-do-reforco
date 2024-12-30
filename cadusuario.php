@@ -13,7 +13,6 @@ include('protect.php');
     <style>
        body {
         font-family: 'Tahoma', sans-serif;
-            margin: 20px;
             background-color: #dcdcdc;
             background-repeat: no-repeat;
             background-size: cover;

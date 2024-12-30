@@ -1,6 +1,8 @@
 <?php
 include('conexao.php');
 include('conexao2.php');
+// Definindo a versão da data
+$versao_data = date("Y-m-d");
 if(isset($_POST['email']) || isset($_POST['senha'])) {
 
     if(strlen($_POST['email']) == 0) {
@@ -163,12 +165,14 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
       margin-top: 10%;
       margin-bottom: 10%;
       width: 60%;
+      margin-top: -0px;
     }
 
     p {
       color: gray;
       font-size: 10pt;
       text-align: center;
+      margin-top: -10px; /* Move o elemento um pouco para cima */
     }
 
     a {
@@ -231,6 +235,19 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
       transform: translateY(-10px);
     }
   }
+  #watermark2 {
+  font-family: 'Tahoma', sans-serif;
+  text-align: center;
+  position: fixed; /* Alterado para posição fixa */
+  bottom: 5px; /* Ajuste conforme necessário */
+  left: 0;
+  right: 0;
+  margin-top: -9%;
+  font-size: 10px;
+  color: rgba(128, 128, 128, 0.9);
+  pointer-events: none;
+  z-index: 9999;
+}
 
     @media only screen and (max-width: 768px) {
       .card {
@@ -271,8 +288,10 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
         <a href="https://wa.me/558281083015">Esqueceu sua senha?</a><br>
         <p1> Recupere a senha, entre em contato com o Admin.</p1>
       </p>
-    </div>
+    
   </div>
+  <div id="watermark2">Developed by Romário Galdino || Designed by Álvaro César <br> versão 0.1 || 2024 - <?php echo $versao_data; ?></div>
+    </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const usuario = document.getElementById('usuario');

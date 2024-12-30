@@ -1,7 +1,7 @@
 <?php
 // Inclui o arquivo de conexão
 include 'conexao2.php';
-include('protect1.php');
+include('protect2.php');
 
 // Definir variáveis e inicializar com valores vazios
 $descricao = $link = $turma = $date_end = "";

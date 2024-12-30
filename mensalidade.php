@@ -1,4 +1,3 @@
-
 <?php
 include('conexao2.php');
 //include('admin.php');

@@ -1,47 +1,32 @@
 <?php
-$hostname = "localhost";
-$bancodedados = "id21964020_sistemadoreforco";
-$usuario = "root";
-$senha = "";
+include 'conexao2.php'; // Inclui o arquivo de conexão
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Cria a conexão com o banco de dados
-    $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+    // Recupera os dados do formulário
+    $nome = $_POST["firstname"];
+    $dataNascimento = $_POST["dataNascimento"];
+    $celular = $_POST["number"];
+    $responsavel = $_POST["responsavelAluno"];
+    $genero = $_POST["genero"];
 
-    // Verifica a conexão
-    if ($conexao->connect_errno) {
-        echo "Falha ao conectar: (" . $conexao->connect_errno . ")" . $conexao->connect_errno;
+    // Insere os dados no banco de dados usando prepared statements
+    $stmt = $conexao->prepare("INSERT INTO alunos (nome, datanasc, celular, responsavel, genero) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $nome, $dataNascimento, $celular, $responsavel, $genero);
+
+    // Executa o statement
+    if ($stmt->execute()) {
+        // Exibe uma mensagem de sucesso
+        echo "<script>alert('Cadastro realizado com sucesso!');</script>";
+        // Redireciona para a página específica
+        header("Location: cadpais2.php");
+        exit(); // Encerra o script para garantir que o redirecionamento seja feito corretamente
     } else {
-        // Recupera os dados do formulário
-        $nome = $_POST["firstname"];
-        $dataNascimento = $_POST["dataNascimento"];
-        $celular = $_POST["number"];
-        $responsavel = $_POST["responsavelAluno"];
-        $genero = $_POST["genero"];
-
-        // Insere os dados no banco de dados usando prepared statements
-        $stmt = $conexao->prepare("INSERT INTO alunos (nome, datanasc, celular, responsavel, genero) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $nome, $dataNascimento, $celular, $responsavel, $genero);
-
-        // Executa o statement
-        if ($stmt->execute()) {
-            // Exibe uma mensagem de sucesso
-            echo "<script>alert('Cadastro realizado com sucesso!');</script>";
-            // Redireciona para a página específica
-            header("Location: cadpais2.php");
-            exit(); // Encerra o script para garantir que o redirecionamento seja feito corretamente
-        } else {
-            // Exibe uma mensagem de erro
-            echo "<script>alert('Erro ao cadastrar!');</script>";
-        }
-        
-
-        // Fecha o statement
-        $stmt->close();
+        // Exibe uma mensagem de erro
+        echo "<script>alert('Erro ao cadastrar!');</script>";
     }
 
-    // Fecha a conexão
-    $conexao->close();
+    // Fecha o statement
+    $stmt->close();
 }
 ?>
 

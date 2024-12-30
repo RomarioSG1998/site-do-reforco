@@ -1,4 +1,5 @@
 <?php
+include('conexao2.php');
 // Importa a biblioteca TCPDF
 require_once('tcpdf/tcpdf.php');
 
@@ -69,17 +70,7 @@ function generatePDF() {
     // Adiciona espaço em branco entre a imagem e a tabela
     $pdf->Ln(50); // Altura do espaço em branco em unidades do TCPDF
 
-    // Conexão com o banco de dados
-    $hostname = "localhost";
-    $bancodedados = "if0_36181052_sistemadoreforco";
-    $usuario = "if0_36181052";
-    $senha = "";
-    $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-
-    if ($conexao->connect_error) {
-        die("Erro na conexão: " . $conexao->connect_error);
-    }
-
+    
     // Consulta SQL
     $search = isset($_GET['search']) ? $_GET['search'] : '';
     $sql = "SELECT * FROM alunos WHERE ra LIKE '%$search%' OR nome LIKE '%$search%'";

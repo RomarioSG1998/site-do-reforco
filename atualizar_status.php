@@ -10,16 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Aqui você deve adicionar o código para atualizar o status do aluno no banco de dados
         // Substitua este exemplo pelo seu código real
-        $hostname = "localhost";
-        $bancodedados = "id21964020_sistemadoreforco";
-        $usuario = "root";
-        $senha = "";
-
-        $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-
-        if ($conexao->connect_error) {
-            die("Erro na conexão: " . $conexao->connect_error);
-        }
+        include('conexao2.php');
 
         // Prepara e executa a declaração SQL para atualizar o status do aluno
         $stmt = $conexao->prepare("UPDATE alunos SET situacao=? WHERE ra=?");

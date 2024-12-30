@@ -59,7 +59,7 @@ if ($result) {
 </head>
 <body>
 <div class="container mt-5">
-    <h2 class="mb-4">Lista de Disciplinas</h2>
+    <h2 class="mb-4">Cadastro  de Disciplinas</h2>
     <div id="alert" class="alert d-none"></div>
     <form id="disciplinaForm" method="POST">
         <div class="form-row">
@@ -96,6 +96,7 @@ if ($result) {
         </div>
         <button type="submit" class="btn btn-primary">Adicionar</button>
     </form>
+    <h3>Disciplinas Cadastradas</h3>
     <table class="table mt-4" id="disciplinaTable">
         <thead>
             <tr>

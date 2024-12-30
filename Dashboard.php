@@ -36,7 +36,7 @@ $conexao->close();
     <title>Estatísticas de Alunos</title>
     <style>
         body {
-            background-color: #44277D;
+            background-color: #dcdcdc;
             background-size: cover;
             background-position: center;
         }

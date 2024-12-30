@@ -1,6 +1,6 @@
 <?php 
 
-include('protect1.php');
+include('protect2.php');
 include('conexao2.php'); 
 
 $id_usuario = $_SESSION['id'];
@@ -172,7 +172,7 @@ nav ul li a,
 <body>
 <header>
     <div class="logo-container">
-        <a href="portalprof.php">
+        <a href="portalaluno.php">
             <img src="./imagens/logo sem fundo1.png" alt="Logo" class="logo">
         </a>
         <h1>Olá, <?php echo htmlspecialchars($_SESSION['nome']); ?>!</h1>
@@ -180,13 +180,13 @@ nav ul li a,
     <nav>
     <button id="menu-toggle" aria-label="Menu">☰</button> <!-- Botão de menu -->
     <ul id="menu">
-        <li><a href="?page=alunosprof">Alunos</a></li>
-        <li><a href="?page=tarefasprof">Tarefas</a></li>
-        <li><a href="?page=msm">Mensagens</a></li>
+        <li><a href="?page=professores">Profesores</a></li>
+        <li><a href="?page=tarefasalunos">Tarefas</a></li>
+        <li><a href="?page=msm2">Mensagens</a></li>
         <li style="display: flex; align-items: center; gap: 10px;">
-            <a href="logout1.php">Sair</a>
+            <a href="logout2.php">Sair</a>
             <!-- A imagem agora redireciona para a página do perfil -->
-            <a href="?page=perfilprof">
+            <a href="?page=perfilaluno">
                 <img class="profile-image" src="<?php echo $imagem; ?>" alt="Imagem do Usuário">
             </a>
         </li>
@@ -198,10 +198,10 @@ nav ul li a,
 <main style="margin-top: 100px; padding: 20px;">
     <?php
     // Obtém o nome da página a ser incluída
-    $page = isset($_GET['page']) ? htmlspecialchars($_GET['page']) : 'Dashboardprof';
+    $page = isset($_GET['page']) ? htmlspecialchars($_GET['page']) : 'Dashboardaluno';
 
     // Lista de páginas permitidas
-    $allowed_pages = ['Dashboardprof', 'perfilprof', 'alunosprof', 'tarefasprof', 'msm',];
+    $allowed_pages = ['Dashboardaluno', 'perfilaluno', 'professores', 'tarefasalunos', 'msm2',];
 
     if (in_array($page, $allowed_pages)) {
         // Inclui o arquivo apenas se ele estiver na lista permitida
