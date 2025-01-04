@@ -17,7 +17,6 @@
             padding: 20px;
         }
 
-
         main {
             max-width: 600px;
             text-align: center;
@@ -26,6 +25,7 @@
             background: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
+            width: 100%;
         }
 
         h1 {
@@ -44,6 +44,7 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
 
         .link-container button {
@@ -55,6 +56,7 @@
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin-top: 10px;
         }
 
         .link-container button:hover {
@@ -65,6 +67,19 @@
             color: #4caf50;
             text-decoration: none;
             font-weight: bold;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .link-container {
+            flex-direction: column;
+            align-items: flex-start;
+            }
+
+            .link-container a, .link-container button {
+            width: 100%;
+            text-align: center;
+            }
         }
     </style>
     <script>

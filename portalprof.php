@@ -39,6 +39,7 @@ $conexao->close();
 
         body {
             min-height: 100vh;
+            background-color: #dcdcdc;
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
@@ -52,34 +53,32 @@ $conexao->close();
 
         /* Estilos do header */
         header {
-            background-color: rgba(68, 39, 125, 0.8); /* Fundo semi-transparente */
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 10;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: rgba(68, 39, 125, 0.8) !important; /* Fundo semi-transparente */
+            padding: 20px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            position: fixed !important;
+            top: 0 !important;
+            width: 100% !important;
+            z-index: 10 !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
         }
 
-        /* Agrupando logo e texto */
-        header .logo-container {
+        .logo-container {
             display: flex;
             align-items: center;
         }
 
-        header .logo {
-            width: 70px; /* Ajuste o tamanho conforme necessário */
-            height: auto; /* Mantém a proporção da imagem */
-            margin-right: 10px; /* Espaçamento entre logo e texto */
+        .logo {
+            width: 70px;
+            height: auto;
+            margin-right: 10px;
         }
 
         header h1 {
             color: #fff;
             font-size: 25px;
-            margin: 0; /* Remove margens adicionais */
         }
 
         nav {
@@ -87,16 +86,6 @@ $conexao->close();
         }
 
         /* Menu padrão */
-        nav ul li {
-    display: flex;
-    align-items: center;
-}
-
-nav ul li a,
-.profile-image {
-    vertical-align: middle; /* Garante que ambos os elementos fiquem alinhados */
-}
-
         nav ul {
             list-style: none;
             display: flex;
@@ -118,23 +107,49 @@ nav ul li a,
         }
 
         /* Dropdown */
-        nav ul li ul {
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li .dropdown {
+            display: none;
             position: absolute;
             top: 100%;
             left: 0;
             background-color: #44277D;
-            display: none;
             flex-direction: column;
             min-width: 150px;
             border-radius: 4px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
         }
 
-        nav ul li:hover ul {
+        nav ul li .dropdown li {
+            padding: 10px;
+        }
+
+        nav ul li .dropdown li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        nav ul li:hover .dropdown {
             display: flex;
         }
 
-        /* Botão de hambúrguer e menu responsivo */
+        .dropdown-toggle {
+            cursor: pointer;
+        }
+
+        .user-photo, .profile-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+        }
+
+        /* Menu responsivo */
         #menu-toggle {
             display: none;
             background: none;
@@ -144,17 +159,33 @@ nav ul li a,
             cursor: pointer;
         }
 
+        nav ul {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         @media (max-width: 768px) {
             nav ul {
                 display: none; /* Esconde o menu por padrão */
                 flex-direction: column;
-                background-color: rgba(68, 39, 125, 0.9); /* Fundo do menu dropdown */
+                background-color: rgba(68, 39, 125, 0.8) !important; /* Fundo do menu dropdown */
                 position: absolute;
                 top: 60px;
                 right: 20px;
                 width: 200px;
                 border-radius: 8px;
                 z-index: 10;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
             }
 
             nav ul li a {
@@ -165,6 +196,40 @@ nav ul li a,
 
             #menu-toggle {
                 display: block; /* Mostra o botão de hambúrguer */
+            }
+
+            .profile-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-image {
+                margin-top: 1rem;
+            }
+        }
+
+        /* Media Query para dispositivos móveis */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+
+            .profile-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .profile-image {
+                margin-top: 10px;
             }
         }
     </style>
@@ -183,7 +248,7 @@ nav ul li a,
         <li><a href="?page=alunosprof">Alunos</a></li>
         <li><a href="?page=tarefasprof">Tarefas</a></li>
         <li><a href="?page=msm">Mensagens</a></li>
-        <li style="display: flex; align-items: center; gap: 10px;">
+        <li class="profile-container">
             <a href="logout1.php">Sair</a>
             <!-- A imagem agora redireciona para a página do perfil -->
             <a href="?page=perfilprof">

@@ -282,6 +282,7 @@ include('protect.php');
 
     if ($result->num_rows > 0) {
         echo "<h2>Usuários cadastrados:</h2>";
+        echo "<div style='overflow-x:auto;'>";
         echo "<table id='userTable'>";
         echo "<tr><th>ID</th><th>Nome</th><th>Email</th><th>Última atualização</th><th>Tipo</th><th>Imagem</th><th>Ações</th></tr>";
         while ($row = $result->fetch_assoc()) {
@@ -296,6 +297,7 @@ include('protect.php');
             echo "</tr>";
         }
         echo "</table>";
+        echo "</div>";
     } else {
         echo "<p>Nenhum usuário cadastrado.</p>";
     }

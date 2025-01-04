@@ -306,40 +306,49 @@ $resultado_alunos = $conexao->query($query_alunos);
     <h3>Observação: os nomes estão em ordem alfabética</h3>
     <a href="./pageadmin.php?nome=<?php echo urlencode($_SESSION['nome']); ?>">
         <img class="cadastro-imagem" src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
-    </a>
+        </a>
 </div>
 
 <!-- Formulário de Cadastro -->
 <form id="cadastroForm" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     <h1>Selecione</h1>
     <label for="id_aluno">ALUNO:</label>
-    <select id="id_aluno" name="id_aluno">
+    <select id="id_aluno" name="id_aluno" onchange="atualizarPagador(this.value)">
         <?php
         // Consultar os alunos cadastrados na tabela alunos em ordem alfabética
-        $query_alunos = "SELECT ra, nome FROM alunos ORDER BY nome ASC";
+        $query_alunos = "SELECT ra, nome, responsavel FROM alunos ORDER BY nome ASC";
         $resultado_alunos = $conexao->query($query_alunos);
 
-        // Iterar através dos resultados da consulta de alunos
+        // Criar array de mapeamento aluno-responsavel para JavaScript
+        $mapeamento = array();
         while($row = $resultado_alunos->fetch_assoc()) {
             echo "<option value='" . $row['ra'] . "'>" . $row['nome'] . "</option>";
+            $mapeamento[$row['ra']] = $row['responsavel'];
         }
         ?>
     </select><br><br>
     <label for="pagador">PAI/RESPONSÁVEL:</label>
-    <select id="pagador" name="pagador">
-        <?php
-        // Consultar os responsáveis cadastrados na tabela alunos em ordem alfabética
-        $query_responsaveis = "SELECT DISTINCT responsavel FROM alunos ORDER BY responsavel ASC";
-        $resultado_responsaveis = $conexao->query($query_responsaveis);
+    <input type="text" id="pagador" name="pagador" readonly>
 
-        // Iterar através dos resultados da consulta de responsáveis
-        while($row = $resultado_responsaveis->fetch_assoc()) {
-            echo "<option value='" . $row['responsavel'] . "'>" . $row['responsavel'] . "</option>";
-        }
-        ?>
-    </select><br><br>
-    <input type="submit" value="Confirmar">
+    <br><br>
+    <input type="submit" value="Confirmar" class="submit-button">
 </form>
+
+<script>
+const mapeamentoResponsaveis = <?php echo json_encode($mapeamento); ?>;
+
+function atualizarPagador(ra) {
+    document.getElementById('pagador').value = mapeamentoResponsaveis[ra] || '';
+}
+
+// Preencher inicialmente com o primeiro aluno selecionado
+window.onload = function() {
+    const selectAluno = document.getElementById('id_aluno');
+    if(selectAluno.value) {
+        atualizarPagador(selectAluno.value);
+    }
+}
+</script>
 
 <!-- Container para a animação e mensagem de sucesso -->
 <div id="animationContainer" style="display: none; text-align: center;">

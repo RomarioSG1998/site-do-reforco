@@ -141,9 +141,9 @@ $conexao->close();
             cursor: pointer;
         }
 
-        .user-photo {
-            width: 40px;
-            height: 40px;
+        .user-photo, .profile-image {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #fff;
@@ -159,11 +159,23 @@ $conexao->close();
             cursor: pointer;
         }
 
+        nav ul {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         @media (max-width: 768px) {
             nav ul {
-                display: none;
+                display: none; /* Esconde o menu por padrão */
                 flex-direction: column;
-                background-color: rgba(68, 39, 125, 0.9);
+                background-color: rgba(68, 39, 125, 0.8) !important; /* Fundo do menu dropdown */
                 position: absolute;
                 top: 60px;
                 right: 20px;
@@ -172,12 +184,52 @@ $conexao->close();
                 z-index: 10;
             }
 
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+
             nav ul li a {
+                color: #fff;
+                padding: 10px;
                 text-align: center;
             }
 
             #menu-toggle {
+                display: block; /* Mostra o botão de hambúrguer */
+            }
+
+            .profile-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-image {
+                margin-top: 1rem;
+            }
+        }
+
+        /* Media Query para dispositivos móveis */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
                 display: block;
+                width: 100%;
+                text-align: center;
+            }
+
+            .profile-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .profile-image {
+                margin-top: 10px;
             }
         }
     </style>
@@ -206,10 +258,13 @@ $conexao->close();
             </li>
             <li><a href="?page=cadastro2">Cadastrar</a></li>
             <li><a href="?page=modcadastro">Alterar</a></li>
-            <li style="display: flex; align-items: center; gap: 10px;">
-                <a href="logout.php">Sair</a>
+            <li class="profile-container">
+            <a href="logout.php">Sair</a>
+            <!-- A imagem agora redireciona para a página do perfil -->
+            <a href="#">
                 <img class="profile-image" src="<?php echo $imagem; ?>" alt="Imagem do Usuário">
-            </li>
+            </a>
+        </li>
         </ul>
     </nav>
 </header>

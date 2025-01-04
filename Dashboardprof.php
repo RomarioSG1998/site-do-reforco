@@ -22,65 +22,6 @@
             min-height: 100vh;
         }
 
-        /* Cabeçalho */
-        .header {
-            background-color: #4CAF50;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-
-        .navbar a:hover {
-            text-decoration: underline;
-        }
-
-        .logout {
-            color: #ffcccc;
-        }
-
-        /* Main Content */
-        .main-content {
-            display: flex;
-            flex: 1;
-        }
-
-        /* Barra Lateral */
-        .sidebar {
-            width: 20%;
-            background-color: #f4f4f4;
-            padding: 20px;
-            border-right: 1px solid #ddd;
-        }
-
-        .sidebar ul {
-            list-style: none;
-        }
-
-        .sidebar ul li a {
-            display: block;
-            color: #333;
-            text-decoration: none;
-            padding: 10px;
-            margin-bottom: 5px;
-            border-radius: 5px;
-        }
-
-        .sidebar ul li a:hover {
-            background-color: #ddd;
-        }
 
         /* Conteúdo Principal */
         .content {
@@ -90,13 +31,14 @@
 
         .cards {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             gap: 10px;
             margin-bottom: 20px;
         }
 
         .card {
-            flex: 1;
+            flex: 1 1 calc(33.333% - 10px);
             background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -115,9 +57,9 @@
         .footer {
             text-align: center;
             padding: 10px;
-            background-color: none;
+            background-color: #f1f1f1;
             color: black;
-            margin-bottom: 5px;
+            margin-bottom: 0px;
         }
 
         /* Cores para datas */
@@ -128,22 +70,22 @@
         .data-fim {
             color: red;
         }
-        .form-container {
-    display: none;
-    position: fixed; /* Torna o formulário fixo na tela */
-    top: 20%; /* Ajuste a posição vertical conforme necessário */
-    left: 50%;
-    transform: translateX(-50%); /* Centraliza o formulário horizontalmente */
-    border: 1px solid #ddd;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    width: 250px;
-    max-width: 100%;
-    z-index: 1000; /* Garante que o formulário fique acima de outros elementos */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
-}
 
+        .form-container {
+            display: none;
+            position: fixed; /* Torna o formulário fixo na tela */
+            top: 20%; /* Ajuste a posição vertical conforme necessário */
+            left: 50%;
+            transform: translateX(-50%); /* Centraliza o formulário horizontalmente */
+            border: 1px solid #ddd;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            width: 250px;
+            max-width: 100%;
+            z-index: 1000; /* Garante que o formulário fique acima de outros elementos */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
+        }
 
         button {
             padding: 10px 20px;
@@ -154,12 +96,26 @@
             background-color: #007bff;
             color: #fff;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         .message {
             margin-top: 20px;
             color: green;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+            flex: 1 1 calc(50% - 10px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+            flex: 1 1 100%;
+            }
         }
     </style>
     <script>
@@ -264,8 +220,9 @@ function submitForm(event) {
                 </div>
             </div>
             <div class="section">
+            <br>
             <div class="container">
-        <button onclick="toggleForm()">Adicionar uma noticação</button>
+        <button onclick="toggleForm()">Criar uma noticação</button>
         <div id="form-container" class="form-container">
     <form onsubmit="submitForm(event)">
         <div>
@@ -309,7 +266,8 @@ function submitForm(event) {
 </div>
 
     </div>
-                <h2>Últimas Notificações</h2>
+    <br>
+                <h2>Suas últimas notificações</h2>
                 <ul>
                     <?php if ($resultNotificacoes->num_rows > 0): ?>
                         <?php while ($notificacao = $resultNotificacoes->fetch_assoc()): ?>
@@ -333,6 +291,6 @@ function submitForm(event) {
     </main>
 </body>
 <footer class="footer">
-    <p>&copy; 2024 Reforço Sede do Saber. Todos os direitos reservados.</p>
+    <p>&copy; 2024 Reforço Sede do Saber.</p>
 </footer>
 </html>

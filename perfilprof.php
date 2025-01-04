@@ -106,6 +106,12 @@ $result = $stmt->get_result();
         .container:hover {
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
         }
+        @media (max-width: 768px) {
+            .container {
+            width: 90%;
+            padding: 20px;
+            }
+        }
         h1 {
             text-align: center;
             color: #333;
@@ -127,7 +133,6 @@ $result = $stmt->get_result();
             opacity: 0;
             animation: fadeIn 1s 0.5s forwards, float 3s infinite ease-in-out;
         }
-
         @keyframes float {
             0% {
             transform: translatey(0px);
@@ -222,7 +227,6 @@ $result = $stmt->get_result();
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
-
         @keyframes fadeIn {
             from {
             opacity: 0;
@@ -300,6 +304,19 @@ $result = $stmt->get_result();
         }
         .editable-cell {
             position: relative;
+        }
+        @media (max-width: 768px) {
+            .profile-details, label, input[type="text"], input[type="password"], input[type="email"], input[type="file"], input[type="submit"], .edit-btn, .save-btn {
+            font-size: 14px;
+            padding: 10px;
+            }
+            .profileprof-image {
+            width: 100px;
+            height: 100px;
+            }
+            h1 {
+            font-size: 2em;
+            }
         }
         </style>
 
@@ -403,7 +420,7 @@ $result = $stmt->get_result();
             <button type="button" onclick="openPopup(<?php echo $id_usuario; ?>)" style="padding: 15px 30px; background-color: #007BFF; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 20px; transition: background-color 0.3s ease;">Disciplinas</button>
 
             <div id="popup" style="display:none; position:fixed; top:60%; left:50%; transform:translate(-50%, -50%); background-color:white; padding:20px; border:1px solid #ddd; box-shadow:0 4px 8px rgba(0,0,0,0.1); z-index:1000;">
-                <iframe id="popup-iframe" src="" style="width:100%; height:400px; border:none;"></iframe>
+                <iframe id="popup-iframe" src="" style="width:90%; height:200px; border:none;"></iframe>
                 <button type="button" onclick="closePopup()" style="padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; margin-top: 10px;">Fechar</button>
             </div>
 
@@ -414,6 +431,9 @@ $result = $stmt->get_result();
                 document.getElementById('popup-iframe').src = 'disciplinaprof.php?user_id=' + userId;
                 document.getElementById('popup').style.display = 'block';
                 document.getElementById('overlay').style.display = 'block';
+                document.getElementById('popup').style.width = '80%';
+                document.getElementById('popup').style.height = '80%';
+                document.getElementById('popup-iframe').style.height = '80%';
             }
 
             function closePopup() {

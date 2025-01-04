@@ -35,92 +35,83 @@ $result = $conexao->query($sql);
         }
 
         /* Tabela */
+        .table-container {
+            overflow-x: auto;
+            margin: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
         table {
-            width: 90%;
-            margin: 20px auto;
+            width: 100%;
             border-collapse: collapse;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
+            min-width: 600px; /* minimum width before scrolling */
         }
 
         th, td {
             padding: 12px 15px;
             text-align: left;
-        }
-
-        th {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-            cursor: pointer;
-        }
-
-        td {
             border-bottom: 1px solid #ddd;
         }
 
-        /* Rodapé da tabela */
-        tfoot td {
-            font-weight: bold;
-            background-color: #f4f4f4;
+        th {
+            background-color: #44397d;
+            color: white;
+            white-space: nowrap;
         }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            table {
-                width: 100%;
-                font-size: 14px;
-            }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
 
+        @media screen and (max-width: 600px) {
+            .table-container {
+                margin: 10px;
+            }
+            
             th, td {
-                padding: 10px;
+                padding: 8px 10px;
+                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
     <h2>Lista de Alunos - Turma PB</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>RA</th>
-                <th>Nome</th>
-                <th>Celular</th>
-                <th>Responsável</th>
-                <th>Turma</th>
-                <th>Situação</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            if ($result->num_rows > 0) {
-                // Exibe cada linha da tabela
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>
-                            <td>{$row['ra']}</td>
-                            <td>{$row['nome']}</td>
-                            <td>{$row['celular']}</td>
-                            <td>{$row['responsavel']}</td>
-                            <td>{$row['turma']}</td>
-                            <td>{$row['situacao']}</td>
-                          </tr>";
+    <!-- Wrap your table with this container -->
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>RA</th>
+                    <th>Nome</th>
+                    <th>Celular</th>
+                    <th>Responsável</th>
+                    <th>Turma</th>
+                    <th>Situação</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if ($result->num_rows > 0) {
+                    // Exibe cada linha da tabela
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td>{$row['ra']}</td>
+                                <td>{$row['nome']}</td>
+                                <td>{$row['celular']}</td>
+                                <td>{$row['responsavel']}</td>
+                                <td>{$row['turma']}</td>
+                                <td>{$row['situacao']}</td>
+                              </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='7' style='text-align:center;'>Nenhum aluno encontrado na turma PB.</td></tr>";
                 }
-            } else {
-                echo "<tr><td colspan='6' style='text-align:center;'>Nenhum aluno encontrado na turma PB.</td></tr>";
-            }
-            ?>
-        </tbody>
-    </table>
+                ?>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

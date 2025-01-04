@@ -80,6 +80,8 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
       align-items: center;
       flex-direction: column;
       height: 95vh;
+      position: relative;
+      min-height: 100vh;
     }
 
     .card {
@@ -254,44 +256,83 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
         width: 80%;
       }
     }
+
+    .watermark2 {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+      z-index: 100;
+    }
+
+    .main-container {
+      position: relative;
+      min-height: 100vh;
+      padding-bottom: 60px; /* Height of footer */
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #f8f9fa;
+      z-index: 1000;
+    }
+
+    .watermark2 {
+      text-align: center;
+      padding: 15px;
+    }
   </style>
 </head>
 
 <body>
-<div class="container">
-    <div class="justify-right1">
-      <p1>PORTAL</p1> <br> <p2>SEDE DO SABER</p2>
-    </div>
-    <img src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
-    <div class="card">
-      <div id="msgError"></div>
-      <form id="loginForm" action="conect.php" method="post">
-        <div class="label-float">
-        <input type="text" id="usuario" name="email" placeholder="Digite seu e-mail" required>
-          <i class="fa fa-envelope" aria-hidden="true"></i>
-          <label for="usuario"></label>
-        </div>
-        <div class="label-float">
-        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
-        <i class="" aria-hidden="true"></i>
-  <i class="fa fa-eye" aria-hidden="true" onclick="mostrarSenha()"></i>
-          <label for="senha"></label>
-        </div>
-        <div class="justify-center">
-          <button type="submit">LOGIN</button>
-        </div>
-      </form>
-      <div class="justify-center">
-        <hr>
+<div class="main-container">
+  <div class="container">
+      <div class="justify-right1">
+        <p1>PORTAL</p1> <br> <p2>SEDE DO SABER</p2>
       </div>
-      <p>
-        <a href="https://wa.me/558281083015">Esqueceu sua senha?</a><br>
-        <p1> Recupere a senha, entre em contato com o Admin.</p1>
-      </p>
-    
-  </div>
-  <div id="watermark2">Developed by Romário Galdino || Designed by Álvaro César <br> versão 0.1 || 2024 - <?php echo $versao_data; ?></div>
+      <img src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
+      <div class="card">
+        <div id="msgError"></div>
+        <form id="loginForm" action="conect.php" method="post">
+          <div class="label-float">
+          <input type="text" id="usuario" name="email" placeholder="Digite seu e-mail" required>
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+            <label for="usuario"></label>
+          </div>
+          <div class="label-float">
+          <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+          <i class="" aria-hidden="true"></i>
+    <i class="fa fa-eye" aria-hidden="true" onclick="mostrarSenha()"></i>
+            <label for="senha"></label>
+          </div>
+          <div class="justify-center">
+            <button type="submit">LOGIN</button>
+          </div>
+        </form>
+        <div class="justify-center">
+          <hr>
+        </div>
+        <p>
+          <a href="https://wa.me/558281083015">Esqueceu sua senha?</a><br>
+          <p1> Recupere a senha, entre em contato com o Admin.</p1>
+        </p>
+      
     </div>
+    <div id="watermark2">Developed by Romário Galdino || Designed by Álvaro César <br> versão 0.1 || 2024 - <?php echo $versao_data; ?></div>
+      <div class="watermark2">
+          <!-- watermark2 content -->
+      </div>
+  </div>
+</div>
+  <footer class="footer">
+    <div class="watermark2">
+        <!-- watermark2 content -->
+    </div>
+  </footer>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const usuario = document.getElementById('usuario');
@@ -353,5 +394,3 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
   <!-- Adicione seu rodapé aqui -->
 </footer>
 </html>
-
-     

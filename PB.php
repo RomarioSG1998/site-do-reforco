@@ -47,6 +47,10 @@
             width: 100%;
             overflow-x: auto;
             margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            padding: 10px;
         }
         table {
             width: 100%;
@@ -70,6 +74,20 @@
             font-family: Arial, sans-serif;
             color: #333;
         }
+        @media (max-width: 600px) {
+            th, td {
+            padding: 8px 10px;
+            font-size: 14px;
+            }
+            .button-container {
+            flex-direction: column;
+            gap: 10px;
+            }
+            .button-container button {
+            width: 100%;
+            height: auto;
+            }
+        }
         .inactive-row {
             color: #999;
             opacity: 0.3;
@@ -81,7 +99,7 @@
             left: 0;
             top: 0;
             width: 100%;
-            height: 100%;
+            height: 90%;
             overflow: auto;
             background-color: rgb(0,0,0);
             background-color: rgba(0,0,0,0.4);
@@ -140,56 +158,6 @@
             color: #333;
         }
 
-        @media screen and (max-width: 600px) {
-            table, thead, tbody, th, td, tr {
-                display: block;
-            }
-            th {
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-            }
-            tr {
-                margin: 0 0 1rem 0;
-            }
-            tr:nth-child(odd) {
-                background: #ccc;
-            }
-            td {
-                border: none;
-                border-bottom: 1px solid #eee;
-                position: relative;
-                padding-left: 50%;
-                text-align: right;
-            }
-            td:before {
-                position: absolute;
-                top: 12px;
-                left: 6px;
-                width: 45%;
-                padding-right: 10px;
-                white-space: nowrap;
-                content: attr(data-label);
-                text-align: left;
-                font-weight: bold;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
-        }
-
-        @keyframes slideIn {
-            from {transform: translateY(-50px);}
-            to {transform: translateY(0);}
-        }
-        .divider {
-            width: 100%;
-            height: 50px;
-            background: url('path/to/your/divider.svg') no-repeat center center;
-            background-size: cover;
-        }
     </style>
 </head>
 <body>
