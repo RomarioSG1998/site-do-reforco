@@ -118,7 +118,7 @@ $conexao->close();
             left: 0;
             background-color: #44277D;
             flex-direction: column;
-            min-width: 150px;
+            min-width: 100px;
             border-radius: 4px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 10;
@@ -175,14 +175,21 @@ $conexao->close();
             nav ul {
                 display: none; /* Esconde o menu por padrão */
                 flex-direction: column;
-                background-color: rgba(68, 39, 125, 0.8) !important; /* Fundo do menu dropdown */
+                background-color: rgba(68, 39, 125, 0.9); /* Fundo do menu dropdown */
                 position: absolute;
-                top: 60px;
-                right: 20px;
+                top: 30px;
+                left: 100%;
+                transform: translateX(-130%);
                 width: 200px;
                 border-radius: 8px;
                 z-index: 10;
             }
+            nav ul li .dropdown {
+                background-color: #3f2d5d;
+                transform: translateX(-0%);
+                gap: 0px; /* Adiciona um espaço entre os botões */
+            }
+            
 
             nav ul li {
                 margin: 0.5rem 0;
@@ -252,7 +259,6 @@ $conexao->close();
                     <li><a href="?page=mensalidade">Pagamentos</a></li>
                     <li><a href="?page=paisava">Para os pais</a></li>
                     <li><a href="?page=cadusuario">Cadastro de usuário</a></li>
-                    <li><a href="?page=modcadastro">Alterar Cadastro</a></li>
                     <li><a href="?page=Monitorar">Monitorar Acessos</a></li>
                 </ul>
             </li>

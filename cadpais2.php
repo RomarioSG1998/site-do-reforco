@@ -380,8 +380,17 @@ window.onload = function() {
 
         typeWriter(successMessageElement, successMessage, speed);
 
-        document.getElementById("animationContainer").style.display = "block";
+        document.getElementById("animationContainer").style.display = "flex";
+        document.getElementById("animationContainer").style.flexDirection = "column";
+        document.getElementById("animationContainer").style.justifyContent = "center";
+        document.getElementById("animationContainer").style.height = "100vh"; // Centraliza verticalmente
         document.getElementById("cadastroForm").style.display = "none"; // Oculta o formulário
+
+        // Ocultar todos os outros elementos da página
+        const contentElements = document.querySelectorAll("body > *:not(#animationContainer)");
+        contentElements.forEach(element => {
+            element.style.display = "none";
+        });
     }
 
     // Chama a função para mostrar a animação após o envio do formulário

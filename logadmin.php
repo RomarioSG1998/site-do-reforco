@@ -72,6 +72,7 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      
     }
 
     .container {
@@ -82,6 +83,7 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
       height: 95vh;
       position: relative;
       min-height: 100vh;
+      margin-top: -22px; /* Ajuste este valor conforme necessário para mover o elemento para cima */
     }
 
     .card {
@@ -241,7 +243,7 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
   font-family: 'Tahoma', sans-serif;
   text-align: center;
   position: fixed; /* Alterado para posição fixa */
-  bottom: 5px; /* Ajuste conforme necessário */
+  bottom: 0px; /* Ajuste conforme necessário */
   left: 0;
   right: 0;
   margin-top: -9%;
@@ -255,6 +257,9 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
       .card {
         width: 80%;
       }
+    }
+    body {
+      overflow: hidden;
     }
 
     .watermark2 {

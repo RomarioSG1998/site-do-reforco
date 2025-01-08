@@ -77,6 +77,18 @@ $conexao->close();
             text-align: center;
             color: #6a5acd; /* Lilás mais escuro para o título */
         }
+        h2 {
+            text-align: center;
+            color: red; /* Lilás mais escuro para o título */
+            font-size: 12px;
+            animation: blink 0.5s step-start 3;
+        }
+
+        @keyframes blink {
+            50% {
+            opacity: 0;
+            }
+        }
         form {
             margin: 0 auto; /* Centraliza o formulário horizontalmente */
             width: 80%; /* 80% da largura da tela */
@@ -118,12 +130,13 @@ $conexao->close();
         <input type="password" id="senha" name="senha" value="<?php echo $row['senha']; ?>" required><br>
         <label for="email">Email:</label><br>
         <input type="email" id="email" name="email" value="<?php echo $row['email']; ?>" required><br>
-        <label for="tipo">Tipo de Usuário:</label><br>
+        <h2>Obs: antes de clicar em "salvar", veja se seu tipo de usuario está (admin), também veja se o campo de upload da imagem está preenchido!!</h2>
+        <label for="tipo">Tipo de Usuário: </label><br>
         <select id="tipo" name="tipo" required>
             <option value="professor(a)" <?php if($row['tipo'] == 'Professor(a)') echo 'selected'; ?>>Professor(a)</option>
             <option value="admin" <?php if($row['tipo'] == 'Admin') echo 'selected'; ?>>Admin</option>
         </select><br>
-        <label for="imagem">Nova Imagem: (ao atualizar qualquer informação, atualize também sua imagem)</label><br>
+        <label for="imagem">Nova Imagem: </label><br>
         <input type="file" id="imagem" name="imagem" accept="image/*"><br><br>
         <label for="imagem">Imagem Atual:</label><br>
         <img src="<?php echo $row['usu_img']; ?>" alt="Imagem atual do usuário" style="max-width:70px; border-radius: 50%;"><br><br>

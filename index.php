@@ -15,6 +15,10 @@ body {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    overflow: hidden;
+    
+      
+    
 
     /* Propriedades do fundo */
     background-image: url("../imagens/fundo2.png"); /* Verifique se o caminho está correto */
@@ -298,6 +302,7 @@ footer p {
     margin: 0;
     font-size: 14px;
     color: #333;
+
 }
 
 footer a {
@@ -451,6 +456,10 @@ footer a:hover {
         padding: 10px;
         cursor: pointer;
     }
+    .bottom-right-logo img {
+        transform: translateY(-40px);
+   
+    }
 
     .hamburger span {
         display: block;
@@ -463,7 +472,8 @@ footer a:hover {
         margin: 0;
         font-size: 14px;
         line-height: 1.5;
-        transform: translateY(-5px); /* Move o texto para cima */
+        bottom: 0px;
+        transform: translateY(-40px); /* Move o texto para cima */
     }
 }
     </style>
