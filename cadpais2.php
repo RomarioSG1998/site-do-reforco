@@ -1,4 +1,5 @@
 <?php 
+header('Content-Type: text/html; charset=utf-8');
 
 include('conexao2.php');
 
@@ -13,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($
 
     // Estabelecer conexão
     $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+    $conexao->set_charset("utf8"); // Definir charset para UTF-8
 
     // Verificar se houve erro na conexão
     if($conexao->connect_error) {
@@ -57,6 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($
 
 // Consultar os alunos cadastrados na tabela alunos
 $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+$conexao->set_charset("utf8"); // Definir charset para UTF-8
 
 $query_alunos = "SELECT ra, nome FROM alunos";
 $resultado_alunos = $conexao->query($query_alunos);
@@ -65,6 +68,7 @@ $resultado_alunos = $conexao->query($query_alunos);
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Visualização de Pagamentos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -315,6 +319,9 @@ $resultado_alunos = $conexao->query($query_alunos);
     <label for="id_aluno">ALUNO:</label>
     <select id="id_aluno" name="id_aluno" onchange="atualizarPagador(this.value)">
         <?php
+        // Definir charset para UTF-8
+        $conexao->set_charset("utf8");
+
         // Consultar os alunos cadastrados na tabela alunos em ordem alfabética
         $query_alunos = "SELECT ra, nome, responsavel FROM alunos ORDER BY nome ASC";
         $resultado_alunos = $conexao->query($query_alunos);
@@ -327,8 +334,19 @@ $resultado_alunos = $conexao->query($query_alunos);
         }
         ?>
     </select><br><br>
+    
     <label for="pagador">PAI/RESPONSÁVEL:</label>
-    <input type="text" id="pagador" name="pagador" readonly>
+    <select id="pagador" name="pagador">
+        <?php
+        // Consultar responsáveis únicos
+        $query_responsaveis = "SELECT DISTINCT responsavel FROM alunos WHERE responsavel IS NOT NULL ORDER BY responsavel ASC";
+        $resultado_responsaveis = $conexao->query($query_responsaveis);
+        
+        while($row = $resultado_responsaveis->fetch_assoc()) {
+            echo "<option value='" . $row['responsavel'] . "'>" . $row['responsavel'] . "</option>";
+        }
+        ?>
+    </select>
 
     <br><br>
     <input type="submit" value="Confirmar" class="submit-button">
@@ -338,7 +356,16 @@ $resultado_alunos = $conexao->query($query_alunos);
 const mapeamentoResponsaveis = <?php echo json_encode($mapeamento); ?>;
 
 function atualizarPagador(ra) {
-    document.getElementById('pagador').value = mapeamentoResponsaveis[ra] || '';
+    const pagadorSelect = document.getElementById('pagador');
+    const responsavel = mapeamentoResponsaveis[ra];
+    
+    // Encontrar e selecionar a opção correta no dropdown
+    for(let i = 0; i < pagadorSelect.options.length; i++) {
+        if(pagadorSelect.options[i].value === responsavel) {
+            pagadorSelect.selectedIndex = i;
+            break;
+        }
+    }
 }
 
 // Preencher inicialmente com o primeiro aluno selecionado

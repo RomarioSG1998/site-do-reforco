@@ -116,57 +116,28 @@ include('protect.php');
         <img class="cadastro-imagem" src="./imagens/logo sem fundo2.png" alt="Descrição da imagem">
     </a>
 </div>
+<?php
+// Definir o conjunto de caracteres para UTF-8
 
-    <?php
-    // Verificar se o formulário foi enviado
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Verificar se todos os campos foram preenchidos
-        if (!empty($_POST['nome']) && !empty($_POST['senha']) && !empty($_POST['email']) && !empty($_POST['tipo'])) {
-            // Sanitize os dados de entrada
-            $nome = htmlspecialchars($_POST['nome']);
-            $senha_usuario = htmlspecialchars($_POST['senha']);
-            $email = htmlspecialchars($_POST['email']);
-            $tipo = htmlspecialchars($_POST['tipo']);
+mysqli_set_charset($conexao, "utf8");
 
-            // Verificar se um arquivo de imagem foi enviado
-            if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] !== UPLOAD_ERR_NO_FILE) {
-                // Defina o caminho de destino para a imagem
-                $caminho_arquivo = 'imagens/' . $_FILES['imagem']['name'];
+// Verificar se o formulário foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verificar se todos os campos foram preenchidos
+    if (!empty($_POST['nome']) && !empty($_POST['senha']) && !empty($_POST['email']) && !empty($_POST['tipo'])) {
+        // Sanitize os dados de entrada
+        $nome = htmlspecialchars($_POST['nome']);
+        $senha_usuario = htmlspecialchars($_POST['senha']);
+        $email = htmlspecialchars($_POST['email']);
+        $tipo = htmlspecialchars($_POST['tipo']);
 
-                // Salvar a imagem no servidor
-                if (move_uploaded_file($_FILES['imagem']['tmp_name'], $caminho_arquivo)) {
-                    // Conexão com o banco de dados
-                    $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+        // Verificar se um arquivo de imagem foi enviado
+        if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] !== UPLOAD_ERR_NO_FILE) {
+            // Defina o caminho de destino para a imagem
+            $caminho_arquivo = 'imagens/' . $_FILES['imagem']['name'];
 
-                    // Verificar se a conexão foi estabelecida corretamente
-                    if ($conexao->connect_error) {
-                        die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
-                    }
-
-                    // Preparar e executar a declaração SQL para inserir o novo usuário com o caminho da imagem
-                    $sql_insert = "INSERT INTO usuarios (nome, senha, email, data_criacao, tipo, usu_img) VALUES (?, ?, ?, NOW(), ?, ?)";
-                    $stmt = $conexao->prepare($sql_insert);
-                    $stmt->bind_param("sssss", $nome, $senha_usuario, $email, $tipo, $caminho_arquivo);
-                    
-                    if ($stmt->execute()) {
-                        echo "<script>
-                                alert('Usuário cadastrado com sucesso!');
-                                setTimeout(function() {
-                                    window.location.href = 'cadusuario.php';
-                                }, 2000); // 2 segundos
-                              </script>";
-                        exit;
-                    } else {
-                        echo "<script>alert('Erro ao cadastrar usuário.');</script>";
-                    }
-
-                    // Fechar a conexão com o banco de dados
-                    $conexao->close();
-                } else {
-                    echo "<script>alert('Erro ao fazer upload da imagem.');</script>";
-                }
-            } else {
-                // Se nenhum arquivo de imagem foi enviado, insira apenas os dados do usuário sem o caminho da imagem
+            // Salvar a imagem no servidor
+            if (move_uploaded_file($_FILES['imagem']['tmp_name'], $caminho_arquivo)) {
                 // Conexão com o banco de dados
                 $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
 
@@ -175,10 +146,13 @@ include('protect.php');
                     die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
                 }
 
-                // Preparar e executar a declaração SQL para inserir o novo usuário sem o caminho da imagem
-                $sql_insert = "INSERT INTO usuarios (nome, senha, email, data_criacao, tipo) VALUES (?, ?, ?, NOW(), ?)";
+                // Definir o conjunto de caracteres para UTF-8
+                mysqli_set_charset($conexao, "utf8");
+
+                // Preparar e executar a declaração SQL para inserir o novo usuário com o caminho da imagem
+                $sql_insert = "INSERT INTO usuarios (nome, senha, email, data_criacao, tipo, usu_img) VALUES (?, ?, ?, NOW(), ?, ?)";
                 $stmt = $conexao->prepare($sql_insert);
-                $stmt->bind_param("ssss", $nome, $senha_usuario, $email, $tipo);
+                $stmt->bind_param("sssss", $nome, $senha_usuario, $email, $tipo, $caminho_arquivo);
                 
                 if ($stmt->execute()) {
                     echo "<script>
@@ -194,12 +168,47 @@ include('protect.php');
 
                 // Fechar a conexão com o banco de dados
                 $conexao->close();
+            } else {
+                echo "<script>alert('Erro ao fazer upload da imagem.');</script>";
             }
         } else {
-            echo "<script>alert('Todos os campos devem ser preenchidos!');</script>";
+            // Se nenhum arquivo de imagem foi enviado, insira apenas os dados do usuário sem o caminho da imagem
+            // Conexão com o banco de dados
+            $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+
+            // Verificar se a conexão foi estabelecida corretamente
+            if ($conexao->connect_error) {
+                die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
+            }
+
+            // Definir o conjunto de caracteres para UTF-8
+            mysqli_set_charset($conexao, "utf8");
+
+            // Preparar e executar a declaração SQL para inserir o novo usuário sem o caminho da imagem
+            $sql_insert = "INSERT INTO usuarios (nome, senha, email, data_criacao, tipo) VALUES (?, ?, ?, NOW(), ?)";
+            $stmt = $conexao->prepare($sql_insert);
+            $stmt->bind_param("ssss", $nome, $senha_usuario, $email, $tipo);
+            
+            if ($stmt->execute()) {
+                echo "<script>
+                        alert('Usuário cadastrado com sucesso!');
+                        setTimeout(function() {
+                            window.location.href = 'cadusuario.php';
+                        }, 2000); // 2 segundos
+                      </script>";
+                exit;
+            } else {
+                echo "<script>alert('Erro ao cadastrar usuário.');</script>";
+            }
+
+            // Fechar a conexão com o banco de dados
+            $conexao->close();
         }
+    } else {
+        echo "<script>alert('Todos os campos devem ser preenchidos!');</script>";
     }
-    ?>
+}
+?>
 
     <button id="toggleFormButton" style="
         display: block;
@@ -233,6 +242,7 @@ include('protect.php');
             <select id="tipo" name="tipo" required>
                 <option value="Professor(a)">Professor(a)</option>
                 <option value="Admin">Admin</option>
+                <option value="aluno">aluno(a)</option>
             </select><br><br>
             <label for="imagem">IMAGEM:</label><br>
             <input type="file" id="imagem" name="imagem" accept="image/*"><br><br>
@@ -275,6 +285,9 @@ include('protect.php');
     if ($conexao->connect_error) {
         die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
     }
+
+    // Definir o conjunto de caracteres para UTF-8
+    mysqli_set_charset($conexao, "utf8");
 
     // Recuperar todos os dados da tabela de usuários
     $sql_select = "SELECT * FROM usuarios";

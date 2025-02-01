@@ -1,4 +1,5 @@
 <?php
+
 include('conexao2.php');
 //include('admin.php');
 include('protect.php');
@@ -14,6 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Estabelecer conexão
         $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+        $conexao->set_charset("utf8");
 
         // Verificar se houve erro na conexão
         if ($conexao->connect_error) {
@@ -51,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Estabelecer conexão
         $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+        $conexao->set_charset("utf8");
 
         // Verificar se houve erro na conexão
         if ($conexao->connect_error) {
@@ -76,6 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Consultar os alunos cadastrados na tabela alunos
 $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+$conexao->set_charset("utf8");
 
 $query_alunos = "SELECT ra, nome FROM alunos";
 $resultado_alunos = $conexao->query($query_alunos);
@@ -431,7 +435,7 @@ $resultado_alunos = $conexao->query($query_alunos);
                 <select id="id_aluno" name="id_aluno">
                     <?php
                     while ($row = $resultado_alunos->fetch_assoc()) {
-                        echo "<option value='" . $row['ra'] . "'>" . $row['nome'] . "</option>";
+                        echo "<option value='" . htmlspecialchars($row['ra'], ENT_QUOTES, 'UTF-8') . "'>" . htmlspecialchars($row['nome'], ENT_QUOTES, 'UTF-8') . "</option>";
                     }
                     ?>
                 </select><br><br>
@@ -444,7 +448,7 @@ $resultado_alunos = $conexao->query($query_alunos);
 
         // Iterar através dos resultados da consulta de responsáveis
         while($row = $resultado_responsaveis->fetch_assoc()) {
-            echo "<option value='" . $row['responsavel'] . "'>" . $row['responsavel'] . "</option>";
+            echo "<option value='" . htmlspecialchars($row['responsavel'], ENT_QUOTES, 'UTF-8') . "'>" . htmlspecialchars($row['responsavel'], ENT_QUOTES, 'UTF-8') . "</option>";
         }
         ?>
     </select><br><br>
@@ -472,7 +476,7 @@ $resultado_alunos = $conexao->query($query_alunos);
     if (!empty($errors)) {
         echo "<div>";
         foreach ($errors as $error) {
-            echo "<p>$error</p>";
+            echo "<p>" . htmlspecialchars($error, ENT_QUOTES, 'UTF-8') . "</p>";
         }
         echo "</div>";
     }
@@ -575,25 +579,25 @@ $resultado_alunos = $conexao->query($query_alunos);
             echo "<tr>
                 <td>
                     <a href='#' 
-                       onclick=\"openPopup('alterarpag.php?ra={$linha['ra']}&id_aluno={$linha['id_aluno']}&janeiro={$linha['janeiro']}&fevereiro={$linha['fevereiro']}&marco={$linha['marco']}&abril={$linha['abril']}&maio={$linha['maio']}&junho={$linha['junho']}&julho={$linha['julho']}&agosto={$linha['agosto']}&setembro={$linha['setembro']}&outubro={$linha['outubro']}&novembro={$linha['novembro']}&dezembro={$linha['dezembro']}&obs={$linha['obs']}')\">
-                        {$linha['ra']}
+                       onclick=\"openPopup('alterarpag.php?ra=" . htmlspecialchars($linha['ra'], ENT_QUOTES, 'UTF-8') . "&id_aluno=" . htmlspecialchars($linha['id_aluno'], ENT_QUOTES, 'UTF-8') . "&janeiro=" . htmlspecialchars($linha['janeiro'], ENT_QUOTES, 'UTF-8') . "&fevereiro=" . htmlspecialchars($linha['fevereiro'], ENT_QUOTES, 'UTF-8') . "&marco=" . htmlspecialchars($linha['marco'], ENT_QUOTES, 'UTF-8') . "&abril=" . htmlspecialchars($linha['abril'], ENT_QUOTES, 'UTF-8') . "&maio=" . htmlspecialchars($linha['maio'], ENT_QUOTES, 'UTF-8') . "&junho=" . htmlspecialchars($linha['junho'], ENT_QUOTES, 'UTF-8') . "&julho=" . htmlspecialchars($linha['julho'], ENT_QUOTES, 'UTF-8') . "&agosto=" . htmlspecialchars($linha['agosto'], ENT_QUOTES, 'UTF-8') . "&setembro=" . htmlspecialchars($linha['setembro'], ENT_QUOTES, 'UTF-8') . "&outubro=" . htmlspecialchars($linha['outubro'], ENT_QUOTES, 'UTF-8') . "&novembro=" . htmlspecialchars($linha['novembro'], ENT_QUOTES, 'UTF-8') . "&dezembro=" . htmlspecialchars($linha['dezembro'], ENT_QUOTES, 'UTF-8') . "&obs=" . htmlspecialchars($linha['obs'], ENT_QUOTES, 'UTF-8') . "')\">
+                        " . htmlspecialchars($linha['ra'], ENT_QUOTES, 'UTF-8') . "
                     </a>
                 </td>
                 <td>
-                    <a href='modcadastro.php?id_aluno={$linha['id_aluno']}&search=" . urlencode($linha['id_aluno']) . "'>{$linha['id_aluno']}</a>
+                    <a href='modcadastro.php?id_aluno=" . htmlspecialchars($linha['id_aluno'], ENT_QUOTES, 'UTF-8') . "&search=" . urlencode($linha['id_aluno']) . "'>" . htmlspecialchars($linha['id_aluno'], ENT_QUOTES, 'UTF-8') . "</a>
                 </td>
-                <td>{$linha['pagador']}</td>";
+                <td>" . htmlspecialchars($linha['pagador'], ENT_QUOTES, 'UTF-8') . "</td>";
                 foreach ($linha as $campo => $valor) {
                     if ($campo != 'ra' && $campo != 'id_aluno' && $campo != 'pagador') {
                         if ($campo != 'obs') {
                             $cor = ($valor == "0001-01-01 00:00:01" || $valor == "0001-01-01 00:00:00") 
                                 ? "#ff9999" 
                                 : ($valor == "0001-11-30 00:00:00" ? "#ff0000" : "#99cc99");
-                
-                            echo "<td style='background-color: $cor;'>" . date('Y-m-d H:i:s', strtotime($valor)) . "</td>";
+                    
+                            echo "<td style='background-color: $cor;'>" . htmlspecialchars(date('Y-m-d H:i:s', strtotime($valor)), ENT_QUOTES, 'UTF-8') . "</td>";
                         } else {
                             $cor = ($valor != "") ? "yellow" : "";
-                            echo "<td style='background-color: $cor;'>$valor</td>";
+                            echo "<td style='background-color: $cor;'>" . htmlspecialchars($valor, ENT_QUOTES, 'UTF-8') . "</td>";
                         }
                     }
                 }

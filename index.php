@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Comercial - Escola</title>
+    <link rel="icon" href="./imagens/333.png" type="image/x-icon">
     <!-- <script src="./js/index.js" defer></script> -->
     <style>
         /* Corpo */
@@ -21,7 +22,7 @@ body {
     
 
     /* Propriedades do fundo */
-    background-image: url("../imagens/fundo2.png"); /* Verifique se o caminho está correto */
+    background-image: url("./imagens/fundo2.png"); /* Verifique se o caminho está correto */
     background-size: 105% auto; /* Ajusta a largura para ser maior que a tela */
     background-repeat: no-repeat; /* Evita repetição */
     background-attachment: scroll; /* Permite o movimento do fundo */
@@ -47,7 +48,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("../imagens/index.png");
+    background-image: url("./imagens/index.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -121,7 +122,9 @@ main, footer {
     animation: fadeInDown 1s ease-in-out;
     animation-delay: 0.2s; /* Atraso da animação */
 }
-
+.no-background {
+        background-image: none !important;
+    }
 /* Vídeo no canto superior direito */
 .video-container {
     position: absolute;
@@ -317,7 +320,7 @@ footer a:hover {
 /* Media query para dispositivos móveis */
 @media (max-width: 768px) {
     body {
-        background-image: url("../imagens/fundo2.png");
+        background-image: url("./imagens/fundo2.png");
         background-size: cover;
     }
 
@@ -668,5 +671,18 @@ document.addEventListener('DOMContentLoaded', () => {
         mediaQuery.addListener(handleScreenChange);
         handleScreenChange(mediaQuery);
         });
+        document.addEventListener('DOMContentLoaded', () => {
+        document.body.classList.add('no-background');
+    });
+
+    window.addEventListener('load', () => {
+        const loader = document.getElementById('loader');
+        const content = document.getElementById('content');
+        
+        loader.style.display = 'none';
+        content.style.display = 'block';
+        document.body.classList.remove('no-background');
+        document.body.classList.add('loaded'); // Adiciona a classe 'loaded' ao body
+    });
     </script>
 </html>

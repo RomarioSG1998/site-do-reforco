@@ -1,5 +1,9 @@
 <?php
 include('conexao2.php');
+include('protect.php'); 
+
+// Set the character set to utf8mb4
+$conexao->set_charset("utf8mb4");
 
 // Consulta SQL para obter contagem de notas
 $query = "SELECT ns, COUNT(*) AS total FROM avaliacao GROUP BY ns";
@@ -28,7 +32,7 @@ $resultado_comentarios = $conexao->query($query_comentarios);
 $comentarios = array();
 while ($linha_comentario = $resultado_comentarios->fetch_assoc()) {
     // Adiciona quebra de linha a cada 50 caracteres para comentários longos
-    $comentario_formatado = wordwrap($linha_comentario['comente'], 20 , "\n", true);
+    $comentario_formatado = wordwrap(htmlspecialchars($linha_comentario['comente'], ENT_QUOTES, 'UTF-8', false), 20, "\n", true);
     $linha_comentario['comente'] = $comentario_formatado;
     $comentarios[] = $linha_comentario;
 }
@@ -52,8 +56,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["excluir_comentario"]))
 $conexao->close();
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
+    <meta charset="utf8mb4">
+    <title>Página Popup</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
@@ -152,7 +158,12 @@ $conexao->close();
         }
 
         function exibirComentarios() {
-    var comentarios = <?php echo json_encode($comentarios); ?>;
+    // Certifique-se de que o json_encode está configurado para tratar corretamente os caracteres especiais
+    var comentarios = <?php echo json_encode($comentarios, JSON_UNESCAPED_UNICODE); ?>;
+
+    // Teste temporário para verificar se os dados chegam corretamente
+    console.log(comentarios);
+
     var popupContent = '<div id="popup"><span id="fechar-popup" onclick="fecharPopup()">Fechar</span><h2>Comentários e Datas</h2><ul>';
     comentarios.forEach(function (item, index) {
         var corClasse = (item.ns <= 2) ? 'red' : '';
