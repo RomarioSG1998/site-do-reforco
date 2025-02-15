@@ -21,12 +21,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($
         die("Falha ao conectar ao banco de dados: " . $conexao->connect_error);
     }
 
-    // Verificar se o formulário foi enviado
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Capturar os valores dos campos do formulário
-        $id_aluno = $_POST['id_aluno'];
-        $pagador = $_POST['pagador'];
-        
+    // Verificar se já existe um registro com o mesmo aluno e responsável
+    $query_verificacao = "SELECT * FROM meses WHERE id_aluno = ? AND pagador = ?";
+    $stmt_verificacao = $conexao->prepare($query_verificacao);
+    $stmt_verificacao->bind_param("ss", $id_aluno, $pagador);
+    $stmt_verificacao->execute();
+    $resultado_verificacao = $stmt_verificacao->get_result();
+
+    if ($resultado_verificacao->num_rows > 0) {
+        echo "<p style='color: red; text-align: center; font-weight: bold; display: flex; justify-content: center; align-items: center; height: 100vh;'>⚠️ Sua matrícula já foi efetuada, não precisa repetir o processo. Vocé já finalizou. obrigado! ⚠️</p>";
+    } else {
         // Preparar a consulta SQL para inserir dados
         $query_insercao = "INSERT INTO meses (id_aluno, pagador) VALUES (?, ?)";
         $stmt = $conexao->prepare($query_insercao);
@@ -43,8 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($
             if ($resultado_insercao) {
                 // Definir a variável para indicar que o formulário foi enviado com sucesso
                 $formulario_enviado = true;
-            }
-             else {
+            } else {
                 echo "<p>Ocorreu um erro ao cadastrar os dados.</p>";
             }
         } else {
@@ -52,6 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_aluno']) && isset($
             echo "<p>Ocorreu um erro ao preparar a consulta.</p>";
         }
     }
+
+    // Fechar a declaração de verificação
+    $stmt_verificacao->close();
 
     // Fechar conexão
     $conexao->close();

@@ -170,9 +170,27 @@ $conexao->close();
 
         /* Estilo adicional para animação de flash */
         .animate__flash {
-            animation-duration: 1s;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
         }
-        
+
+        .aniversario-passado {
+            color: red;
+        }
+        .aniversario-futuro {
+            color: green;
+        }
+        .aniversario-hoje {
+            color: orange;
+        }
+
+        .legenda {
+            font-size: 10px;
+        }
+
+        .legenda p {
+            font-size: 10px;
+        }
     </style>
 </head>
 <body>
@@ -189,17 +207,36 @@ $conexao->close();
             </div>
 
             <div class="widget">
-                <h2 class="animate__animated animate__bounce">Aniversariantes do Mês</h2>
+            <h2 class="animate__animated animate__bounce">Aniversariantes do Mês</h2>
                 <div class="birthday-cake"></div>
+                <ul id="aniversariantes" class="animate__animated animate__bounce">
+                <!-- Legenda para aniversariantes -->
+                <div class="legenda">
+                    <p><span class="aniversario-passado">Vermelho:</span> O dia do aniversário já passou</p>
+                    <p><span class="aniversario-futuro">Verde:</span> O dia ainda não chegou</p>
+                    <p><span class="aniversario-hoje">Laranja Piscando:</span> O aniversário é exatamente hoje</p>
+                </div>
                 <ul id="aniversariantes" class="animate__animated animate__bounce">
                     <?php
                     $count = 0;
+                    $today = date('Y-m-d');
                     while ($rowAniversariante = $resultAniversariantes->fetch_assoc()) {
-                        if ($count < 3) {
-                            echo "<li>" . $rowAniversariante['nome'] . " - " . date('d/m/Y', strtotime($rowAniversariante['datanasc'])) . "</li>";
-                       
+                        $aniversario = date('Y') . '-' . date('m-d', strtotime($rowAniversariante['datanasc']));
+                        $nome = $rowAniversariante['nome'];
+                        $dataFormatada = date('d/m/Y', strtotime($rowAniversariante['datanasc']));
+
+                        if ($aniversario < $today) {
+                            $class = 'aniversario-passado';
+                        } elseif ($aniversario > $today) {
+                            $class = 'aniversario-futuro';
                         } else {
-                            echo "<li class='hidden'>" . $rowAniversariante['nome'] . " - " . date('d/m/Y', strtotime($rowAniversariante['datanasc'])) . "</li>";
+                            $class = 'aniversario-hoje animate__animated animate__flash';
+                        }
+
+                        if ($count < 3) {
+                            echo "<li class='$class'>$nome - $dataFormatada</li>";
+                        } else {
+                            echo "<li class='hidden $class'>$nome - $dataFormatada</li>";
                         }
                         $count++;
                     }
@@ -219,99 +256,95 @@ $conexao->close();
         <h2>Total de Alunos por Turma</h2>
         <div id="piechartTurma"></div>
 
-       
+        <!-- Botão para abrir o popup -->
+        <button onclick="exibirPopup()">Abrir Gráfico de Avaliação</button>
+        <!-- Div que conterá o conteúdo do popup -->
+        <div id="popupContainer"></div>
 
-<!-- Botão para abrir o popup -->
-    <button onclick="exibirPopup()">Abrir Gráfico de Avaliação</button>
-    <!-- Div que conterá o conteúdo do popup -->
-    <div id="popupContainer"></div>
+        <script type="text/javascript">
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChartGenero);
 
-    
+            function drawChartGenero() {
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Gênero');
+                data.addColumn('number', 'Total de Alunos');
 
+                <?php
+                $resultGenero->data_seek(0);
+                while ($rowGenero = $resultGenero->fetch_assoc()) {
+                    echo "data.addRow(['" . $rowGenero['genero'] . "', " . $rowGenero['totalAlunosGenero'] . "]);";
+                }
+                ?>
 
-    <script type="text/javascript">
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChartGenero);
+                var options = {
+                    title: 'Total de Alunos por Gênero',
+                    pieHole: 0.4,
+                    width: '100%',
+                    height: '100%',
+                    chartArea: { width: '90%', height: '90%' },
+                    is3D: true // Adicionando efeito 3D ao gráfico
+                };
 
-        function drawChartGenero() {
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Gênero');
-            data.addColumn('number', 'Total de Alunos');
+                var screenWidth = window.innerWidth;
+                if (screenWidth <= 600) {
+                    options.pieHole = 0.2;
+                }
 
-            <?php
-            $resultGenero->data_seek(0);
-            while ($rowGenero = $resultGenero->fetch_assoc()) {
-                echo "data.addRow(['" . $rowGenero['genero'] . "', " . $rowGenero['totalAlunosGenero'] . "]);";
-            }
-            ?>
-
-            var options = {
-                title: 'Total de Alunos por Gênero',
-                pieHole: 0.4,
-                width: '100%',
-                height: '100%',
-                chartArea: { width: '90%', height: '90%' },
-                is3D: true // Adicionando efeito 3D ao gráfico
-            };
-
-            var screenWidth = window.innerWidth;
-            if (screenWidth <= 600) {
-                options.pieHole = 0.2;
-            }
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechartGenero'));
-            chart.draw(data, options);
-        }
-
-        google.charts.setOnLoadCallback(drawChartTurma);
-
-        function drawChartTurma() {
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Turma');
-            data.addColumn('number', 'Total de Alunos');
-
-            <?php
-            $resultTurma->data_seek(0);
-            while ($rowTurma = $resultTurma->fetch_assoc()) {
-                echo "data.addRow(['" . $rowTurma['turma'] . "', " . $rowTurma['totalAlunosTurma'] . "]);";
-            }
-            ?>
-
-            var options = {
-                title: 'Total de Alunos por Turma',
-                pieHole: 0.4,
-                width: '100%',
-                height: '100%',
-                chartArea: { width: '90%', height: '90%' },
-                is3D: true // Adicionando efeito 3D ao gráfico
-            };
-
-            var screenWidth = window.innerWidth;
-            if (screenWidth <= 600) {
-                options.pieHole = 0.2;
+                var chart = new google.visualization.PieChart(document.getElementById('piechartGenero'));
+                chart.draw(data, options);
             }
 
-            var chart = new google.visualization.PieChart(document.getElementById('piechartTurma'));
-            chart.draw(data, options);
-        }
+            google.charts.setOnLoadCallback(drawChartTurma);
 
+            function drawChartTurma() {
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Turma');
+                data.addColumn('number', 'Total de Alunos');
 
-        function mostrarTodosAniversariantes() {
-            var aniversariantes = document.querySelectorAll('#aniversariantes li.hidden');
-            for (var i = 0; i < aniversariantes.length; i++) {
-                aniversariantes[i].classList.remove('hidden');
+                <?php
+                $resultTurma->data_seek(0);
+                while ($rowTurma = $resultTurma->fetch_assoc()) {
+                    echo "data.addRow(['" . $rowTurma['turma'] . "', " . $rowTurma['totalAlunosTurma'] . "]);";
+                }
+                ?>
+
+                var options = {
+                    title: 'Total de Alunos por Turma',
+                    pieHole: 0.4,
+                    width: '100%',
+                    height: '100%',
+                    chartArea: { width: '90%', height: '90%' },
+                    is3D: true // Adicionando efeito 3D ao gráfico
+                };
+
+                var screenWidth = window.innerWidth;
+                if (screenWidth <= 600) {
+                    options.pieHole = 0.2;
+                }
+
+                var chart = new google.visualization.PieChart(document.getElementById('piechartTurma'));
+                chart.draw(data, options);
             }
-        }
-        function exibirPopup() {
-            // Carregar a página do popup dentro da div popupContainer
-            document.getElementById('popupContainer').innerHTML = '<iframe src="pagina_popup.php" style="width: 80%; height: 80vh; border: none;"></iframe>';
-        }
 
-        // Função para fechar o popup
-        function fecharPopup() {
-            // Limpar o conteúdo da div popupContainer para fechar o popup
-            document.getElementById('popupContainer').innerHTML = '';
-        }
-    </script>
+            function mostrarTodosAniversariantes() {
+                var aniversariantes = document.querySelectorAll('#aniversariantes li.hidden');
+                for (var i = 0; i < aniversariantes.length; i++) {
+                    aniversariantes[i].classList.remove('hidden');
+                }
+            }
+
+            function exibirPopup() {
+                // Carregar a página do popup dentro da div popupContainer
+                document.getElementById('popupContainer').innerHTML = '<iframe src="pagina_popup.php" style="width: 80%; height: 80vh; border: none;"></iframe>';
+            }
+
+            // Função para fechar o popup
+            function fecharPopup() {
+                // Limpar o conteúdo da div popupContainer para fechar o popup
+                document.getElementById('popupContainer').innerHTML = '';
+            }
+        </script>
+    </div>
 </body>
 </html>
